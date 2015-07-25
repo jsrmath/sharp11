@@ -96,6 +96,17 @@ describe('Note', function () {
       assert.equal(note.create('D').transpose('aug5').name, 'A#');
 
       assert.equal(note.create('B').transpose('dim11').name, 'Eb');
+      assert.equal(note.create('Db').transpose('aug7').name, 'C#');
+    });
+  });
+
+  describe('#toggleAccidental', function () {
+    it('should toggle the accidental', function () {
+      assert.equal(note.create('D#').toggleAccidental().name, 'Eb');
+      assert.equal(note.create('Db').toggleAccidental().name, 'C#');
+      assert.equal(note.create('Dbb').toggleAccidental().name, 'C');
+      assert.equal(note.create('D##').toggleAccidental().name, 'E');
+      assert.equal(note.create('Fb').toggleAccidental().name, 'E');
     });
   });
 });
