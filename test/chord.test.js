@@ -39,4 +39,31 @@ describe('Chord', function () {
       assert.equal(c.toString(), 'G F A C E');
     });
   });
+
+  describe('#transpose', function () {
+    it('should transpose a chord', function () {
+      var c = chord.create('F7').transpose('m3');
+      assert.equal(c.name, 'Ab7');
+      assert.equal(c.toString(), 'Ab C Eb Gb');
+
+      c = chord.create('F7/A').transpose('m3');
+      assert.equal(c.name, 'Ab7/C');
+      assert.equal(c.toString(), 'C Eb Gb Ab');
+    });
+  });
+
+  describe('#clean', function () {
+    it('should clean a chord', function () {
+      var c = chord.create('C#+').clean();
+      assert.equal(c.toString(), 'C# F A');
+
+      c = chord.create('C#+/G##').clean();
+      assert.equal(c.toString(), 'A C# F');
+
+      c = chord.create('Cb').clean();
+      assert.equal(c.root.name, 'B');
+      assert.equal(c.toString(), 'B D# F#');
+
+    });
+  });
 });
