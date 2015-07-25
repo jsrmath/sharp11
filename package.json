@@ -24,5 +24,8 @@
   "bugs": {
     "url": "https://github.com/jsrmath/sharp11/issues"
   },
-  "homepage": "https://github.com/jsrmath/sharp11#readme"
+  "homepage": "https://github.com/jsrmath/sharp11#readme",
+  "devDependencies": {
+    "mocha": "^2.2.5"
+  }
 }
