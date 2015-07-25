@@ -109,4 +109,31 @@ describe('Note', function () {
       assert.equal(note.create('Fb').toggleAccidental().name, 'E');
     });
   });
+
+  describe('#enharmonic', function () {
+    it('should return true if note is enharmonic to given note', function () {
+      assert(note.create('Db').enharmonic('C#'));
+      assert(note.create('D#').enharmonic('Eb'));
+      assert(note.create('Cb').enharmonic('B'));
+      assert(note.create('F##').enharmonic('G'));
+    });
+  });
+
+  describe('#lowerThan', function () {
+    it('should return true if note is lower than given note', function () {
+      assert(note.create('D').lowerThan('G'));
+      assert(note.create('Db').lowerThan('D'));
+      assert(!note.create('D').lowerThan('Ebb'));
+      assert(!note.create('D#').lowerThan('Eb'));
+    });
+  });
+
+  describe('#higherThan', function () {
+    it('should return true if note is higher than given note', function () {
+      assert(!note.create('D').higherThan('G'));
+      assert(!note.create('Db').higherThan('D'));
+      assert(!note.create('D').higherThan('Ebb'));
+      assert(!note.create('D#').higherThan('Eb'));
+    });
+  });
 });
