@@ -58,4 +58,19 @@ describe('Note', function () {
       assert.equal(note.create('Dbb').clean().name, 'C');
     });
   });
+
+  describe('#getInterval', function () {
+    it('find the interval between two notes', function () {
+      assert.equal(note.create('C').getInterval(note.create('F')).name, 'P4');
+      assert.equal(note.create('C').getInterval('F').name, 'P4');
+      assert.equal(note.create('F').getInterval('C').name, 'P5');
+
+      assert.equal(note.create('D').getInterval('D#').name, 'aug1');
+      assert.equal(note.create('D').getInterval('Db').name, 'dim1');
+      assert.equal(note.create('D').getInterval('F').name, 'm3');
+      assert.equal(note.create('D').getInterval('F#').name, 'M3');
+      assert.equal(note.create('D').getInterval('Fb').name, 'dim3');
+      assert.equal(note.create('D').getInterval('F##').name, 'aug3');
+    });
+  });
 });

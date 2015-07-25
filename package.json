@@ -27,5 +27,8 @@
   "homepage": "https://github.com/jsrmath/sharp11#readme",
   "devDependencies": {
     "mocha": "^2.2.5"
+  },
+  "dependencies": {
+    "mod-loop": "0.0.2"
   }
 }
