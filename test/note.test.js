@@ -27,4 +27,35 @@ describe('Note', function () {
       assert.equal(note.create('C').name, 'C');
     });
   });
+
+  describe('#sharp', function () {
+    it('should sharp a note', function () {
+      assert.equal(note.create('D').sharp().name, 'D#');
+      assert.equal(note.create('Db').sharp().name, 'D');
+      assert.equal(note.create('D#').sharp().name, 'D##');
+      assert.equal(note.create('Dbb').sharp().name, 'Db');
+      assert.equal(note.create('D##').sharp().name, 'E#');
+      assert.equal(note.create('B##').sharp().name, 'C##');
+    });
+  });
+
+  describe('#flat', function () {
+    it('should flat a note', function () {
+      assert.equal(note.create('D').flat().name, 'Db');
+      assert.equal(note.create('Db').flat().name, 'Dbb');
+      assert.equal(note.create('D#').flat().name, 'D');
+      assert.equal(note.create('Dbb').flat().name, 'Cb');
+      assert.equal(note.create('D##').flat().name, 'D#');
+      assert.equal(note.create('Cbb').flat().name, 'Bbb');
+    });
+  });
+
+  describe('#clean', function () {
+    it('should get rid of double sharps, double flats, B#, E#, Cb, and Fb', function () {
+      assert.equal(note.create('B#').clean().name, 'C');
+      assert.equal(note.create('B##').clean().name, 'C#');
+      assert.equal(note.create('C##').clean().name, 'D');
+      assert.equal(note.create('Dbb').clean().name, 'C');
+    });
+  });
 });
