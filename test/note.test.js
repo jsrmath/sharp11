@@ -59,8 +59,18 @@ describe('Note', function () {
     });
   });
 
+  describe('#shift', function () {
+    it('should shift a note by a given number of half steps', function () {
+      assert.equal(note.create('D').shift(-2).name, 'Dbb');
+      assert.equal(note.create('D').shift(-1).name, 'Db');
+      assert.equal(note.create('D').shift(0).name, 'D');
+      assert.equal(note.create('D').shift(1).name, 'D#');
+      assert.equal(note.create('D').shift(2).name, 'D##');
+    });
+  });
+
   describe('#getInterval', function () {
-    it('find the interval between two notes', function () {
+    it('should find the interval between two notes', function () {
       assert.equal(note.create('C').getInterval(note.create('F')).name, 'P4');
       assert.equal(note.create('C').getInterval('F').name, 'P4');
       assert.equal(note.create('F').getInterval('C').name, 'P5');
@@ -71,6 +81,21 @@ describe('Note', function () {
       assert.equal(note.create('D').getInterval('F#').name, 'M3');
       assert.equal(note.create('D').getInterval('Fb').name, 'dim3');
       assert.equal(note.create('D').getInterval('F##').name, 'aug3');
+    });
+  });
+
+  describe('#transpose', function () {
+    it('should transpose by a given interval', function () {
+      assert.equal(note.create('D').transpose('dim3').name, 'Fb');
+      assert.equal(note.create('D').transpose('m3').name, 'F');
+      assert.equal(note.create('D').transpose('M3').name, 'F#');
+      assert.equal(note.create('D').transpose('aug3').name, 'F##');
+
+      assert.equal(note.create('D').transpose('dim5').name, 'Ab');
+      assert.equal(note.create('D').transpose('P5').name, 'A');
+      assert.equal(note.create('D').transpose('aug5').name, 'A#');
+
+      assert.equal(note.create('B').transpose('dim11').name, 'Eb');
     });
   });
 });

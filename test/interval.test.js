@@ -35,6 +35,8 @@ describe('Interval', function () {
       assert.equal(interval.parse('4').name, 'P4');
       assert.equal(interval.parse('3').name, 'M3');
       assert.equal(interval.parse('perf12').name, 'P12');
+
+      assert.equal(interval.parse(interval.create(4, 'P')).name, 'P4');
     });
   });
 });
