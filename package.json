@@ -1,0 +1,28 @@
+{
+  "name": "sharp11",
+  "version": "1.0.0",
+  "description": "Music theorization and improvisation engine",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jsrmath/sharp11.git"
+  },
+  "keywords": [
+    "music",
+    "theory",
+    "notes",
+    "chords",
+    "scales",
+    "jazz",
+    "improv"
+  ],
+  "author": "Julian Rosenblum",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/jsrmath/sharp11/issues"
+  },
+  "homepage": "https://github.com/jsrmath/sharp11#readme"
+}
