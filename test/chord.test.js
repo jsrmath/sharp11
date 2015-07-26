@@ -74,6 +74,8 @@ describe('Chord', function () {
       assert.equal(chord.identify('B', 'D', 'F#', 'G#'), 'Bm6');
       assert.equal(chord.identify('D', 'A'), 'D5');
       assert.equal(chord.identify('D', 'G', 'A'), 'Dsus4');
+      assert.equal(chord.identify('Eb', 'Bb'), 'Eb5');
+      assert.equal(chord.identify('Eb', 'Bb', 'Db'), 'Ebn7');
     });
 
     it('should identify the proper inversion', function () {
