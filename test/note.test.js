@@ -85,7 +85,7 @@ describe('Note', function () {
   });
 
   describe('#transpose', function () {
-    it('should transpose by a given interval', function () {
+    it('should transpose up by a given interval', function () {
       assert.equal(note.create('D').transpose('dim3').name, 'Fb');
       assert.equal(note.create('D').transpose('m3').name, 'F');
       assert.equal(note.create('D').transpose('M3').name, 'F#');
@@ -97,6 +97,11 @@ describe('Note', function () {
 
       assert.equal(note.create('B').transpose('dim11').name, 'Eb');
       assert.equal(note.create('Db').transpose('aug7').name, 'C#');
+    });
+
+    it('should transpose down by a given interval', function () {
+      assert.equal(note.create('D').transpose('m3', true).name, 'B');
+      assert.equal(note.create('F#').transpose('aug4', true).name, 'C');
     });
   });
 

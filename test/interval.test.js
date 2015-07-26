@@ -39,4 +39,14 @@ describe('Interval', function () {
       assert.equal(interval.parse(interval.create(4, 'P')).name, 'P4');
     });
   });
+
+  describe('#invert', function () {
+    it('should invert a given interval', function() {
+      assert.equal(interval.parse('P4').invert(), 'P5');
+      assert.equal(interval.parse('m3').invert(), 'M6');
+      assert.equal(interval.parse('M2').invert(), 'm7');
+      assert.equal(interval.parse('aug4').invert(), 'dim5');
+      assert.equal(interval.parse('dim3').invert(), 'aug6');
+    });
+  });
 });
