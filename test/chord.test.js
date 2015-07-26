@@ -66,4 +66,20 @@ describe('Chord', function () {
 
     });
   });
+
+  describe('#identify', function () {
+    it('should identify a chord', function () {
+      assert.equal(chord.identify('C', 'E', 'G'), 'C');
+      assert.equal(chord.identify('C', 'Eb', 'G', 'B'), 'CmM7');
+      assert.equal(chord.identify('B', 'D', 'F#', 'G#'), 'Bm6');
+      assert.equal(chord.identify('D', 'A'), 'D5');
+      assert.equal(chord.identify('D', 'G', 'A'), 'Dsus4');
+    });
+
+    it('should identify the proper inversion', function () {
+      assert.equal(chord.identify('E', 'G', 'C'), 'C/E');
+      assert.equal(chord.identify('E', 'G', 'Bb', 'C'), 'C7/E');
+      assert.equal(chord.identify('F#', 'C', 'Eb', 'G', 'B', 'D'), 'CmM9#11/F#');
+    });
+  });
 });
