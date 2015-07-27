@@ -1,6 +1,7 @@
 var chord = require('../lib/chord');
 
 var assert = require('assert');
+var _ = require('underscore');
 
 describe('Chord', function () {
   describe('#create', function () {
@@ -82,6 +83,29 @@ describe('Chord', function () {
       assert.equal(chord.identify('E', 'G', 'C'), 'C/E');
       assert.equal(chord.identify('E', 'G', 'Bb', 'C'), 'C7/E');
       assert.equal(chord.identify('F#', 'C', 'Eb', 'G', 'B', 'D'), 'CmM9#11/F#');
+    });
+  });
+
+  describe('#scales', function () {
+    it('should produce scales for a given chord', function () {
+      assert.equal(chord.create('C').scales()[0].id, 'major');
+      assert.equal(chord.create('C').scales()[0].key.name, 'C');
+      assert.equal(chord.create('C').scales().length, 12);
+
+      assert.equal(chord.create('Cm7b5').scales()[0].id, 'locrian');
+      assert.equal(chord.create('Cdim7').scales()[0].id, 'diminished');
+      assert.equal(chord.create('C+').scales()[0].id, 'whole_tone');
+
+      assert.equal(chord.create('C').scales()[0].id, chord.create('C').scale().id);
+    });
+
+    it('should perform precedence optimizations', function () {
+      var scales = chord.create('Cm9').scales();
+      assert(!_.some(scales, function (scale) {
+        scale.id === 'bebop_dorian';
+      }));
+
+      assert.equal(chord.create('C7#11').scales()[2].id, 'blues');
     });
   });
 });

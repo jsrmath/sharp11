@@ -29,6 +29,7 @@
     "mocha": "^2.2.5"
   },
   "dependencies": {
+    "capitalize": "^1.0.0",
     "mod-loop": "0.0.2",
     "underscore": "^1.8.3"
   }
