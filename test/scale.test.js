@@ -53,4 +53,32 @@ describe('Scale', function () {
       assert.equal(s.toString(), 'F G A B C# D#');
     });
   });
+
+  describe('#traverse', function () {
+    it('should create a traversable scale', function () {
+      var s = scale.create('D', 'Major').traverse('G4');
+      assert.equal(s.current.toString(), 'G4');
+      assert.equal(s.root.toString(), 'D4');
+
+      assert.throws(function () {
+        s = scale.create('D', 'Major').traverse('G');
+      });
+
+      s = scale.create('D7', 'Major').traverse('G4');
+      assert.equal(s.root.toString(), 'D4');
+
+      s = scale.create('G', 'Major').traverse('D4');
+      assert.equal(s.root.toString(), 'G3');
+
+      s = scale.create('C', 'Major').traverse('C4');
+      assert.equal(s.root.toString(), 'C4');
+    });
+  });
+
+  describe('#isTraversable', function () {
+    it('should return true if a scale is traversable', function () {
+      assert(scale.isTraversable(scale.create('C').traverse('G4')));
+      assert(!scale.isTraversable(scale.create('C')));
+    });
+  });
 });
