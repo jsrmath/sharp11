@@ -107,6 +107,51 @@ describe('Scale', function () {
     });
   });
 
+  describe('#shift', function () {
+    it('should shift a traversable scale by a given number of steps', function () {
+      var s = scale.create('D', 'Major').traverse('G4');
+
+      assert.equal(s.shiftInterval('M3').toString(), 'D4 E4 F#4 G4 A4 [B4] C#5');
+      assert.equal(s.shiftInterval('M10').toString(), 'D5 E5 F#5 G5 A5 [B5] C#6');
+
+      assert.equal(s.shiftInterval('m3', true).toString(), 'D4 [E4] F#4 G4 A4 B4 C#5');
+      assert.equal(s.shiftInterval('m10', true).toString(), 'D3 [E3] F#3 G3 A3 B3 C#4');
+
+      assert.throws(function () {
+        s.shiftInterval('m3');
+      });
+    });
+  });
+
+  describe('#random', function () {
+    it('should set a traversable scale to a random note', function () {
+      var s = scale.create('D', 'Major').traverse('G4');
+      var original = s;
+
+      while (s.current() === original.current()) s = s.random();
+
+      assert.equal(s.scale.toString(), original.scale.toString());
+      assert.notEqual(s.current(), original.current());
+    });
+  });
+
+  describe('#nearest', function () {
+    it('should return the nearest note in a scale to a given note', function () {
+      var s = scale.create('D', 'Mixolydian');
+      assert.equal(s.nearest('F#').name, 'F#');
+      assert.equal(s.nearest('F').name, 'E');
+      assert.equal(s.nearest('C#').name, 'C');
+
+      assert.equal(scale.create('D4', 'Major').nearest('F').toString(), 'E4');
+    });
+
+    it('should return the nearest note in a traversable scale to a given note', function () {
+      var s = scale.create('D', 'Mixolydian').traverse('G4');
+      assert.equal(s.nearest('F').name, 'E');
+      assert.equal(s.nearest('F1').name, 'E');
+    });
+  });
+
   describe('#isTraversable', function () {
     it('should return true if a scale is traversable', function () {
       assert(scale.isTraversable(scale.create('C').traverse('G4')));

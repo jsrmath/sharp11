@@ -49,4 +49,20 @@ describe('Interval', function () {
       assert.equal(interval.parse('dim3').invert(), 'aug6');
     });
   });
+
+  describe('#halfSteps', function () {
+    it('should return the number of half steps in interval', function() {
+      assert.equal(interval.parse('M3').halfSteps(), 4);
+      assert.equal(interval.parse('P4').halfSteps(), 5);
+
+      assert.equal(interval.parse('M10').halfSteps(), 4);
+      assert.equal(interval.parse('P11').halfSteps(), 5);
+
+      assert.equal(interval.parse('dim3').halfSteps(), 2);
+      assert.equal(interval.parse('aug4').halfSteps(), 6);
+
+      assert.equal(interval.parse('dim2').halfSteps(), 0);
+      assert.equal(interval.parse('aug7').halfSteps(), 12);
+    });
+  });
 });

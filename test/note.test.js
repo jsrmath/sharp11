@@ -95,6 +95,8 @@ describe('Note', function () {
       assert.equal(note.create('D').getInterval('F#').name, 'M3');
       assert.equal(note.create('D').getInterval('Fb').name, 'dim3');
       assert.equal(note.create('D').getInterval('F##').name, 'aug3');
+
+      assert.equal(note.create('F#').getInterval('E').name, 'm7');
     });
   });
 
