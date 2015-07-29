@@ -111,6 +111,8 @@ describe('Note', function () {
 
       assert.equal(note.create('B').transpose('dim11').name, 'Eb');
       assert.equal(note.create('Db').transpose('aug7').name, 'C#');
+
+      assert.equal(note.create('Db').transpose('P1').name, 'Db');
     });
 
     it('should transpose down by a given interval', function () {
