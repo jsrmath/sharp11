@@ -92,6 +92,8 @@ describe('Chord', function () {
       assert.equal(chord.create('C').scales()[0].key.name, 'C');
       assert.equal(chord.create('C').scales().length, 12);
 
+      assert.equal(chord.create('Cm').scales()[0].id, 'dorian');
+
       assert.equal(chord.create('Cm7b5').scales()[0].id, 'locrian');
       assert.equal(chord.create('Cdim7').scales()[0].id, 'diminished');
       assert.equal(chord.create('C+').scales()[0].id, 'whole_tone');
