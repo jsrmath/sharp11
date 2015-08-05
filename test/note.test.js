@@ -186,4 +186,29 @@ describe('Note', function () {
       assert(!note.create('D5').higherThan('D5'));
     });
   });
+
+  describe('#random', function () {
+    it('should return a random note in a given range', function () {
+      var i;
+      assert.equal(note.random('C4', 'C4').toString(), 'C4');
+
+      for (i = 0; i < 100; i += 1) {
+        assert(!note.random('F4', 'G6').lowerThan('F4'));
+        assert(!note.random('F4', 'G6').higherThan('G6'));
+      }
+
+      assert.throws(function () {
+        note.random('G6', 'F4');
+      });
+    });
+  });
+
+  describe('#getHalfSteps', function () {
+    it('should return the number of half steps between two notes', function () {
+      assert.equal(note.create('D').getHalfSteps('G'), 5);
+      assert.equal(note.create('Gb').getHalfSteps('G#'), 2);
+      assert.equal(note.create('G#').getHalfSteps('Gb'), 10);
+      assert.equal(note.create('Cbb').getHalfSteps('E##'), 8);
+    });
+  });
 });

@@ -31,6 +31,7 @@
   "dependencies": {
     "capitalize": "^1.0.0",
     "mod-loop": "0.0.2",
+    "random-js": "^1.0.4",
     "underscore": "^1.8.3"
   }
 }

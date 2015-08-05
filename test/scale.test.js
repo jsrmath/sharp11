@@ -143,6 +143,10 @@ describe('Scale', function () {
       assert.equal(s.nearest('C#').name, 'C');
 
       assert.equal(scale.create('D4', 'Major').nearest('F').toString(), 'E4');
+
+      assert.equal(scale.create('D', 'Major').nearest('F4').toString(), 'E4');
+      assert.equal(scale.create('D', 'Major').nearest('C4').toString(), 'B3');
+      assert.equal(scale.create('Db', 'Harmonic Minor').nearest('B4').toString(), 'C5');
     });
 
     it('should return the nearest note in a traversable scale to a given note', function () {
