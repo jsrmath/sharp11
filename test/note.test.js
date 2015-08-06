@@ -160,6 +160,7 @@ describe('Note', function () {
       assert(note.create('Db').lowerThan('D'));
       assert(!note.create('D').lowerThan('Ebb'));
       assert(!note.create('D#').lowerThan('Eb'));
+      assert(note.create('Cb').lowerThan('C'));
     });
 
     it('should handle octave numbers', function () {
@@ -168,6 +169,7 @@ describe('Note', function () {
       assert(note.create('D4').lowerThan('D5'));
       assert(!note.create('D5').lowerThan('G4'));
       assert(!note.create('D5').lowerThan('D5'));
+      assert(note.create('Cb4').lowerThan('C4'));
     });
   });
 
