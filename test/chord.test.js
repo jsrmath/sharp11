@@ -104,7 +104,7 @@ describe('Chord', function () {
     it('should perform precedence optimizations', function () {
       var scales = chord.create('Cm9').scales();
       assert(!_.some(scales, function (scale) {
-        scale.id === 'bebop_dorian';
+        return scale.id === 'bebop_dorian';
       }));
 
       assert.equal(chord.create('C7#11').scales()[2].id, 'blues');
