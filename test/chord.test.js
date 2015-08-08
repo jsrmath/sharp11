@@ -109,6 +109,10 @@ describe('Chord', function () {
 
       assert.equal(chord.create('C7#11').scales()[2].id, 'blues');
     });
+
+    it('should ignore octave numbers', function () {
+      assert.equal(chord.create('C13', 4).scales().toString(), chord.create('C13').scales().toString());
+    });
   });
 
   describe('#octave', function () {
@@ -119,6 +123,17 @@ describe('Chord', function () {
       assert.equal(chord.create('G').octave(4).toString(), 'G4 B4 D5');
       assert.equal(chord.create('G/B').octave(4).toString(), 'B4 D5 G5');
       assert.equal(chord.create('G13').octave(4).toString(), 'G4 B4 D5 F5 A5 C6 E6');
+    });
+  });
+
+  describe('#contains', function () {
+    it('should return true if a chord contains a note', function () {
+      assert(chord.create('C').contains('E'));
+      assert(chord.create('C').contains('Fb'));
+      assert(chord.create('C', 4).contains('E'));
+      assert(chord.create('C').contains('E4'));
+      assert(chord.create('C', 4).contains('E4'));
+      assert(!chord.create('C', 5).contains('E4'));
     });
   });
 });

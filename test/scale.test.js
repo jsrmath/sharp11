@@ -156,6 +156,17 @@ describe('Scale', function () {
     });
   });
 
+  describe('#contains', function () {
+    it('should return true if a scale contains a note', function () {
+      assert(scale.create('C', 'Major').contains('F'));
+      assert(scale.create('C', 'Major').contains('E#'));
+      assert(scale.create('C4', 'Major').contains('F'));
+      assert(scale.create('C', 'Major').contains('F4'));
+      assert(scale.create('C4', 'Major').contains('F4'));
+      assert(!scale.create('C5', 'Major').contains('F4'));
+    });
+  });
+
   describe('#isTraversable', function () {
     it('should return true if a scale is traversable', function () {
       assert(scale.isTraversable(scale.create('C').traverse('G4')));
