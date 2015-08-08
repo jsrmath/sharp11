@@ -32,6 +32,12 @@ describe('Note', function () {
       assert.equal(note.create('C4').octave, 4);
       assert.equal(note.create('Bb0').octave, 0);
     });
+
+    it('should handle note objects', function () {
+      assert.equal(note.create(note.create('C')).name, 'C');
+      assert.equal(note.create(note.create('C'), 4).toString(), 'C4');
+      assert.equal(note.create(note.create('C6'), 4).toString(), 'C4');
+    });
   });
 
   describe('#sharp', function () {
