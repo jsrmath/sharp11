@@ -96,11 +96,11 @@ module.exports.myFunnyValentineFull = [
 
   ['EbM7', 2],
   ['F-7', 2],
-  ['G-7', 2],
+  ['EbM7/G', 2],
   ['F-7', 2],
   ['EbM7', 2],
   ['F-7', 2],
-  ['G-7', 2],
+  ['EbM7/G', 2],
   ['F-7', 2],
   ['EbM7', 2],
   ['G+7', 2],
