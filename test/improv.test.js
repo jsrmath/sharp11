@@ -68,7 +68,7 @@ describe('Improvisor', function () {
     });
 
     it('should obey the `rhythmicVariety` setting', function () {
-      var imp = improv.create({rhythmicVariety: .5}).over('chart', charts.myFunnyValentine);
+      var imp = improv.create({rhythmicVariety: 0.5}).over('chart', charts.myFunnyValentine);
       var found = [false, false, false];
 
       imp.forEach(function (obj) {
@@ -91,7 +91,7 @@ describe('Improvisor', function () {
     });
 
     it('should obey the `useSixteenths` setting', function () {
-      var imp = improv.create({useSixteenths: true, rhythmicVariety: .5}).over('chart', charts.myFunnyValentine);
+      var imp = improv.create({useSixteenths: true, rhythmicVariety: 0.5}).over('chart', charts.myFunnyValentine);
       var found4;
 
       imp.forEach(function (obj) {
@@ -102,7 +102,7 @@ describe('Improvisor', function () {
 
       assert(found4);
 
-      imp = improv.create({useSixteenths: false, rhythmicVariety: .5}).over('chart', charts.myFunnyValentine);
+      imp = improv.create({useSixteenths: false, rhythmicVariety: 0.5}).over('chart', charts.myFunnyValentine);
 
       imp.forEach(function (obj) {
         obj.notes.forEach(function (arr) {
