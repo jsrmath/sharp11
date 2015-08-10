@@ -164,6 +164,16 @@ describe('Scale', function () {
       assert(scale.create('C', 'Major').contains('F4'));
       assert(scale.create('C4', 'Major').contains('F4'));
       assert(!scale.create('C5', 'Major').contains('F4'));
+      assert(!scale.create('C', 'Major').contains('Eb'));
+    });
+  });
+
+  describe('#hasInterval', function () {
+    it('should return true if a scale contains a note', function () {
+      assert(scale.create('C', 'Major').hasInterval('4'));
+      assert(scale.create('C', 'Major').hasInterval('aug3'));
+      assert(scale.create('C4', 'Major').hasInterval('4'));
+      assert(!scale.create('C', 'Major').hasInterval('m3'));
     });
   });
 

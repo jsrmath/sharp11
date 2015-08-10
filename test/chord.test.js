@@ -102,9 +102,16 @@ describe('Chord', function () {
     });
 
     it('should perform precedence optimizations', function () {
-      var scales = chord.create('Cm9').scales();
-      assert(!_.some(scales, function (scale) {
+      assert(!_.some(chord.create('Cm9').scales(), function (scale) {
         return scale.id === 'bebop_dorian';
+      }));
+
+      assert(!_.some(chord.create('C9').scales(), function (scale) {
+        return scale.id === 'bebop_dominant';
+      }));
+
+      assert(!_.some(chord.create('C6').scales(), function (scale) {
+        return scale.id === 'mixolydian';
       }));
 
       assert.equal(chord.create('C7#11').scales()[2].id, 'blues');
@@ -134,6 +141,16 @@ describe('Chord', function () {
       assert(chord.create('C').contains('E4'));
       assert(chord.create('C', 4).contains('E4'));
       assert(!chord.create('C', 5).contains('E4'));
+      assert(!chord.create('C').contains('D'));
+    });
+  });
+
+  describe('#hasInterval', function () {
+    it('should return true if a chord contains a note', function () {
+      assert(chord.create('C').hasInterval('M3'));
+      assert(chord.create('C').hasInterval('dim4'));
+      assert(chord.create('C', 4).hasInterval('M3'));
+      assert(!chord.create('C').hasInterval('m3'));
     });
   });
 });
