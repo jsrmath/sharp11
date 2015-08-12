@@ -110,5 +110,18 @@ describe('Improvisor', function () {
         });
       });
     });
+
+    it('should obey the `onlyEighthRests` setting', function () {
+      var imp = improv.create({onlyEighthRests: true}).over('chart', charts.myFunnyValentine);
+      var foundRest = false;
+
+      imp.forEach(function (obj) {
+        obj.notes.forEach(function (arr) {
+          if (arr.length !== 2) {
+            assert.equal(arr.indexOf(null), -1);
+          }
+        });
+      });
+    });
   });
 });

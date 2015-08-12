@@ -90,7 +90,7 @@ describe('Chord', function () {
     it('should produce scales for a given chord', function () {
       assert.equal(chord.create('C').scales()[0].id, 'major');
       assert.equal(chord.create('C').scales()[0].key.name, 'C');
-      assert.equal(chord.create('C').scales().length, 12);
+      assert.equal(chord.create('C').scales().length, 11);
 
       assert.equal(chord.create('Cm').scales()[0].id, 'dorian');
 
