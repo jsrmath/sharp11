@@ -8,9 +8,10 @@ describe('Improvisor', function () {
     it('should generate an improvisation', function () {
       var imp = improv.create().over('chart', charts.myFunnyValentine);
 
-      assert(imp[0].scale);
-      assert(imp[0].chord);
-      assert(imp[0].notes.length, 4);
+      assert(imp.chart[0].scale);
+      assert(imp.chart[0].chord);
+      assert.equal(imp.chart[0].notes.length, 4);
+      assert.equal(imp.chordScales.length, 8);
     });
 
     it.skip('should generate an improvisation within a given range', function () {
@@ -20,7 +21,7 @@ describe('Improvisor', function () {
       for (i = 0; i < 25; i += 1) {
         imp = improv.create({range: ['C4', 'C5']}).over('chart', charts.myFunnyValentine);
 
-        imp.forEach(function (obj) {
+        imp.chart.forEach(function (obj) {
           obj.notes.forEach(function (arr) {
             arr.forEach(function (note) {
               if (note) {
@@ -46,7 +47,7 @@ describe('Improvisor', function () {
       var imp = improv.create({rests: 1}).over('chart', charts.myFunnyValentine);
       var foundRest = false;
 
-      imp.forEach(function (obj) {
+      imp.chart.forEach(function (obj) {
         obj.notes.forEach(function (arr) {
           arr.forEach(function (note) {
             if (!note) foundRest = true;
@@ -58,7 +59,7 @@ describe('Improvisor', function () {
 
       imp = improv.create({rests: 0}).over('chart', charts.myFunnyValentine);
 
-      imp.forEach(function (obj) {
+      imp.chart.forEach(function (obj) {
         obj.notes.forEach(function (arr) {
           arr.forEach(function (note) {
             assert(note);
@@ -71,7 +72,7 @@ describe('Improvisor', function () {
       var imp = improv.create({rhythmicVariety: 0.5}).over('chart', charts.myFunnyValentine);
       var found = [false, false, false];
 
-      imp.forEach(function (obj) {
+      imp.chart.forEach(function (obj) {
         obj.notes.forEach(function (arr) {
           found[arr.length - 2] = true;
         });
@@ -83,7 +84,7 @@ describe('Improvisor', function () {
 
       imp = improv.create({rhythmicVariety: 0}).over('chart', charts.myFunnyValentine);
 
-      imp.forEach(function (obj) {
+      imp.chart.forEach(function (obj) {
         obj.notes.forEach(function (arr) {
           assert.equal(arr.length, 2);
         });
@@ -94,7 +95,7 @@ describe('Improvisor', function () {
       var imp = improv.create({useSixteenths: true, rhythmicVariety: 0.5}).over('chart', charts.myFunnyValentine);
       var found4;
 
-      imp.forEach(function (obj) {
+      imp.chart.forEach(function (obj) {
         obj.notes.forEach(function (arr) {
           if (arr.length === 4) found4 = true;
         });
@@ -104,7 +105,7 @@ describe('Improvisor', function () {
 
       imp = improv.create({useSixteenths: false, rhythmicVariety: 0.5}).over('chart', charts.myFunnyValentine);
 
-      imp.forEach(function (obj) {
+      imp.chart.forEach(function (obj) {
         obj.notes.forEach(function (arr) {
           assert.notEqual(arr.length, 4);
         });
@@ -115,7 +116,7 @@ describe('Improvisor', function () {
       var imp = improv.create({onlyEighthRests: true}).over('chart', charts.myFunnyValentine);
       var foundRest = false;
 
-      imp.forEach(function (obj) {
+      imp.chart.forEach(function (obj) {
         obj.notes.forEach(function (arr) {
           if (arr.length !== 2) {
             assert.equal(arr.indexOf(null), -1);
