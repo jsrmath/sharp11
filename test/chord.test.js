@@ -29,6 +29,47 @@ describe('Chord', function () {
       assert.equal(chord.create('CminMaj9#11').toString(), 'C Eb G B D F#');
     });
 
+    it('should handle basic chords', function () {
+      assert.equal(chord.create('C').toString(), 'C E G');
+      assert.equal(chord.create('Cm').toString(), 'C Eb G');
+      assert.equal(chord.create('C6').toString(), 'C E G A');
+      assert.equal(chord.create('C7').toString(), 'C E G Bb');
+      assert.equal(chord.create('Cm7').toString(), 'C Eb G Bb');
+      assert.equal(chord.create('CM7').toString(), 'C E G B');
+      assert.equal(chord.create('CmM7').toString(), 'C Eb G B');
+      assert.equal(chord.create('C+').toString(), 'C E G#');
+      assert.equal(chord.create('C+7').toString(), 'C E G# Bb');
+      assert.equal(chord.create('C+M7').toString(), 'C E G# B');
+      assert.equal(chord.create('Cdim').toString(), 'C Eb Gb');
+      assert.equal(chord.create('C1/2dim7').toString(), 'C Eb Gb Bb');
+      assert.equal(chord.create('Csus4').toString(), 'C F G');
+      assert.equal(chord.create('Csus2').toString(), 'C D G');
+      assert.equal(chord.create('Csus47').toString(), 'C F G Bb');
+      assert.equal(chord.create('C69').toString(), 'C E G A D');
+    });
+
+    it('should handle chords with alterations', function () {
+      assert.equal(chord.create('Cm7b5').toString(), 'C Eb Gb Bb');
+      assert.equal(chord.create('C7b9').toString(), 'C E G Bb Db');
+      assert.equal(chord.create('C7#9').toString(), 'C E G Bb D#');
+      assert.equal(chord.create('C7#11').toString(), 'C E G Bb F#');
+    });
+
+    it('should handle add chords', function () {
+      assert.equal(chord.create('Cadd9').toString(), 'C E G D');
+      assert.equal(chord.create('Cadd11').toString(), 'C E G F');
+      assert.equal(chord.create('Cadd13').toString(), 'C E G A');
+
+      assert.equal(chord.create('C7add9').toString(), 'C E G Bb D');
+      assert.equal(chord.create('C7add11').toString(), 'C E G Bb F');
+      assert.equal(chord.create('C7add13').toString(), 'C E G Bb A');
+
+      assert.equal(chord.create('C9add11').toString(), 'C E G Bb D F');
+      assert.equal(chord.create('C9add13').toString(), 'C E G Bb D A');
+
+      assert.equal(chord.create('C11add13').toString(), 'C E G Bb D F A');
+    });
+
     it('should handle slash chords', function () {
       var c = chord.create('C7/E');
       assert.equal(c.symbol, '7');
