@@ -205,15 +205,24 @@ describe('Note', function () {
   describe('#random', function () {
     it('should return a random note in a given range', function () {
       var i;
-      assert.equal(note.random('C4', 'C4').toString(), 'C4');
+      assert.equal(note.random(['C4', 'C4']).toString(), 'C4');
 
       for (i = 0; i < 100; i += 1) {
-        assert(!note.random('F4', 'G6').lowerThan('F4'));
-        assert(!note.random('F4', 'G6').higherThan('G6'));
+        assert(!note.random(['F4', 'G6']).lowerThan('F4'));
+        assert(!note.random(['F4', 'G6']).higherThan('G6'));
       }
 
       assert.throws(function () {
-        note.random('G6', 'F4');
+        note.random(['G6', 'F4']);
+      });
+      assert.throws(function () {
+        note.random(['F', 'G']);
+      });
+      assert.throws(function () {
+        note.random(['F4', 'G']);
+      });
+      assert.throws(function () {
+        note.random(['F', 'G4']);
       });
     });
   });
