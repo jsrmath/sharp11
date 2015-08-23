@@ -31,6 +31,13 @@ describe('Note', function () {
       assert.equal(note.create('C').octave, null);
       assert.equal(note.create('C4').octave, 4);
       assert.equal(note.create('Bb0').octave, 0);
+
+      assert.throws(function () {
+        note.create('A', -1);
+      });
+      assert.throws(function () {
+        note.create('A', 10);
+      });
     });
 
     it('should handle note objects', function () {
@@ -217,6 +224,21 @@ describe('Note', function () {
       assert.equal(note.create('Gb').getHalfSteps('G#'), 2);
       assert.equal(note.create('G#').getHalfSteps('Gb'), 10);
       assert.equal(note.create('Cbb').getHalfSteps('E##'), 8);
+    });
+  });
+
+  describe('#inRange', function () {
+    it('should return true if a note is in a given range', function () {
+      assert(note.create('D').inRange(['C', 'G']));
+      assert(!note.create('A').inRange(['C', 'G']));
+      assert(note.create('C').inRange(['C', 'G']));
+
+      assert(note.create('D4').inRange(['C4', 'G4']));
+      assert(note.create('C5').inRange(['C4', 'C6']));
+      assert(!note.create('D4').inRange(['C3', 'G3']));
+
+      assert(note.create('D').inRange(['C4', 'G4']));
+      assert(!note.create('G').inRange(['C4', 'D4']));
     });
   });
 });
