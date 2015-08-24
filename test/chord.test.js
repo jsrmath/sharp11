@@ -163,14 +163,14 @@ describe('Chord', function () {
     });
   });
 
-  describe('#octave', function () {
+  describe('#inOctave', function () {
     it('should assign octave numbers to a chord', function () {
       assert.equal(chord.create('C', 4).toString(), 'C4 E4 G4');
 
-      assert.equal(chord.create('C').octave(4).toString(), 'C4 E4 G4');
-      assert.equal(chord.create('G').octave(4).toString(), 'G4 B4 D5');
-      assert.equal(chord.create('G/B').octave(4).toString(), 'B4 D5 G5');
-      assert.equal(chord.create('G13').octave(4).toString(), 'G4 B4 D5 F5 A5 C6 E6');
+      assert.equal(chord.create('C').inOctave(4).toString(), 'C4 E4 G4');
+      assert.equal(chord.create('G').inOctave(4).toString(), 'G4 B4 D5');
+      assert.equal(chord.create('G/B').inOctave(4).toString(), 'B4 D5 G5');
+      assert.equal(chord.create('G13').inOctave(4).toString(), 'G4 B4 D5 F5 A5 C6 E6');
     });
   });
 
