@@ -37,12 +37,10 @@ Shifts the note by a given number of half steps, positive or negative, without d
 Respells a note, getting rid of double accidentals, B#/Cb, and E#/Fb.
 
 ### <a name="note-get-interval"></a>getInterval `.getInterval(note)`
-Returns the interval to a given note ([Note](#note-object) object or string).  Octave numbers are ignored, so `note.create('C4').getInterval('G4')` and `note.create('C4').getInterval('G5')` will both return a perfect fifth.
-
-The returned value is an `Interval` object containing the following properties: `number` (e.g. 5), `quality` (e.g. "P"), `name` (e.g. "P5"), and `fullName` (e.g. "Perfect Fifth").  Calling `.toString()` returns the `name` property.
+Returns the interval to a given note ([Note](#note-object) object or string) as an [Interval](../docs/README.md#interval).  Octave numbers are ignored, so `note.create('C4').getInterval('G4')` and `note.create('C4').getInterval('G5')` will both return a perfect fifth.
 
 ### <a name="note-transpose"></a> transpose `.transpose(interval, down)`
-Transposes the note by an interval (string or interval object).  The interval will be transposed up unless `down` is truthy.
+Transposes the note by an interval (string or [Interval](../docs/README.md#interval) object).  The interval will be transposed up unless `down` is truthy.
 
 Octave numbers will be taken into account, and intervals up to a 14th are supported.  For example, `note.create('C4').transpose('P11')` will return an F5.
 
