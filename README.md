@@ -4,7 +4,13 @@ Music theorization and improvisation engine
 ## Introduction
 Sharp11 is an engine for performing music theory operations, ranging from simple things like transposing a note to complicated things like generating an ordered list of scales that can be played over a given chord.  Sharp11 has gone through several iterations since I first thought of it in 2011 or so.
 
-## Examples
+## Mutability
+Methods in Sharp11 do not mutate objects, but instead return new ones.  I feel that in music, a C4 should be a C4, not a reference to an object that might become a D4 at some point.  The same goes for chords, scales, and every other use case I've come across.  There's nothing stopping you from mutating objects in Sharp11, but if you plan to extend any Sharp11 APIs, please try to abide by this rule.
+
+## API Documentation
+Read the full Sharp11 API documentation [here](docs).
+
+## Example Music Theory Operations
 `var s11 = require('sharp11');`
 
 Transposing a note:
@@ -43,7 +49,7 @@ Creating a scale
 ```
 s11.scale.create('C', 'major'); // C D E F G A B
 s11.scale.create('G', 'altered'); // G Ab Bb Cb Db Eb F
-s11.scale.create('F', 'mixolydian b6', true); // F Eb Db C Bb A G (descending)
+s11.scale.create('F', 'mixolydian b6', true); // F Eb Db C Bb A G
 s11.scale.create('Eb', 'melodic minor'); // Eb F Gb Ab Bb C D
 s11.scale.create('Eb', 'melodic minor', true); // Eb Db Cb Bb Ab Gb F
 ```
