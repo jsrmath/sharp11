@@ -47,6 +47,8 @@ describe('Interval', function () {
       assert.equal(interval.parse('M2').invert(), 'm7');
       assert.equal(interval.parse('aug4').invert(), 'dim5');
       assert.equal(interval.parse('dim3').invert(), 'aug6');
+      assert.equal(interval.parse('P1').invert(), 'P1');
+      assert.equal(interval.parse('P8').invert(), 'P8');
     });
   });
 

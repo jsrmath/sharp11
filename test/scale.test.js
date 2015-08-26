@@ -8,25 +8,8 @@ describe('Scale', function () {
       var s = scale.create('C', 'Major');
       assert.equal(s.name, 'Major');
       assert.equal(s.id, 'major');
-      assert.equal(s.descending, false);
       assert.equal(s.key.name, 'C');
       assert.equal(s.toString(), 'C D E F G A B');
-    });
-
-    it('should create a descending scale', function () {
-      var s = scale.create('C', 'Major', true);
-      assert.equal(s.id, 'major');
-      assert.equal(s.descending, true);
-      assert.equal(s.key.name, 'C');
-      assert.equal(s.toString(), 'C B A G F E D');
-    });
-
-    it('should create a descending melodic minor', function () {
-      var s = scale.create('C', 'Melodic Minor', true);
-      assert.equal(s.id, 'melodic_minor');
-      assert.equal(s.descending, true);
-      assert.equal(s.key.name, 'C');
-      assert.equal(s.toString(), 'C Bb Ab G F Eb D');
     });
 
     it('should handle scale name aliases', function () {
@@ -47,6 +30,15 @@ describe('Scale', function () {
     it('should clean the notes in a traversable scale', function () {
       var s = scale.create('Db', 'Locrian').traverse('Ebb4');
       assert.equal(s.clean().toString(), 'Db4 [D4] E4 Gb4 G4 A4 B4');
+    });
+  });
+
+  describe('#descending', function () {
+    it('should return an array of the notes in the scale descending', function () {
+      assert.equal(scale.create('C', 'Major').descending().toString(), 'C,B,A,G,F,E,D');
+      assert.equal(scale.create('C4', 'Major').descending().toString(), 'C4,B3,A3,G3,F3,E3,D3');
+      assert.equal(scale.create('G4', 'Major').descending().toString(), 'G4,F#4,E4,D4,C4,B3,A3');
+      assert.equal(scale.create('C', 'Melodic Minor').descending().toString(), 'C,Bb,Ab,G,F,Eb,D');
     });
   });
 
@@ -107,8 +99,8 @@ describe('Scale', function () {
     });
   });
 
-  describe('#shift', function () {
-    it('should shift a traversable scale by a given number of steps', function () {
+  describe('#shiftInterval', function () {
+    it('should shift a traversable scale by a given interval', function () {
       var s = scale.create('D', 'Major').traverse('G4');
 
       assert.equal(s.shiftInterval('M3').toString(), 'D4 E4 F#4 G4 A4 [B4] C#5');
