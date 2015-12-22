@@ -3,7 +3,7 @@ var charts = require('../sample/charts');
 
 var assert = require('assert');
 
-describe('Improvisor', function () {
+describe('Improv', function () {
   describe('#overChart', function () {
     it('should generate an improvisation', function () {
       var imp = improv.create().over('chart', charts.myFunnyValentine);
