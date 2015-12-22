@@ -8,10 +8,10 @@ Contains a [Chord](#chord-object) object which can be created with [`chord.creat
 Returns a [Chord](#chord-object) object given a string and an optional octave number.  The `chord` argument should contain the root of the chord, an optional symbol (defaults to major triad), and an optional bass note given in slash notation.  Sharp11 supports a wide variety of chord symbols, so anything you'd find in a jazz fake book should be valid here.
 
 ### <a name="module-identify"></a> identify `.identify(notes...)`
-Returns a [Chord](#chord-object) object given an argument list of [Note](#note-object) objects or strings, ignoring octave numbers.  Inversions are supported, so `chord.identify('B', 'C', 'Eb', 'G')` returns a CmM7/B.
+Returns a [Chord](#chord-object) object given an argument list of [Note](note.md#note-object) objects or strings, ignoring octave numbers.  Inversions are supported, so `chord.identify('B', 'C', 'Eb', 'G')` returns a CmM7/B.
 
 ### <a name="module-create-chart"></a> createChart `.createChart(chart)`
-Returns a [ChordChart](#chord-chart-object) object given an array of `[note, numBeats]` arrays where `note` is a [Note](#note-object) object or string and `numBeats` is an integer representing the number of beats the chord is sustained for.
+Returns a [ChordChart](#chord-chart-object) object given an array of `[note, numBeats]` arrays where `note` is a [Note](note.md#note-object) object or string and `numBeats` is an integer representing the number of beats the chord is sustained for.
 
 ## <a name="chord-object"></a> Chord Object
 `Chord` objects consist of a root, a chord symbol, and an optional bass (meaning the lowest note in the chord is not the root).  The chord symbol is parsed, producing an array of notes that make up the chord.  A `Chord` object can have an optional octave number, which is applied to the notes of the chord, starting with the first note and increasing accordingly.  For example, the notes in a C13 in octave 4 are C4, E4, G4, Bb4, D5, F5, A5.
@@ -56,7 +56,7 @@ Returns true if the given note is in the chord, following the rules of [`note.co
 Assigns the chord the given octave number.
 
 ## <a name="chord-chart-object"></a> ChordChart Object
-A `ChordChart` object consists of a list of chords and associated durations, measured in number of beats.  `ChordChart`s can be used to represent chord progressions and songs.  They are used by the [improv](improv) engine to generate jazz improvisations.
+A `ChordChart` object consists of a list of chords and associated durations, measured in number of beats.  `ChordChart`s can be used to represent chord progressions and songs.  They are used by the [Improv](improv.md) engine to generate jazz improvisations.
 
 ### <a name="chord-chart-chords"></a> chords `.chords`
 An array of objects.  Each object has a `chord` property containing the [Chord](#chord-object) object and a `type` property that is a [note duration](../docs/README.md#note-duration).
