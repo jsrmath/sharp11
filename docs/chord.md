@@ -1,7 +1,7 @@
 # Sharp11 Chord Module
 `require('sharp11').chord`
 
-Contains a [Chord](#chord-object) object which can be created with [`chord.create()`](#module-create) and a [ChordChart](#chord-chart-object) object, which can be created with [`chord.createChart()`](#module-create-chart).  Methods of these objects do not mutate them, they return a new objects.
+Contains a [Chord](#chord-object) object, which can be created with [`chord.create()`](#module-create), and a [ChordChart](#chord-chart-object) object, which can be created with [`chord.createChart()`](#module-create-chart).  Methods of these objects do not mutate them, they return a new objects.
 
 ## <a name="module"></a> Exported Functions
 ### <a name="module-create"></a> create `.create(chord, octave)`
@@ -59,7 +59,7 @@ Assigns the chord the given octave number.
 A `ChordChart` object consists of a list of chords and associated durations, measured in number of beats.  `ChordChart`s can be used to represent chord progressions and songs.  They are used by the [Improv](improv.md) engine to generate jazz improvisations.
 
 ### <a name="chord-chart-chords"></a> chords `.chords`
-An array of objects.  Each object has a `chord` property containing the [Chord](#chord-object) object and a `type` property that is a [note duration](../docs/README.md#note-duration).
+An array of objects.  Each object has a `chord` property containing the [Chord](#chord-object) object and a `duration` property that is a [note duration](../docs/README.md#note-duration).
 
 ### <a name="chord-chart-midi"></a> midi `.midi(filename, options)`
 Outputs a MIDI file of the chord progression with a name given by `filename` and on an [`options` object](midi.md#midi-options).

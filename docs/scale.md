@@ -1,7 +1,7 @@
 # Sharp11 Scale Module
 `require('sharp11').scale`
 
-Contains a [Scale](#scale-object) object which can be created with [`scale.create()`](#module-create) and a [TraversableScale](#traversable-scale-object) object, which can be created by calling [`.traverse()`](#scale-traverse) on a [Scale](#scale-object) object.  Methods of these objects do not mutate them, they return a new objects.
+Contains a [Scale](#scale-object) object, which can be created with [`scale.create()`](#module-create), and a [TraversableScale](#traversable-scale-object) object, which can be created by calling [`.traverse()`](#scale-traverse) on a [Scale](#scale-object) object.  Methods of these objects do not mutate them, they return a new objects.
 
 ## <a name="module"></a> Exported Functions
 ### <a name="module-scales"></a> scales `.scales`

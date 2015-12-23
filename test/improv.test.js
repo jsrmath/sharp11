@@ -11,7 +11,7 @@ describe('Improv', function () {
       assert(imp.chart[0].scale);
       assert(imp.chart[0].chord);
       assert.equal(imp.chart[0].notes.length, 4);
-      assert.equal(imp.chordScales.length, 8);
+      assert.equal(imp.chart[0].duration.beats, 4);
     });
 
     it.skip('should generate an improvisation within a given range', function () {
