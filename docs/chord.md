@@ -58,8 +58,8 @@ Assigns the chord the given octave number.
 ## <a name="chord-chart-object"></a> ChordChart Object
 A `ChordChart` object consists of a list of chords and associated durations, measured in number of beats.  `ChordChart`s can be used to represent chord progressions and songs.  They are used by the [Improv](improv.md) engine to generate jazz improvisations.
 
-### <a name="chord-chart-chords"></a> chords `.chords`
-An array of objects.  Each object has a `chord` property containing the [Chord](#chord-object) object and a `duration` property that is a [note duration](../docs/README.md#note-duration).
+### <a name="chord-chart-chart"></a> chart `.chart`
+An array of objects representing chords.  Each object has a `chord` property containing the [Chord](#chord-object) object and a `duration` property that is a [note duration](../docs/README.md#note-duration).
 
 ### <a name="chord-chart-midi"></a> midi `.midi(filename, options)`
 Outputs a MIDI file of the chord progression with a name given by `filename` and on an [`options` object](midi.md#midi-options).
