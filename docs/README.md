@@ -5,7 +5,7 @@ Sharp11 is divided into the following modules, which can be accessed through `re
 * [note](note.md)
 * [chord](chord.md)
 * [scale](scale.md)
-* improv
+* [improv](improv.md)
 * midi
 
 ### <a name="interval"></a> Intervals
