@@ -148,6 +148,12 @@ describe('Note', function () {
     });
   });
 
+  describe('#transposeDown', function () {
+    it('should transpose down by a given interval', function () {
+      assert.equal(note.create('D').transposeDown('m3').name, 'B');
+    });
+  });
+
   describe('#toggleAccidental', function () {
     it('should toggle the accidental', function () {
       assert.equal(note.create('D#').toggleAccidental().name, 'Eb');

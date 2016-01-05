@@ -44,6 +44,9 @@ Transposes the note by an interval (string or [Interval](../docs/README.md#inter
 
 Octave numbers will be taken into account, and intervals up to a 14th are supported.  For example, `note.create('C4').transpose('P11')` will return an F5.
 
+### <a name="note-transpose-down"></a> transposeDown `.transposeDown(interval)`
+Calls `.transpose(interval, true)`.
+
 ### <a name="note-toggle-accidental"> toggleAccidental `.toggleAccidental()`
 Toggles the accidental of the note.  For example: C# becomes Db, E# becomes F, and F## becomes G.
 

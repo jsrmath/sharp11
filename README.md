@@ -23,7 +23,7 @@ Transposing a note:
 
 ```
 s11.note.create('Ab').transpose('P4'); // Db
-s11.note.create('Ab').transpose('P4', true); // Eb (transposed down)
+s11.note.create('Ab').transposeDown('P4'); // Eb
 s11.note.create('Ab3').transpose('P4'); // Db4
 ```
 

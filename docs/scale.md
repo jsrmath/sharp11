@@ -46,6 +46,9 @@ Applies [`note.clean()`](note.md#note-clean) to the key and all the notes in the
 ### <a name="scale-transpose"></a> transpose `.transpose(interval, down)`
 Transposes the scale, applying [`note.transpose()`](note.md#note-transpose).
 
+### <a name="scale-transpose-down"></a> transposeDown `.transposeDown(interval)`
+Calls `.transpose(interval, true)`.
+
 ### <a name="scale-nearest"></a> nearest `.nearest(note)`
 Returns a [Note](note.md#note-object) representing the nearest note on the scale to a given note ([Note](note.md#note-object) object or string).  Octave numbers are ignored.  If there are two nearest notes, the lower will be returned.
 
@@ -90,6 +93,9 @@ See [`.clean()`](#scale-clean).
 
 ### <a name="traversable-scale-transpose"></a> transpose `.transpose(interval, down)`
 See [`.transpose()`](#scale-transpose).
+
+### <a name="traversable-scale-transpose-down"></a> transposeDown `.transposeDown(interval)`
+See [`.transposeDown()`](#scale-transpose-down).
 
 ### <a name="traversable-scale-shift"></a> shift `.shift(numSteps)`
 Shifts the current note of the scale by a given number of positions, positive or negative.  The resulting scale may have a different octave number depending on how far it has been shifted.

@@ -94,6 +94,14 @@ describe('Chord', function () {
     });
   });
 
+  describe('#transposeDown', function () {
+    it('should transpose a chord down', function () {
+      var c = chord.create('C7').transposeDown('M3');
+      assert.equal(c.name, 'Ab7');
+      assert.equal(c.toString(), 'Ab C Eb Gb');
+    });
+  });
+
   describe('#clean', function () {
     it('should clean a chord', function () {
       var c = chord.create('C#+').clean();

@@ -46,6 +46,9 @@ Returns the names of the [`scales`](scale.md#scale-object) returned by [`.scales
 ### <a name="chord-transpose"></a> transpose `.transpose(interval, down)`
 Transposes the chord, applying [`note.transpose()`](note.md#note-transpose).
 
+### <a name="chord-transpose-down"></a> transposeDown `.transposeDown(interval)`
+Calls `.transpose(interval, true)`.
+
 ### <a name="chord-clean"></a> clean `.clean()`
 Applies [`note.clean()`](note.md#note-clean) to the root, bass, and every note in the chord.
 

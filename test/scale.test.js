@@ -56,6 +56,18 @@ describe('Scale', function () {
     });
   });
 
+  describe('#transposeDown', function () {
+    it('should transpose a scale down', function () {
+      var s = scale.create('C', 'Whole Tone').transposeDown('P5');
+      assert.equal(s.toString(), 'F G A B C# D#');
+    });
+
+    it('should transpose a traversable scale down', function () {
+      var s = scale.create('C', 'Whole Tone').traverse('E5').transposeDown('P5');
+      assert.equal(s.toString(), 'F4 G4 [A4] B4 C#5 D#5');
+    });
+  });
+
   describe('#traverse', function () {
     it('should create a traversable scale', function () {
       var s = scale.create('D', 'Major').traverse('G4');
