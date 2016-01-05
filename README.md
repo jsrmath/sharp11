@@ -51,11 +51,11 @@ s11.chord.identify('G', 'B', 'D#', 'F', 'A#'); // G7#5#9
 s11.chord.identify('F#', 'C', 'Eb', 'G', 'B', 'D'); // CmM9#11/F#
 ```
 
-Creating a scale
+Working with scales
 ```
 s11.scale.create('C', 'major'); // C D E F G A B
 s11.scale.create('G', 'altered'); // G Ab Bb Cb Db Eb F
-s11.scale.create('F', 'mixolydian b6', true); // F Eb Db C Bb A G
-s11.scale.create('Eb', 'melodic minor'); // Eb F Gb Ab Bb C D
-s11.scale.create('Eb', 'melodic minor', true); // Eb Db Cb Bb Ab Gb F
+s11.scale.create('Eb', 'melodic minor').descending(); // [Eb, F, Gb, Ab, Bb, C, D]
+s11.scale.create('C', 'major').transpose('m3'); // Eb F G Ab Bb C D
+s11.scale.create('C', 'major').contains('F'); // true
 ```
