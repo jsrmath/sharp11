@@ -55,7 +55,7 @@ Working with scales
 ```
 s11.scale.create('C', 'major'); // C D E F G A B
 s11.scale.create('G', 'altered'); // G Ab Bb Cb Db Eb F
-s11.scale.create('Eb', 'melodic minor').descending(); // [Eb, F, Gb, Ab, Bb, C, D]
+s11.scale.create('F', 'melodic minor').descending(); // [F, Eb, Db, C, Bb, Ab, G]
 s11.scale.create('C', 'major').transpose('m3'); // Eb F G Ab Bb C D
 s11.scale.create('C', 'major').contains('F'); // true
 ```
