@@ -41,5 +41,5 @@ An array of objects representing the notes in the improvisation.  Each object co
 * `note` - A [Note](note.md#note-object) object or null, representing a rest.
 * `duration` - The duration of the note represented as a [note duration](../docs/README.md#note-duration).
 
-### <a name="improv-chart-midi"></a> midi `.midi(filename, options)`
-Outputs a MIDI file of the improvisation with a name given by `filename` and on an [`options` object](midi.md#midi-options).
+### <a name="improv-chart-midi"></a> midi `.midi(settings)`
+Returns a [Midi](midi.md#midi-object) object for the improvisation with given [`settings`](midi.md#midi-settings).

@@ -6,7 +6,7 @@ Sharp11 is divided into the following modules, which can be accessed through `re
 * [chord](chord.md)
 * [scale](scale.md)
 * [improv](improv.md)
-* midi
+* [midi](midi.md)
 
 ### <a name="interval"></a> Intervals
 Sharp11 uses `Interval` objects internally to represent intervals.  Intervals have the following properties:
