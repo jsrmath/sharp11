@@ -2,7 +2,7 @@
 Music theorization and improvisation engine
 
 ## Introduction
-Sharp11 is a node.js module for performing music theory operations, ranging from simple things like transposing a note to complicated things like generating an ordered list of scales that can be played over a given chord.  Sharp11 has gone through several iterations since I first thought of it in 2011 or so.  The previous iteration is a client-side web app written in bad JavaScript (I was like 16 at the time).  It has very similar functionality, and since I haven't written a front-end for the current version (but I hope to write one soon), I would suggest [playing around with it](http://julianrosenblum.com/sharp11-old) to get a sense of what Sharp11 can do.
+Sharp11 is an npm module for performing music theory operations, ranging from simple things like transposing a note to complicated things like generating an ordered list of scales that can be played over a given chord.  Sharp11 has gone through several iterations since I first thought of it in 2011 or so.  The previous iteration is a non-modular client-side web app written in bad JavaScript (I was like 16 at the time).  It has very similar functionality, and since I haven't written a front-end for the current version (but I hope to write one soon), I would suggest [playing around with it](http://julianrosenblum.com/sharp11-old) to get a sense of what Sharp11 can do.
 
 ## So what can Sharp11 do?
 That's a good question.  Sharp11 can do a lot of really cool things.  It can perform music theory operations on notes.  It can produce and traverse scales.  It can tell you the notes in a chord given a chord symbol.  It can give you a reasonable chord symbol for a group of notes.  It can generate a jazz improvisation given chord changes and produce MIDI output.  The current version of sharp11 is just an API.  With the exception of the MIDI output option, all of these operations work within the world of Sharp11 objects ([note](https://github.com/jsrmath/sharp11/blob/master/docs/note.md), [scale](https://github.com/jsrmath/sharp11/blob/master/docs/scale.md), [chord](https://github.com/jsrmath/sharp11/blob/master/docs/chord.md), etc.).  The way I see it, these are the core modules of Sharp11 with which some cool programs can be built.  I consider the improv engine and the future front-end interface to be examples of projects that can be built with the core Sharp11 API.
@@ -12,6 +12,9 @@ I embarked on Sharp11 with a clear sense of the functionality I wanted to implem
 
 ## Mutability
 Methods in Sharp11 do not mutate objects, but instead return new ones.  I feel that in music, a C4 should be a C4, not a reference to an object that might become a D4 at some point.  The same goes for chords, scales, and every other use case I've come across.  There's nothing stopping you from mutating objects in Sharp11, but if you plan to extend any Sharp11 APIs or build anything on top of Sharp11, please try to abide by this rule.
+
+## Install
+`npm install sharp11`
 
 ## API Documentation
 Read the full Sharp11 API documentation [here](https://github.com/jsrmath/sharp11/blob/master/docs).
