@@ -12,8 +12,8 @@ _.each([imp, imp2, imp3, imp4, imp5], function (imp) {
   console.log(imp.toString() + '\n');
 });
 
-imp.midi('test.mid');
-imp2.midi('test2.mid', {tempo: 160});
-imp3.midi('test3.mid', {tempo: 60});
-imp4.midi('test4.mid', {tempo: 200});
-imp5.midi('test5.mid');
+imp.midi().writeSync('test.mid');
+imp2.midi({tempo: 160}).writeSync('test2.mid');
+imp3.midi({tempo: 60}).writeSync('test3.mid');
+imp4.midi({tempo: 200}).writeSync('test4.mid');
+imp5.midi().writeSync('test5.mid');
