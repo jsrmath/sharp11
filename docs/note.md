@@ -12,7 +12,11 @@ Returns a [Note](#note-object) object given a range (array containing two [Note]
 
 ## <a name="note-object"></a> Note Object
 The `Note` object is the primary building block in Sharp11.  It represents a note with an optional octave number.  Functions that take note objects can always be passed strings instead and they will be automatically converted.  Many functions that take note objects will behave differently depending on whether or not the note has an octave number.
-### letter `.letter` <a name="note-letter"></a>
+
+### <a name="note-name"></a> name `.name`
+The name of the note, e.g., "Ab".
+
+### <a name="note-letter"></a> letter `.letter`
 The letter of the note, e.g., "C".
 
 ### <a name="note-acc"></a> accidental `.acc` or `.accidental`
