@@ -28,7 +28,7 @@ The (optional) octave number of the note, i.e., an integer between 0 and 9, or `
 Sharps the note, without doing any cleanup.  This means a "C#" becomes a "C##" and a "C##" becomes a "D#".  For a more useful result, call [`.clean()`](#note-clean) on the result.
 
 ### <a name="note-flat"></a> flat `.flat()`
-Flats the note, without doing any cleanup.  This means a "Bb" becomes a "Bbb" and a "Bbb" becomes an "A".  For a more useful result, call [`.clean()`](#note-clean) on the result.
+Flats the note, without doing any cleanup.  This means a "Bb" becomes a "Bbb" and a "Bbb" becomes an "Ab".  For a more useful result, call [`.clean()`](#note-clean) on the result.
 
 ### <a name="note-shift"></a> shift `.shift(halfSteps)`
 Shifts the note by a given number of half steps, positive or negative, without doing any cleanup.  For a more useful result, call [`.clean()`](#note-clean) on the result.
