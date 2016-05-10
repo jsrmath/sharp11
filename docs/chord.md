@@ -13,6 +13,9 @@ Returns a [Chord](#chord-object) object given an argument list of [Note](note.md
 ### <a name="module-create-chart"></a> createChart `.createChart(chart)`
 Returns a [ChordChart](#chord-chart-object) object given an array of `[note, numBeats]` arrays where `note` is a [Note](note.md#note-object) object or string and `numBeats` is an integer representing the number of beats the chord is sustained for.
 
+### <a name="module-isChord"></a> isChord `.isChord(obj)`
+Returns true if an object is a [Chord](#chord-object).
+
 ## <a name="chord-object"></a> Chord Object
 `Chord` objects consist of a root, a chord symbol, and an optional bass (meaning the lowest note in the chord is not the root).  The chord symbol is parsed, producing an array of notes that make up the chord.  A `Chord` object can have an optional octave number, which is applied to the notes of the chord, starting with the first note and increasing accordingly.  For example, the notes in a C13 in octave 4 are C4, E4, G4, Bb4, D5, F5, A5.
 

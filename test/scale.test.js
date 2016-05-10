@@ -187,4 +187,12 @@ describe('Scale', function () {
       assert(!scale.isTraversable(scale.create('C')));
     });
   });
+
+  describe('#isScale', function () {
+    it('should return true if an object is a scale or traversable scale', function () {
+      assert(scale.isScale(scale.create('C').traverse('G4')));
+      assert(scale.isScale(scale.create('C')));
+      assert(!scale.isScale(['C', 'D', 'E']));
+    });
+  });
 });

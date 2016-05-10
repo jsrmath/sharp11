@@ -8,10 +8,12 @@ describe('Note', function () {
       assert.equal(note.create('Bb').letter, 'B');
       assert.equal(note.create('Bb').acc, 'b');
       assert.equal(note.create('Bb').name, 'Bb');
+      assert.equal(note.create('Bb').fullName, 'Bb');
 
       assert.equal(note.create('D##').letter, 'D');
       assert.equal(note.create('D##').acc, '##');
       assert.equal(note.create('D##').name, 'D##');
+      assert.equal(note.create('D##').fullName, 'D##');
     });
 
     it('should handle "s" and "x" accidentals', function () {
@@ -31,6 +33,8 @@ describe('Note', function () {
       assert.equal(note.create('C').octave, null);
       assert.equal(note.create('C4').octave, 4);
       assert.equal(note.create('Bb0').octave, 0);
+
+      assert.equal(note.create('C4').fullName, 'C4');
 
       assert.throws(function () {
         note.create('A', -1);
@@ -254,6 +258,13 @@ describe('Note', function () {
 
       assert(note.create('D').inRange(['C4', 'G4']));
       assert(!note.create('G').inRange(['C4', 'D4']));
+    });
+  });
+
+  describe('#isNote', function () {
+    it('should return true if an object is a note', function () {
+      assert(note.isNote(note.create('C')));
+      assert(!note.isNote('C'));
     });
   });
 });

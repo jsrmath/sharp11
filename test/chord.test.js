@@ -202,4 +202,11 @@ describe('Chord', function () {
       assert(!chord.create('C').hasInterval('m3'));
     });
   });
+
+  describe('#isChord', function () {
+    it('should return true if an object is a chord', function () {
+      assert(chord.isChord(chord.create('Cm7')));
+      assert(!chord.isChord('Cm7'));
+    });
+  });
 });

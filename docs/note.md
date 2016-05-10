@@ -10,11 +10,17 @@ Returns a [Note](#note-object) object given a note name and an optional octave n
 ### <a name="module-random"></a> random `.random(range)`
 Returns a [Note](#note-object) object given a range (array containing two [Note](#note-object) objects or strings) within which the note must fall.  The notes in the range array must have octave numbers.
 
+### <a name="module-isNote"></a> isNote `.isNote(obj)`
+Returns true if an object is a [Note](#note-object).
+
 ## <a name="note-object"></a> Note Object
 The `Note` object is the primary building block in Sharp11.  It represents a note with an optional octave number.  Functions that take note objects can always be passed strings instead and they will be automatically converted.  Many functions that take note objects will behave differently depending on whether or not the note has an octave number.
 
 ### <a name="note-name"></a> name `.name`
 The name of the note, e.g., "Ab".
+
+### <a name="note-fullName"></a> fullName `.fullName`
+The name of the note with the octave number if there is one, e.g., "Ab4".
 
 ### <a name="note-letter"></a> letter `.letter`
 The letter of the note, e.g., "C".
