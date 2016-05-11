@@ -36,7 +36,7 @@ An array of objects representing the notes that have been improvised for a given
 * `notes` - An array of beats.  Each beat is an array of two (eighth), three (triplet), or four (sixteenth) notes.  Notes can either be [Note](note.md#note-object) objects or `null`, representing rests.
 * `duration` - The duration of the chord change represented as a [note duration](../docs/README.md#note-duration).
 
-### <a name="improv-chart-chordScales"></a> chordScales `.chordScales`
+### <a name="improv-chart-noteList"></a> noteList `.noteList`
 An array of objects representing the notes in the improvisation.  Each object contains the following properties:
 * `note` - A [Note](note.md#note-object) object or null, representing a rest.
 * `duration` - The duration of the note represented as a [note duration](../docs/README.md#note-duration).
