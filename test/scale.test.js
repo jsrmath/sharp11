@@ -195,4 +195,12 @@ describe('Scale', function () {
       assert(!scale.isScale(['C', 'D', 'E']));
     });
   });
+
+  describe('#inOctave', function () {
+    it('should return scale in given octave', function () {
+      assert.equal(scale.create('C').inOctave(4).scale[0].octave, 4);
+      assert.equal(scale.create('G').inOctave(4).scale[3].octave, 5);
+      assert.equal(scale.create('C3').inOctave(4).scale[0].octave, 4);
+    });
+  });
 });

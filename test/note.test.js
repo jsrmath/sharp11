@@ -267,4 +267,11 @@ describe('Note', function () {
       assert(!note.isNote('C'));
     });
   });
+
+  describe('#inOctave', function () {
+    it('should return note in given octave', function () {
+      assert.equal(note.create('C').inOctave(4).octave, 4);
+      assert.equal(note.create('C', 3).inOctave(4).octave, 4);
+    });
+  });
 });

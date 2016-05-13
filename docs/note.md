@@ -60,6 +60,9 @@ Calls `.transpose(interval, true)`.
 ### <a name="note-toggle-accidental"> toggleAccidental `.toggleAccidental()`
 Toggles the accidental of the note.  For example: C# becomes Db, E# becomes F, and F## becomes G.
 
+### <a name="note-in-octave"></a> inOctave `.inOctave(octave)`
+Returns the note in a given octave number.
+
 ### <a name="note-enharmonic"> enharmonic `.enharmonic(note)`
 Returns true if the note is enharmonic to a given note ([Note](#note-object) object or string), ignoring octave numbers.
 

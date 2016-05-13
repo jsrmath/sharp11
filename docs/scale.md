@@ -58,6 +58,9 @@ Returns a [Note](note.md#note-object) representing the nearest note on the scale
 ### <a name="scale-contains"></a> contains `.contains(note)`
 Returns true if the given note is in the scale, following the rules of [`note.containedIn()`](note.md#note-contained-in).
 
+### <a name="scale-in-octave"></a> inOctave `.inOctave(octave)`
+Returns the scale in a given octave number.
+
 ### <a name="scale-has-interval"></a> hasInterval `.hasInterval(interval)`
 Returns true if a given interval ([Interval](../docs/README.md#interval) object or string) is in the scale.
 
