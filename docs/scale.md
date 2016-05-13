@@ -13,10 +13,10 @@ An array of scale names in order of how commonly used they are.  This order is u
 ### <a name="module-create"></a> create `.create(key, scaleName)`
 Returns a [Scale](#scale-object) object.  `key` is a [Note](note.md#note-object) object or string representing the key (or root) of the scale.  `scaleName` is a string containing the name of the scale.  `scaleName` is converted to lowercase and spaces are replaced with underscores.  Sharp11 supports a wide variety of scales as well as aliases, so `Superlocrian`, `Altered`, and `Diminished Whole Tone` will all work.
 
-### <a name="module-isScale"></a> isScale `.isScale(obj)`
+### <a name="module-is-scale"></a> isScale `.isScale(obj)`
 Returns true if an object is a [Scale](#scale-object) or a [TraversableScale](#traversable-scale-object).
 
-### <a name="module-isTraversable"></a> isTraversable `.isTraversable(object)`
+### <a name="module-is-traversable"></a> isTraversable `.isTraversable(object)`
 Returns true if a given object is a [TraversableScale](#traversable-scale-object).
 
 ## <a name="scale-object"></a> Scale Object

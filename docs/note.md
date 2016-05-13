@@ -10,7 +10,7 @@ Returns a [Note](#note-object) object given a note name and an optional octave n
 ### <a name="module-random"></a> random `.random(range)`
 Returns a [Note](#note-object) object given a range (array containing two [Note](#note-object) objects or strings) within which the note must fall.  The notes in the range array must have octave numbers.
 
-### <a name="module-isNote"></a> isNote `.isNote(obj)`
+### <a name="module-is-note"></a> isNote `.isNote(obj)`
 Returns true if an object is a [Note](#note-object).
 
 ## <a name="note-object"></a> Note Object

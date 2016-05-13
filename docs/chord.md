@@ -13,7 +13,7 @@ Returns a [Chord](#chord-object) object given an argument list of [Note](note.md
 ### <a name="module-create-chart"></a> createChart `.createChart(chart)`
 Returns a [ChordChart](#chord-chart-object) object given an array of `[note, numBeats]` arrays where `note` is a [Note](note.md#note-object) object or string and `numBeats` is an integer representing the number of beats the chord is sustained for.
 
-### <a name="module-isChord"></a> isChord `.isChord(obj)`
+### <a name="module-is-chord"></a> isChord `.isChord(obj)`
 Returns true if an object is a [Chord](#chord-object).
 
 ## <a name="chord-object"></a> Chord Object
