@@ -17,7 +17,7 @@ Returns a [ChordChart](#chord-chart-object) object given an array of `[note, num
 Returns true if an object is a [Chord](#chord-object).
 
 ## <a name="chord-object"></a> Chord Object
-`Chord` objects consist of a root, a chord symbol, and an optional bass (meaning the lowest note in the chord is not the root).  The chord symbol is parsed, producing an array of notes that make up the chord.  A `Chord` object can have an optional octave number, which is applied to the notes of the chord, starting with the first note and increasing accordingly.  For example, the notes in a C13 in octave 4 are C4, E4, G4, Bb4, D5, F5, A5.
+`Chord` objects consist of a root, a chord symbol, and an optional bass (meaning the lowest note in the chord is not the root).  The chord symbol is parsed, producing an array of notes that make up the chord.  A `Chord` object can have an optional octave number, which is applied to the notes of the chord, starting with the first note and increasing accordingly.  For example, the notes in a C13 in octave 4 are C4, E4, G4, Bb4, D5, F5, A5.  The `Chord` constructor is accessible directly as `.Chord`, however new instances should be created using [`.create()`](#module-create) instead.
 
 ### <a name="chord-name"></a> name `.name`
 The chord name, given by the `chord` argument in [`chord.create()`](#module-create).

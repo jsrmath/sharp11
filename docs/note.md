@@ -17,7 +17,7 @@ Returns true if an object is a [Note](#note-object).
 Returns a [Note](#note-object) object given a [note value](#note-value).
 
 ## <a name="note-object"></a> Note Object
-The `Note` object is the primary building block in Sharp11.  It represents a note with an optional octave number.  Functions that take note objects can always be passed strings instead and they will be automatically converted.  Many functions that take note objects will behave differently depending on whether or not the note has an octave number.
+The `Note` object is the primary building block in Sharp11.  It represents a note with an optional octave number.  Functions that take note objects can always be passed strings instead and they will be automatically converted.  Many functions that take note objects will behave differently depending on whether or not the note has an octave number.  The `Note` constructor is accessible directly as `.Note`, however new instances should be created using [`.create()`](#module-create) instead.
 
 ### <a name="note-name"></a> name `.name`
 The name of the note, e.g., "Ab".

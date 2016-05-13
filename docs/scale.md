@@ -20,7 +20,7 @@ Returns true if an object is a [Scale](#scale-object) or a [TraversableScale](#t
 Returns true if a given object is a [TraversableScale](#traversable-scale-object).
 
 ## <a name="scale-object"></a> Scale Object
-`Scale` objects consist of a key and a scale name.  A `Scale` may or may not have octave numbers depending on whether or not the `key` parameter does.  Octave numbers behave as expected, so a major scale with a key of G4 will contain the notes G4, A4, B4, C5, D5, E5, F#5.
+`Scale` objects consist of a key and a scale name.  A `Scale` may or may not have octave numbers depending on whether or not the `key` parameter does.  Octave numbers behave as expected, so a major scale with a key of G4 will contain the notes G4, A4, B4, C5, D5, E5, F#5.  The `Scale` constructor is accessible directly as `.Scale`, however new instances should be created using [`.create()`](#module-create) instead.
 
 ### <a name="scale-key"></a> key `.key` or `.root`
 A [Note](note.md#note-object) object representing key of the scale.
