@@ -13,7 +13,7 @@ Returns a [Note](#note-object) object given a range (array containing two [Note]
 ### <a name="module-is-note"></a> isNote `.isNote(obj)`
 Returns true if an object is a [Note](#note-object).
 
-### <a name="module-from-value"></a> isNote `.fromValue(value)`
+### <a name="module-from-value"></a> fromValue `.fromValue(value)`
 Returns a [Note](#note-object) object given a [note value](#note-value).
 
 ## <a name="note-object"></a> Note Object
