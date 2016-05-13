@@ -13,6 +13,9 @@ Returns a [Note](#note-object) object given a range (array containing two [Note]
 ### <a name="module-is-note"></a> isNote `.isNote(obj)`
 Returns true if an object is a [Note](#note-object).
 
+### <a name="module-from-value"></a> isNote `.fromValue(value)`
+Returns a [Note](#note-object) object given a [note value](#note-value).
+
 ## <a name="note-object"></a> Note Object
 The `Note` object is the primary building block in Sharp11.  It represents a note with an optional octave number.  Functions that take note objects can always be passed strings instead and they will be automatically converted.  Many functions that take note objects will behave differently depending on whether or not the note has an octave number.
 
@@ -33,6 +36,9 @@ The (optional) octave number of the note, i.e., an integer between 0 and 9, or `
 
 ### <a name="note-key-type"></a> keyType `.keytype`
 "#" for sharp keys, "b" for flat keys, `null` for C.
+
+### <a name="note-value"></a> value `.value()`
+Returns an integer representing the note if it has an octave number or `null` otherwise.  Enharmonically equivalent notes in the same octave have the same value.  This value is the same as the MIDI note value.
 
 ### <a name="note-sharp"></a> sharp `.sharp()`
 Sharps the note, without doing any cleanup.  This means a "C#" becomes a "C##" and a "C##" becomes a "D#".  For a more useful result, call [`.clean()`](#note-clean) on the result.
