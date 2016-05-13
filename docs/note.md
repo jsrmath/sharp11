@@ -46,6 +46,9 @@ Shifts the note by a given number of half steps, positive or negative, without d
 ### <a name="note-clean"></a> clean `.clean()`
 Respells a note, getting rid of double accidentals, B#/Cb, and E#/Fb.
 
+### <a name="note-with-accidental"></a> clean `.withAccidental(acc)`
+Returns an enharmonically equivalent note with a given accidental ('#', 'b', or 'n') if possible.
+
 ### <a name="note-get-interval"></a>getInterval `.getInterval(note)`
 Returns the interval to a given note ([Note](#note-object) object or string) as an [Interval](../docs/README.md#interval).  Octave numbers are ignored, so `note.create('C4').getInterval('G4')` and `note.create('C4').getInterval('G5')` will both return a perfect fifth.
 

@@ -274,4 +274,18 @@ describe('Note', function () {
       assert.equal(note.create('C', 3).inOctave(4).octave, 4);
     });
   });
+
+  describe('#withAccidental', function () {
+    it('should return note with given accidental, if possible', function () {
+      assert.equal(note.create('C#').withAccidental('b').name, 'Db');
+      assert.equal(note.create('Db').withAccidental('#').name, 'C#');
+      assert.equal(note.create('Cbb').withAccidental('b').name, 'Bb');
+      assert.equal(note.create('Cbb').withAccidental('#').name, 'A#');
+      assert.equal(note.create('Cb').withAccidental('n').name, 'B');
+    });
+    it('should return the same note otherwise', function () {
+      assert.equal(note.create('C').withAccidental('b').name, 'C');
+      assert.equal(note.create('Bbb').withAccidental('b').name, 'Bbb');
+    });
+  });
 });
