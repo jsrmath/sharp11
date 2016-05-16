@@ -1,6 +1,6 @@
 {
   "name": "sharp11",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Music theorization and improvisation engine",
   "main": "index.js",
   "scripts": {
