@@ -92,6 +92,15 @@ describe('Chord', function () {
       assert.equal(c.name, 'Ab7/C');
       assert.equal(c.toString(), 'C Eb Gb Ab');
     });
+
+    it('should handle octave numbers', function () {
+      var c = chord.create('F7', 4).transpose('P8');
+      assert.equal(c.chord[0].fullName, 'F5');
+
+      c = chord.create('F7/A', 4).transpose('P8');
+      assert.equal(c.chord[0].fullName, 'A5');
+      assert.equal(c.chord[3].fullName, 'F6');
+    });
   });
 
   describe('#transposeDown', function () {
