@@ -132,6 +132,7 @@ describe('Chord', function () {
       assert.equal(chord.identify('E', 'G', 'C'), 'C/E');
       assert.equal(chord.identify('E', 'G', 'Bb', 'C'), 'C7/E');
       assert.equal(chord.identify('F#', 'C', 'Eb', 'G', 'B', 'D'), 'CmM9#11/F#');
+      assert.equal(chord.identify('Gb', 'C', 'Eb'), 'Cdim/Gb');
     });
   });
 
