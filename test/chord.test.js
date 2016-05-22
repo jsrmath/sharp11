@@ -27,6 +27,7 @@ describe('Chord', function () {
       assert.equal(chord.create('Cmin').toString(), 'C Eb G');
       assert.equal(chord.create('Cdom7').toString(), 'C E G Bb');
       assert.equal(chord.create('CminMaj9#11').toString(), 'C Eb G B D F#');
+      assert.equal(chord.create('Cmin(maj)7').toString(), 'C Eb G B');
     });
 
     it('should handle basic chords', function () {
@@ -53,6 +54,7 @@ describe('Chord', function () {
       assert.equal(chord.create('C7b9').toString(), 'C E G Bb Db');
       assert.equal(chord.create('C7#9').toString(), 'C E G Bb D#');
       assert.equal(chord.create('C7#11').toString(), 'C E G Bb F#');
+      assert.equal(chord.create('C13#11').toString(), 'C E G Bb D F# A');
     });
 
     it('should handle add chords', function () {
