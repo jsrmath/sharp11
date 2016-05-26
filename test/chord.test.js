@@ -137,6 +137,8 @@ describe('Chord', function () {
       assert.equal(chord.identify('D', 'G', 'A'), 'Dsus4');
       assert.equal(chord.identify('Eb', 'Bb'), 'Eb5');
       assert.equal(chord.identify('Eb', 'Bb', 'Db'), 'Ebn7');
+      assert.equal(chord.identify('C', 'Eb', 'Gb', 'A'), 'Cdim7');
+      assert.equal(chord.identify('C', 'Eb', 'Gb', 'A', 'Bb'), 'Cm13b5');
     });
 
     it('should identify the proper inversion', function () {
@@ -144,6 +146,8 @@ describe('Chord', function () {
       assert.equal(chord.identify('E', 'G', 'Bb', 'C'), 'C7/E');
       assert.equal(chord.identify('F#', 'C', 'Eb', 'G', 'B', 'D'), 'CmM9#11/F#');
       assert.equal(chord.identify('Gb', 'C', 'Eb'), 'Cdim/Gb');
+      assert.equal(chord.identify('E', 'G', 'Bb', 'C', 'D'), 'C9/E');
+      assert.equal(chord.identify('E', 'G', 'B', 'C', 'D'), 'CM9/E');
     });
   });
 
