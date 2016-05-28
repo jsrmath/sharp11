@@ -158,7 +158,7 @@ describe('Chord', function () {
 
     it('should generally be the inverse of chord.create', function () {
       var testInverse = function (symbol) {
-        return symbol === chord.identify.apply(chord.Chord, chord.create(symbol).toString().split(' '));
+        return symbol === chord.identifyArray(chord.create(symbol).toString().split(' '));
       }
 
       var testInverseAndInversions = function (symbol) {
@@ -198,6 +198,12 @@ describe('Chord', function () {
       assert(testInverse('C13'));
       assert(testInverse('Cadd9'));
       assert(testInverse('Cadd11'));
+    });
+  });
+
+  describe('#identifyArray', function () {
+    it('should identify a chord given an array', function () {
+      assert.equal(chord.identifyArray(['C', 'E', 'G']), 'C');
     });
   });
 

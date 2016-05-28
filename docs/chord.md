@@ -10,6 +10,9 @@ Returns a [Chord](#chord-object) object given a string and an optional octave nu
 ### <a name="module-identify"></a> identify `.identify(notes...)`
 Returns a [Chord](#chord-object) object given an argument list of [Note](note.md#note-object) objects or strings, ignoring octave numbers.  Inversions are supported, so `chord.identify('B', 'C', 'Eb', 'G')` returns a CmM7/B.
 
+### <a name="module-identify-array"></a> identifyArray `.identifyArray([notes])`
+Invokes `.identify()` with the contents of `[notes]` as its arguments.
+
 ### <a name="module-create-chart"></a> createChart `.createChart(chart)`
 Returns a [ChordChart](#chord-chart-object) object given an array of `[note, numBeats]` arrays where `note` is a [Note](note.md#note-object) object or string and `numBeats` is an integer representing the number of beats the chord is sustained for.
 
