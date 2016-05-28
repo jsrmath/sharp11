@@ -155,6 +155,50 @@ describe('Chord', function () {
       assert.equal(chord.identify('E', 'G', 'Bb', 'C', 'D'), 'C9/E');
       assert.equal(chord.identify('E', 'G', 'B', 'C', 'D'), 'CM9/E');
     });
+
+    it('should generally be the inverse of chord.create', function () {
+      var testInverse = function (symbol) {
+        return symbol === chord.identify.apply(chord.Chord, chord.create(symbol).toString().split(' '));
+      }
+
+      var testInverseAndInversions = function (symbol) {
+        var basses = chord.create(symbol).chord.slice(1);
+
+        return _.every(basses, function (bass) {
+          return testInverse(symbol + '/' + bass);
+        });
+      }
+
+      assert(testInverseAndInversions('C'));
+      assert(testInverseAndInversions('Cm'));
+      assert(testInverseAndInversions('C7'));
+      assert(testInverseAndInversions('CM7'));
+      assert(testInverseAndInversions('CmM7'));
+      assert(testInverseAndInversions('C7#5'));
+      assert(testInverseAndInversions('Cdim'));
+      assert(testInverseAndInversions('C5'));
+      assert(testInverseAndInversions('C7no3'));
+      assert(testInverseAndInversions('C9'));
+
+      assert(testInverse('Cm6'));
+      assert(testInverse('C6'));
+      assert(testInverse('Cm7'));
+      assert(testInverse('C+'));
+      assert(testInverse('CM7#5'));
+      assert(testInverse('Csus4'));
+      assert(testInverse('Csus2'));
+      assert(testInverse('Csus47'));
+      assert(testInverse('C6/9'));
+      assert(testInverse('Cm7b5'));
+      assert(testInverse('C7b9'));
+      assert(testInverse('C7#9'));
+      assert(testInverse('C7#11'));
+      assert(testInverse('C13#11'));
+      assert(testInverse('C11'));
+      assert(testInverse('C13'));
+      assert(testInverse('Cadd9'));
+      assert(testInverse('Cadd11'));
+    });
   });
 
   describe('#scales', function () {
