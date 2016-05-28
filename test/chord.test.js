@@ -47,6 +47,11 @@ describe('Chord', function () {
       assert.equal(chord.create('Csus2').toString(), 'C D G');
       assert.equal(chord.create('Csus47').toString(), 'C F G Bb');
       assert.equal(chord.create('C69').toString(), 'C E G A D');
+      assert.equal(chord.create('Cn').toString(), 'C G');
+      assert.equal(chord.create('Cno3').toString(), 'C G');
+      assert.equal(chord.create('Cno5').toString(), 'C E');
+      assert.equal(chord.create('C7no3').toString(), 'C G Bb');
+      assert.equal(chord.create('C7no5').toString(), 'C E Bb');
     });
 
     it('should handle chords with alterations', function () {
@@ -136,9 +141,10 @@ describe('Chord', function () {
       assert.equal(chord.identify('D', 'A'), 'D5');
       assert.equal(chord.identify('D', 'G', 'A'), 'Dsus4');
       assert.equal(chord.identify('Eb', 'Bb'), 'Eb5');
-      assert.equal(chord.identify('Eb', 'Bb', 'Db'), 'Ebn7');
+      assert.equal(chord.identify('Eb', 'Bb', 'Db'), 'Eb7no3');
       assert.equal(chord.identify('C', 'Eb', 'Gb', 'A'), 'Cdim7');
       assert.equal(chord.identify('C', 'Eb', 'Gb', 'A', 'Bb'), 'Cm13b5');
+      assert.equal(chord.identify('C', 'G'), 'C5');
     });
 
     it('should identify the proper inversion', function () {
