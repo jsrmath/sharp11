@@ -16,6 +16,9 @@ Returns true if an object is a [Note](#note-object).
 ### <a name="module-from-value"></a> fromValue `.fromValue(value)`
 Returns a [Note](#note-object) object given a [note value](#note-value).
 
+### <a name="module-extract"></a> extract `.extract(str)`
+Extracts the first valid note from a given string.  For example, "Abm7b5" would return an `A` and "xyzc#5xyz" would return a `C#5`.
+
 ## <a name="note-object"></a> Note Object
 The `Note` object is the primary building block in Sharp11.  It represents a note with an optional octave number.  Functions that take note objects can always be passed strings instead and they will be automatically converted.  Many functions that take note objects will behave differently depending on whether or not the note has an octave number.  The `Note` constructor is accessible directly as `.Note`, however new instances should be created using [`.create()`](#module-create) instead.
 

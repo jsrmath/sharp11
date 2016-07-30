@@ -16,8 +16,7 @@ describe('Note', function () {
       assert.equal(note.create('D##').fullName, 'D##');
     });
 
-    it('should handle "s" and "x" accidentals', function () {
-      assert.equal(note.create('Cs').acc, '#');
+    it('should handle "x" accidentals', function () {
       assert.equal(note.create('Cx').acc, '##');
     });
 
@@ -316,6 +315,19 @@ describe('Note', function () {
   describe('#fromValue', function () {
     it('should create a note given a note value', function () {
       assert.equal(note.fromValue(52).fullName, 'E4');
+    });
+  });
+
+  describe('#extract', function () {
+    it('should extract a note name', function () {
+      assert.equal(note.extract('Am7b5').fullName, 'A');
+      assert.equal(note.extract('abc').fullName, 'Ab');
+      assert.equal(note.extract('xyzc#5xyz').fullName, 'C#5');
+      assert.equal(note.extract('Bsus4').fullName, 'B');
+      assert.equal(note.extract('xdx').fullName, 'D##');
+      assert.throws(function () {
+        note.extract('xyz');
+      });
     });
   });
 });
