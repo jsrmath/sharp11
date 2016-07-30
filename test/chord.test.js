@@ -159,7 +159,7 @@ describe('Chord', function () {
     it('should generally be the inverse of chord.create', function () {
       var testInverse = function (symbol) {
         return symbol === chord.identifyArray(chord.create(symbol).toString().split(' '));
-      }
+      };
 
       var testInverseAndInversions = function (symbol) {
         var basses = chord.create(symbol).chord.slice(1);
@@ -167,7 +167,7 @@ describe('Chord', function () {
         return _.every(basses, function (bass) {
           return testInverse(symbol + '/' + bass);
         });
-      }
+      };
 
       assert(testInverseAndInversions('C'));
       assert(testInverseAndInversions('Cm'));
