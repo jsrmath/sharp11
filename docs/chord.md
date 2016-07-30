@@ -28,10 +28,10 @@ The chord name, given by the `chord` argument in [`chord.create()`](#module-crea
 ### <a name="chord-root"></a> root `.root`
 A [Note](note.md#note-object) object representing the root of the chord.
 
-### <a name="chord-root"></a> symbol `.symbol`
+### <a name="chord-symbol"></a> symbol `.symbol`
 A string containing the symbol of the chord (no root or bass) with aliases replaced, e.g. '-' becomes 'm'.
 
-### <a name="chord-root"></a> bass `.bass`
+### <a name="chord-bass"></a> bass `.bass`
 A [Note](note.md#note-object) object representing the bass of the chord.
 
 ### <a name="chord-chord"></a> chord `.chord`
