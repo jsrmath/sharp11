@@ -55,7 +55,7 @@ Shifts the note by a given number of half steps, positive or negative, without d
 ### <a name="note-clean"></a> clean `.clean()`
 Respells a note, getting rid of double accidentals, B#/Cb, and E#/Fb.
 
-### <a name="note-with-accidental"></a> clean `.withAccidental(acc)`
+### <a name="note-with-accidental"></a> withAccidental `.withAccidental(acc)`
 Returns an enharmonically equivalent note with a given accidental ('#', 'b', or 'n') if possible.
 
 ### <a name="note-get-interval"></a>getInterval `.getInterval(note)`
@@ -85,7 +85,7 @@ Returns true if the note is lower than a given note ([Note](#note-object) object
 Returns true if the note is higher than a given note ([Note](#note-object) object or string).  If both notes have octave numbers, those octave numbers are used.  Otherwise, it is assumed both notes have the same octave number.
 
 ### <a name="note-equals"></a> equals `.equals(note)`
-Returns true if the note has the same letter and accidental a given note ([Note](#note-object) object or string).  If both notes have octave numbers, those octave numbers are used.  Otherwise, it is assumed both notes have the same octave number.
+Returns true if the note has the same letter and accidental as a given note ([Note](#note-object) object or string).  If both notes have octave numbers, those octave numbers are used.  Otherwise, it is assumed both notes have the same octave number.
 
 ### <a name="note-get-half-steps"></a> getHalfSteps `.getHalfSteps(note)`
 Returns the number of half steps between note and a given note ([Note](#note-object) object or string).
