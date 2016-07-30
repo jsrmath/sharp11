@@ -212,6 +212,23 @@ describe('Note', function () {
     });
   });
 
+  describe('#equals', function () {
+    it('should return true if note is equal to given note', function () {
+      assert(note.create('D').equals('D'));
+      assert(note.create('Ebb').equals('Ebb'));
+      assert(!note.create('D').equals('Ebb'));
+      assert(!note.create('C#').equals('Db'));
+      assert(!note.create('F').equals('G'));
+    });
+
+    it('should handle octave numbers', function () {
+      assert(note.create('G4').equals('G'));
+      assert(note.create('G').equals('G4'));
+      assert(note.create('G4').equals('G4'));
+      assert(!note.create('G3').equals('G4'));
+    });
+  });
+
   describe('#random', function () {
     it('should return a random note in a given range', function () {
       var i;
