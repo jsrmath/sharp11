@@ -12,6 +12,15 @@ describe('Scale', function () {
       assert.equal(s.toString(), 'C D E F G A B');
     });
 
+    it('should create a scale in a given octave', function () {
+      var s = scale.create('C4', 'Major');
+      assert.equal(s.name, 'Major');
+      assert.equal(s.id, 'major');
+      assert.equal(s.key.name, 'C');
+      assert.equal(s.octave, 4);
+      assert.equal(s.toString(), 'C4 D4 E4 F4 G4 A4 B4');
+    });
+
     it('should handle scale name aliases', function () {
       var s = scale.create('C', 'Half Whole');
       assert.equal(s.name, 'Half Whole');
@@ -48,6 +57,10 @@ describe('Scale', function () {
       assert.equal(s.id, 'whole_tone');
       assert.equal(s.key.name, 'F');
       assert.equal(s.toString(), 'F G A B C# D#');
+
+      s = scale.create('A3', 'Major').transpose('P4');
+      assert.equal(s.toString(), 'D4 E4 F#4 G4 A4 B4 C#5');
+      assert.equal(s.octave, 4);
     });
 
     it('should transpose a traversable scale', function () {
@@ -198,6 +211,8 @@ describe('Scale', function () {
 
   describe('#inOctave', function () {
     it('should return scale in given octave', function () {
+      assert.equal(scale.create('C').inOctave(4).octave, 4);
+      assert.equal(scale.create('C3').inOctave(4).octave, 4);
       assert.equal(scale.create('C').inOctave(4).scale[0].octave, 4);
       assert.equal(scale.create('G').inOctave(4).scale[3].octave, 5);
       assert.equal(scale.create('C3').inOctave(4).scale[0].octave, 4);

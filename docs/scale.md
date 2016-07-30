@@ -34,6 +34,9 @@ A string representing the name of the scale (lowercase, underscores between word
 ### <a name="scale-full-name"></a> fullName `.fullName`
 A string representing the name of the scale including the key, e.g., "Bb Harmonic Minor".
 
+### <a name="scale-octave"></a> octave `.octave`
+The (optional) octave number of the chord, i.e., an integer between 0 and 9, or `null`.
+
 ### <a name="scale-scale"></a> scale `.scale`
 An array of [Note](note.md#note-object) objects representing the notes in the scale, e.g., `[C, D, E, F, G, A, B]`
 
