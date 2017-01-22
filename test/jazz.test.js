@@ -83,4 +83,17 @@ describe('Jazz', function () {
       assert.equal(jazz.symbolFromMehegan('bIII').quality, 'm');
     });
   });
+
+  describe('Symbol.eq', function () {
+    it('should return true when two symbols are equivalent', function () {
+      assert(jazz.symbolFromMehegan('I').eq(jazz.symbolFromChord('C', 'C')));
+      assert(jazz.symbolFromMehegan('bVx').eq(jazz.symbolFromMehegan('#IVx')));
+      assert(jazz.symbolFromChord('C', 'Fm').eq(jazz.symbolFromChord('C', 'Fm7')));
+    });
+
+    it('should return false when two symbols are not equivalent', function () {
+      assert(!jazz.symbolFromMehegan('I').eq(jazz.symbolFromMehegan('Ix')));
+      assert(!jazz.symbolFromMehegan('IVm').eq(jazz.symbolFromMehegan('Vm')));
+    });
+  });
 });
