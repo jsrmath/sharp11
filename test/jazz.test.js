@@ -1,6 +1,7 @@
 var jazz = require('../lib/jazz');
 
 var assert = require('assert');
+var _ = require('underscore');
 
 describe('Jazz', function () {
   describe('symbolFromChord', function () {
@@ -94,6 +95,48 @@ describe('Jazz', function () {
     it('should return false when two symbols are not equivalent', function () {
       assert(!jazz.symbolFromMehegan('I').eq(jazz.symbolFromMehegan('Ix')));
       assert(!jazz.symbolFromMehegan('IVm').eq(jazz.symbolFromMehegan('Vm')));
+    });
+  });
+
+  describe('jza', function () {
+    it('should create a new state', function () {
+      var jza = jazz.jza();
+      var s = jza.addState('state');
+      assert.equal(s.name, 'state');
+    });
+
+    it('should create transitions', function () {
+      var jza = jazz.jza();
+      var tonic = jza.addState('tonic');
+      var subdominant = jza.addState('subdominant');
+
+      jza.addTransition(jazz.symbolFromMehegan('ii'), tonic, subdominant);
+      tonic.addTransition(jazz.symbolFromMehegan('IV'), subdominant);
+      subdominant.addSource(jazz.symbolFromMehegan('vi'), tonic);
+
+      _.each(['ii', 'IV', 'vi'], function (sym, i) {
+        assert(tonic.transitions[i].symbol.eq(jazz.symbolFromMehegan(sym)));
+        assert.equal(tonic.transitions[i].state.name, 'subdominant');
+        assert(subdominant.sources[i].symbol.eq(jazz.symbolFromMehegan(sym)));
+        assert.equal(subdominant.sources[i].state.name, 'tonic');
+      });
+    });
+
+    it('should find transitions', function () {
+      var jza = jazz.jza();
+      var tonic = jza.addState('tonic');
+      var subdominant = jza.addState('subdominant');
+      var dominant = jza.addState('subdominant');
+
+      jza.addTransition(jazz.symbolFromMehegan('vi'), tonic, subdominant);
+      jza.addTransition(jazz.symbolFromMehegan('V'), subdominant, dominant);
+      jza.addTransition(jazz.symbolFromMehegan('vi'), dominant, tonic);
+
+      assert.equal(jza.getTransitions().length, 3);
+      assert.equal(jza.getTransitions()[0].from.name, 'tonic');
+      assert.equal(jza.getTransitions()[0].to.name, 'subdominant');
+
+      assert.equal(jza.getTransitionsBySymbol(jazz.symbolFromMehegan('vi')).length, 2);
     });
   });
 });
