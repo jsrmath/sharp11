@@ -24,10 +24,13 @@ describe('Chord', function () {
     it('should handle chord symbol aliases', function () {
       assert.equal(chord.create('Cmin').symbol, 'm');
       assert.equal(chord.create('Cmin').name, 'Cmin');
+      assert.equal(chord.create('C∆7').toString(), 'C E G B');
       assert.equal(chord.create('Cmin').toString(), 'C Eb G');
       assert.equal(chord.create('Cdom7').toString(), 'C E G Bb');
       assert.equal(chord.create('CminMaj9#11').toString(), 'C Eb G B D F#');
       assert.equal(chord.create('Cmin(maj)7').toString(), 'C Eb G B');
+      assert.equal(chord.create('Co').toString(), 'C Eb Gb');
+      assert.equal(chord.create('C1/2dim').toString(), 'C Eb Gb Bb');
     });
 
     it('should handle basic chords', function () {
@@ -42,7 +45,9 @@ describe('Chord', function () {
       assert.equal(chord.create('C+7').toString(), 'C E G# Bb');
       assert.equal(chord.create('C+M7').toString(), 'C E G# B');
       assert.equal(chord.create('Cdim').toString(), 'C Eb Gb');
-      assert.equal(chord.create('C1/2dim7').toString(), 'C Eb Gb Bb');
+      assert.equal(chord.create('Cdim7').toString(), 'C Eb Gb Bbb');
+      assert.equal(chord.create('Cø').toString(), 'C Eb Gb Bb');
+      assert.equal(chord.create('Cø7').toString(), 'C Eb Gb Bb');
       assert.equal(chord.create('Csus4').toString(), 'C F G');
       assert.equal(chord.create('Csus2').toString(), 'C D G');
       assert.equal(chord.create('Csus47').toString(), 'C F G Bb');
