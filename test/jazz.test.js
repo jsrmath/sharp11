@@ -100,13 +100,13 @@ describe('Jazz', function () {
 
   describe('jza', function () {
     it('should create a new state', function () {
-      var jza = jazz.jza();
+      var jza = jazz.jza('empty');
       var s = jza.addState('state');
       assert.equal(s.name, 'state');
     });
 
     it('should create transitions', function () {
-      var jza = jazz.jza();
+      var jza = jazz.jza('empty');
       var tonic = jza.addState('tonic');
       var subdominant = jza.addState('subdominant');
 
@@ -123,7 +123,7 @@ describe('Jazz', function () {
     });
 
     it('should find transitions', function () {
-      var jza = jazz.jza();
+      var jza = jazz.jza('empty');
       var tonic = jza.addState('tonic');
       var subdominant = jza.addState('subdominant');
       var dominant = jza.addState('subdominant');
