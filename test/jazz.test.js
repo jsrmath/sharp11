@@ -80,6 +80,7 @@ describe('Jazz', function () {
     it('should infer chord qualities', function () {
       assert.equal(jazz.symbolFromMehegan('I').quality, 'M');
       assert.equal(jazz.symbolFromMehegan('II').quality, 'm');
+      assert.equal(jazz.symbolFromMehegan('V').quality, 'x');
       assert.equal(jazz.symbolFromMehegan('VII').quality, 'ø');
       assert.equal(jazz.symbolFromMehegan('bIII').quality, 'm');
     });
@@ -103,6 +104,8 @@ describe('Jazz', function () {
       var jza = jazz.jza('empty');
       var s = jza.addState('state');
       assert.equal(s.name, 'state');
+      assert.equal(jza.getStatesByName('state').length, 1);
+      assert.equal(jza.getStateByName('state').name, 'state');
     });
 
     it('should create transitions', function () {
@@ -117,8 +120,13 @@ describe('Jazz', function () {
       _.each(['ii', 'IV', 'vi'], function (sym, i) {
         assert(tonic.transitions[i].symbol.eq(jazz.symbolFromMehegan(sym)));
         assert.equal(tonic.transitions[i].state.name, 'subdominant');
+        assert(tonic.hasTransition(jazz.symbolFromMehegan(sym), subdominant));
+        assert(!tonic.hasSource(jazz.symbolFromMehegan(sym), subdominant));
+
         assert(subdominant.sources[i].symbol.eq(jazz.symbolFromMehegan(sym)));
         assert.equal(subdominant.sources[i].state.name, 'tonic');
+        assert(!subdominant.hasTransition(jazz.symbolFromMehegan(sym), tonic));
+        assert(subdominant.hasSource(jazz.symbolFromMehegan(sym), tonic));
       });
     });
 
@@ -137,6 +145,22 @@ describe('Jazz', function () {
       assert.equal(jza.getTransitions()[0].to.name, 'subdominant');
 
       assert.equal(jza.getTransitionsBySymbol(jazz.symbolFromMehegan('vi')).length, 2);
+    });
+  });
+
+  describe('default jza', function () {
+    it('should have primitive transitions for functional states', function () {
+      var jza = jazz.jza();
+      var tonic = jza.getStateByName('tonic');
+      var subdominant = jza.getStateByName('subdominant');
+      var dominant = jza.getStateByName('dominant');
+
+      assert(tonic.hasTransition(jazz.symbolFromMehegan('ii'), subdominant));
+      assert(subdominant.hasTransition(jazz.symbolFromMehegan('ii'), subdominant));
+      assert(subdominant.hasTransition(jazz.symbolFromMehegan('V'), dominant));
+      assert(dominant.hasTransition(jazz.symbolFromMehegan('V'), dominant));
+      assert(dominant.hasTransition(jazz.symbolFromMehegan('I'), tonic));
+      assert(tonic.hasTransition(jazz.symbolFromMehegan('I'), tonic));
     });
   });
 });
