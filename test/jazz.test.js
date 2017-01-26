@@ -117,16 +117,16 @@ describe('Jazz', function () {
       tonic.addTransition(jazz.symbolFromMehegan('IV'), subdominant);
       subdominant.addSource(jazz.symbolFromMehegan('vi'), tonic);
 
-      _.each(['ii', 'IV', 'vi'], function (sym, i) {
-        assert(tonic.transitions[i].symbol.eq(jazz.symbolFromMehegan(sym)));
+      _.each(jazz.symbolsFromMehegan(['ii', 'IV', 'vi']), function (sym, i) {
+        assert(tonic.transitions[i].symbol.eq(sym));
         assert.equal(tonic.transitions[i].state.name, 'subdominant');
-        assert(tonic.hasTransition(jazz.symbolFromMehegan(sym), subdominant));
-        assert(!tonic.hasSource(jazz.symbolFromMehegan(sym), subdominant));
+        assert(tonic.hasTransition(sym, subdominant));
+        assert(!tonic.hasSource(sym, subdominant));
 
-        assert(subdominant.sources[i].symbol.eq(jazz.symbolFromMehegan(sym)));
+        assert(subdominant.sources[i].symbol.eq(sym));
         assert.equal(subdominant.sources[i].state.name, 'tonic');
-        assert(!subdominant.hasTransition(jazz.symbolFromMehegan(sym), tonic));
-        assert(subdominant.hasSource(jazz.symbolFromMehegan(sym), tonic));
+        assert(!subdominant.hasTransition(sym, tonic));
+        assert(subdominant.hasSource(sym, tonic));
       });
     });
 
@@ -167,25 +167,25 @@ describe('Jazz', function () {
 
     it('should analyze a list of symbols', function () {
       var jza = jazz.jza();
-      var symbols = _.map(['iii', 'vi', 'ii', 'V', 'I'], jazz.symbolFromMehegan);
+      var symbols = jazz.symbolsFromMehegan(['iii', 'vi', 'ii', 'V', 'I']);
       var analysis = jza.analyze(symbols);
 
       assert.equal(analysis.length, 2);
       assert.equal(_.pluck(analysis[0], 'name').toString(), 'Tonic,Tonic,Subdominant,Dominant,Tonic');
       assert.equal(_.pluck(analysis[1], 'name').toString(), 'Tonic,Subdominant,Subdominant,Dominant,Tonic');
 
-      symbols = _.map(['iii', 'vi', 'ii', 'V', '#ivø'], jazz.symbolFromMehegan);
+      symbols = jazz.symbolsFromMehegan(['iii', 'vi', 'ii', 'V', '#ivø']);
       analysis = jza.analyze(symbols);
       assert.equal(analysis.length, 0);
     });
 
     it('should validate a list of symbols', function () {
       var jza = jazz.jza();
-      var symbols = _.map(['iii', 'vi', 'ii', 'V', 'I'], jazz.symbolFromMehegan);
+      var symbols = jazz.symbolsFromMehegan(['iii', 'vi', 'ii', 'V', 'I']);
       
       assert(jza.validate(symbols));
 
-      symbols = _.map(['iii', 'vi', 'ii', 'V', '#ivø'], jazz.symbolFromMehegan);
+      symbols = jazz.symbolsFromMehegan(['iii', 'vi', 'ii', 'V', '#ivø']);
       analysis = jza.analyze(symbols);
 
       assert(!jza.validate(symbols));
