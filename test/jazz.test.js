@@ -145,6 +145,8 @@ describe('Jazz', function () {
       assert.equal(jza.getTransitions()[0].to.name, 'subdominant');
 
       assert.equal(jza.getTransitionsBySymbol(jazz.symbolFromMehegan('vi')).length, 2);
+      assert.equal(tonic.getTransitionStatesBySymbol(jazz.symbolFromMehegan('vi'))[0].name, 'subdominant');
+      assert.equal(subdominant.getSourceStatesBySymbol(jazz.symbolFromMehegan('vi'))[0].name, 'tonic');
     });
   });
 
@@ -161,6 +163,32 @@ describe('Jazz', function () {
       assert(dominant.hasTransition(jazz.symbolFromMehegan('V'), dominant));
       assert(dominant.hasTransition(jazz.symbolFromMehegan('I'), tonic));
       assert(tonic.hasTransition(jazz.symbolFromMehegan('I'), tonic));
+    });
+
+    it('should analyze a list of symbols', function () {
+      var jza = jazz.jza();
+      var symbols = _.map(['iii', 'vi', 'ii', 'V', 'I'], jazz.symbolFromMehegan);
+      var analysis = jza.analyze(symbols);
+
+      assert.equal(analysis.length, 2);
+      assert.equal(_.pluck(analysis[0], 'name').toString(), 'Tonic,Tonic,Subdominant,Dominant,Tonic');
+      assert.equal(_.pluck(analysis[1], 'name').toString(), 'Tonic,Subdominant,Subdominant,Dominant,Tonic');
+
+      symbols = _.map(['iii', 'vi', 'ii', 'V', '#ivø'], jazz.symbolFromMehegan);
+      analysis = jza.analyze(symbols);
+      assert.equal(analysis.length, 0);
+    });
+
+    it('should validate a list of symbols', function () {
+      var jza = jazz.jza();
+      var symbols = _.map(['iii', 'vi', 'ii', 'V', 'I'], jazz.symbolFromMehegan);
+      
+      assert(jza.validate(symbols));
+
+      symbols = _.map(['iii', 'vi', 'ii', 'V', '#ivø'], jazz.symbolFromMehegan);
+      analysis = jza.analyze(symbols);
+
+      assert(!jza.validate(symbols));
     });
   });
 });
