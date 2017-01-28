@@ -99,6 +99,18 @@ describe('Jazz', function () {
     });
   });
 
+  describe('Symbol.toInterval', function () {
+    it('should convert symbol to valid interval', function () {
+      assert.equal(jazz.symbolFromMehegan('III').toInterval().toString(), 'M3');
+      assert.equal(jazz.symbolFromMehegan('bIII').toInterval().toString(), 'm3');
+      assert.equal(jazz.symbolFromMehegan('#III').toInterval().toString(), 'aug3');
+
+      assert.equal(jazz.symbolFromMehegan('V').toInterval().toString(), 'P5');
+      assert.equal(jazz.symbolFromMehegan('bV').toInterval().toString(), 'dim5');
+      assert.equal(jazz.symbolFromMehegan('#V').toInterval().toString(), 'aug5');
+    });
+  });
+
   describe('jza', function () {
     it('should create a new state', function () {
       var jza = jazz.jza('empty');
