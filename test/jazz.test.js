@@ -111,6 +111,24 @@ describe('Jazz', function () {
     });
   });
 
+  describe('Symbol.transpose', function () {
+    it('should transpose a symbol', function () {
+      assert.equal(jazz.symbolFromMehegan('Im').transpose('P4').toString(), 'IVm');
+      assert.equal(jazz.symbolFromMehegan('I').transpose('m3').numeral, 'bIII');
+      assert.equal(jazz.symbolFromMehegan('I').transpose('dim7').numeral, 'VI');
+      assert.equal(jazz.symbolFromMehegan('bIII').transpose('dim5').numeral, 'VI');
+      assert.equal(jazz.symbolFromMehegan('bIII').transpose('aug4').numeral, 'VI');
+      assert.equal(jazz.symbolFromMehegan('I').transpose('aug1').numeral, '#I');
+      assert.equal(jazz.symbolFromMehegan('I').transpose('m2').numeral, 'bII');
+    });
+  });
+
+  describe('Symbol.transposeDown', function () {
+    it('should transpose a symbol down', function () {
+      assert.equal(jazz.symbolFromMehegan('Im').transposeDown('P4').toString(), 'Vm');
+    });
+  });
+
   describe('jza', function () {
     it('should create a new state', function () {
       var jza = jazz.jza('empty');
