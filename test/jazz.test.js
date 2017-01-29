@@ -160,6 +160,17 @@ describe('Jazz', function () {
       });
     });
 
+    it('should not create duplicate transitions', function () {
+      var jza = jazz.jza('empty');
+      var state1 = jza.addState('state1');
+      var state2 = jza.addState('state2');
+
+      state1.addTransition(jazz.symbolFromMehegan('#IVx'), state2);
+      assert.equal(state1.transitions.length, 1);
+      state1.addTransition(jazz.symbolFromMehegan('bVx'), state2);
+      assert.equal(state1.transitions.length, 1);
+    });
+
     it('should find transitions', function () {
       var jza = jazz.jza('empty');
       var tonic = jza.addState('tonic');
@@ -216,8 +227,19 @@ describe('Jazz', function () {
       assert(jza.validate(symbols));
 
       symbols = jazz.symbolsFromMehegan(['iii', 'vi', 'ii', 'V', '#ivø']);
-      analysis = jza.analyze(symbols);
+      assert(!jza.validate(symbols));
+    });
 
+    it('should handle tritone substitutions', function () {
+      var jza = jazz.jza();
+      var symbols = jazz.symbolsFromMehegan(['iii', 'bIIIx', 'ii', 'bIIx', 'I']);
+      var analysis = jza.analyze(symbols);
+
+      assert.equal(analysis.length, 2);
+      assert.equal(_.pluck(analysis[0], 'name').toString(), 'Tonic,Tonic,Subdominant,Dominant,Tonic');
+      assert.equal(_.pluck(analysis[1], 'name').toString(), 'Tonic,Subdominant,Subdominant,Dominant,Tonic');
+
+      symbols = jazz.symbolsFromMehegan(['iii', 'vi', 'ii', 'bIIm', 'I']);
       assert(!jza.validate(symbols));
     });
   });
