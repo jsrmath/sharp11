@@ -250,11 +250,11 @@ describe('Jazz', function () {
       var symbols = jazz.symbolsFromMehegan(['iii', 'bIIIx', 'ii', 'bIIx', 'I']);
       var analysis = jza.analyze(symbols);
 
-      assert.equal(analysis.length, 2);
       assert.equal(_.pluck(analysis[0], 'name').toString(), 'Tonic,Tonic,Subdominant,Dominant,Tonic');
       assert.equal(_.pluck(analysis[1], 'name').toString(), 'Tonic,Subdominant,Subdominant,Dominant,Tonic');
 
       symbols = jazz.symbolsFromMehegan(['iii', 'vi', 'ii', 'bIIm', 'I']);
+
       assert(!jza.validate(symbols));
     });
 
@@ -273,6 +273,45 @@ describe('Jazz', function () {
       symbols = jazz.symbolsFromMehegan(['ii', 'V']);
       analysis = jza.analyze(symbols);
       assert.equal(analysis.length, 3);
+
+      symbols = jazz.symbolsFromMehegan(['im', 'ivm', 'viim', 'IIIx', 'bIIIM']);
+      analysis = jza.analyze(symbols);
+      assert.equal(analysis[0][2].name, 'Unpacked IIIx');
+    });
+
+    it('should handle elaborating ii-V-I', function () {
+      var jza = jazz.jza();
+      var symbols = jazz.symbolsFromMehegan(['ii', 'vm', 'Ix', 'IV']);
+      var analysis = jza.analyze(symbols);
+
+      assert.equal(analysis.length, 1);
+      assert.equal(analysis[0][1].name, 'ii / IVM');
+      assert.equal(analysis[0][2].name, 'V / IVM');
+
+      symbols = jazz.symbolsFromMehegan(['ii', 'vø', 'Ix', 'ivm']);
+      analysis = jza.analyze(symbols);
+      assert.equal(analysis.length, 1);
+      assert.equal(analysis[0][1].name, 'ii / IVm');
+      assert.equal(analysis[0][2].name, 'V / IVm');
+    });
+
+    it('should handle elaborating V-I', function () {
+      var jza = jazz.jza();
+      var symbols = jazz.symbolsFromMehegan(['I', 'VIIx', 'iii']);
+      var analysis = jza.analyze(symbols);
+
+      assert.equal(analysis.length, 1);
+      assert.equal(analysis[0][1].name, 'V / IIIm');
+    });
+
+    it('should not unpack elaborated minor chords', function () {
+      var jza = jazz.jza();
+      var symbols = jazz.symbolsFromMehegan(['#ivø', 'VIIx', 'iii', 'VIx']);
+      var analysis = jza.analyze(symbols);
+
+      assert.equal(analysis.length, 2);
+      assert.equal(analysis[0][2].name, 'Tonic');
+      assert.equal(analysis[1][2].name, 'Tonic');
     });
   });
 });
