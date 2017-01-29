@@ -210,9 +210,9 @@ describe('Jazz', function () {
   describe('default jza', function () {
     it('should have primitive transitions for functional states', function () {
       var jza = jazz.jza();
-      var tonic = jza.getStateByName('tonic');
-      var subdominant = jza.getStateByName('subdominant');
-      var dominant = jza.getStateByName('dominant');
+      var tonic = jza.getStateByName('Tonic');
+      var subdominant = jza.getStateByName('Subdominant');
+      var dominant = jza.getStateByName('Dominant');
 
       assert(tonic.hasTransition(jazz.symbolFromMehegan('ii'), subdominant));
       assert(subdominant.hasTransition(jazz.symbolFromMehegan('ii'), subdominant));
