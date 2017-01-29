@@ -189,6 +189,22 @@ describe('Jazz', function () {
       assert.equal(tonic.getTransitionStatesBySymbol(jazz.symbolFromMehegan('vi'))[0].name, 'subdominant');
       assert.equal(subdominant.getSourceStatesBySymbol(jazz.symbolFromMehegan('vi'))[0].name, 'tonic');
     });
+
+    it('should only end in an end state', function () {
+      var jza = jazz.jza('empty');
+      var start = jza.addState('start');
+      var notEnd = jza.addState('not end');
+      var end = jza.addState('end', true);
+      var analysis;
+
+      jza.addTransition(jazz.symbolFromMehegan('I'), start, notEnd);
+      jza.addTransition(jazz.symbolFromMehegan('I'), start, end);
+
+      analysis = jza.analyze(jazz.symbolsFromMehegan(['I']));
+
+      assert.equal(analysis.length, 1);
+      assert.equal(analysis[0][0].name, 'end');
+    });
   });
 
   describe('default jza', function () {
