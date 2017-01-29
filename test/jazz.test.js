@@ -211,7 +211,6 @@ describe('Jazz', function () {
       var symbols = jazz.symbolsFromMehegan(['iii', 'vi', 'ii', 'V', 'I']);
       var analysis = jza.analyze(symbols);
 
-      assert.equal(analysis.length, 2);
       assert.equal(_.pluck(analysis[0], 'name').toString(), 'Tonic,Tonic,Subdominant,Dominant,Tonic');
       assert.equal(_.pluck(analysis[1], 'name').toString(), 'Tonic,Subdominant,Subdominant,Dominant,Tonic');
 
@@ -241,6 +240,23 @@ describe('Jazz', function () {
 
       symbols = jazz.symbolsFromMehegan(['iii', 'vi', 'ii', 'bIIm', 'I']);
       assert(!jza.validate(symbols));
+    });
+
+    it('should handle unpacked chords', function () {
+      var jza = jazz.jza();
+      var symbols = jazz.symbolsFromMehegan(['viim', 'IIIx', 'bviim', 'bIIIx']);
+      var analysis = jza.analyze(symbols);
+
+      assert.equal(analysis[0][0].name, 'Unpacked IIIx');
+      assert.equal(analysis[0][2].name, 'Unpacked bIIIx');
+
+      symbols = jazz.symbolsFromMehegan(['ii', 'V', 'IV', 'V', 'I']);
+      analysis = jza.analyze(symbols);
+      assert.equal(analysis[0][0].name, 'Unpacked IIm');
+
+      symbols = jazz.symbolsFromMehegan(['ii', 'V']);
+      analysis = jza.analyze(symbols);
+      assert.equal(analysis.length, 3);
     });
   });
 });
