@@ -208,6 +208,22 @@ describe('Jazz', function () {
   });
 
   describe('default jza', function () {
+    var jza = jazz.jza();
+
+    var analysisShouldBe = function (symbols, expected) {
+      var analysis = jza.analyze(jazz.symbolsFromMehegan(symbols));
+      var analysisString = _.map(analysis, function (result) {
+        return _.pluck(result, 'name');
+      }).join('\n');
+
+      assert.equal(analysis.length, expected.length, analysisString);
+
+      expected = _.invoke(expected, 'toString');
+      _.each(analysis, function (result, i) {
+        assert(_.contains(expected, _.pluck(result, 'name').toString()), analysisString);
+      });
+    };
+
     it('should have primitive transitions for functional states', function () {
       var jza = jazz.jza();
       var tonic = jza.getStateByName('Tonic');
@@ -223,95 +239,74 @@ describe('Jazz', function () {
     });
 
     it('should analyze a list of symbols', function () {
-      var jza = jazz.jza();
-      var symbols = jazz.symbolsFromMehegan(['iii', 'vi', 'ii', 'V', 'I']);
-      var analysis = jza.analyze(symbols);
+      analysisShouldBe(['iii', 'vi', 'ii', 'V', 'I'], [
+        ['Tonic', 'Tonic', 'Subdominant', 'Dominant', 'Tonic'],
+        ['Tonic', 'Subdominant', 'Subdominant', 'Dominant', 'Tonic'],
+        ['Tonic', 'Subdominant', 'Unpacked Vx', 'Dominant', 'Tonic']
+      ]);
 
-      assert.equal(_.pluck(analysis[0], 'name').toString(), 'Tonic,Tonic,Subdominant,Dominant,Tonic');
-      assert.equal(_.pluck(analysis[1], 'name').toString(), 'Tonic,Subdominant,Subdominant,Dominant,Tonic');
-
-      symbols = jazz.symbolsFromMehegan(['iii', 'vi', 'ii', 'V', '#ivø']);
-      analysis = jza.analyze(symbols);
-      assert.equal(analysis.length, 0);
+      analysisShouldBe(['iii', 'vi', 'ii', 'V', '#ivø'], []);
     });
 
-    it('should validate a list of symbols', function () {
-      var jza = jazz.jza();
-      var symbols = jazz.symbolsFromMehegan(['iii', 'vi', 'ii', 'V', 'I']);
-      
-      assert(jza.validate(symbols));
-
-      symbols = jazz.symbolsFromMehegan(['iii', 'vi', 'ii', 'V', '#ivø']);
-      assert(!jza.validate(symbols));
+    it('should validate a list of symbols', function () {      
+      assert(jza.validate(jazz.symbolsFromMehegan(['iii', 'vi', 'ii', 'V', 'I'])));
+      assert(!jza.validate(jazz.symbolsFromMehegan(['iii', 'vi', 'ii', 'V', '#ivø'])));
     });
 
     it('should handle tritone substitutions', function () {
-      var jza = jazz.jza();
-      var symbols = jazz.symbolsFromMehegan(['iii', 'bIIIx', 'ii', 'bIIx', 'I']);
-      var analysis = jza.analyze(symbols);
+      analysisShouldBe(['iii', 'bIIIx', 'ii', 'bIIx', 'I'], [
+        ['Tonic', 'Tonic', 'Subdominant', 'Dominant', 'Tonic'],
+        ['Tonic', 'Subdominant', 'Subdominant', 'Dominant', 'Tonic'],
+        ['Tonic', 'V / IIm', 'Subdominant', 'Dominant', 'Tonic']
+      ]);
 
-      assert.equal(_.pluck(analysis[0], 'name').toString(), 'Tonic,Tonic,Subdominant,Dominant,Tonic');
-      assert.equal(_.pluck(analysis[1], 'name').toString(), 'Tonic,Subdominant,Subdominant,Dominant,Tonic');
-
-      symbols = jazz.symbolsFromMehegan(['iii', 'vi', 'ii', 'bIIm', 'I']);
-
-      assert(!jza.validate(symbols));
+      analysisShouldBe(['iii', 'vi', 'ii', 'bIIm', 'I'], []);
     });
 
     it('should handle unpacked chords', function () {
-      var jza = jazz.jza();
-      var symbols = jazz.symbolsFromMehegan(['viim', 'IIIx', 'bviim', 'bIIIx']);
-      var analysis = jza.analyze(symbols);
+      analysisShouldBe(['viim', 'IIIx', 'bviim', 'bIIIx'], [
+        ['Unpacked IIIx', 'Tonic', 'Unpacked bIIIx', 'Tonic'],
+        ['Unpacked IIIx', 'Tonic', 'Unpacked bIIIx', 'Subdominant'],
+        ['Unpacked IIIx', 'Dominant', 'Unpacked bIIIx', 'Tonic'],
+        ['Unpacked IIIx', 'Dominant', 'Unpacked bIIIx', 'Dominant']
+      ]);
 
-      assert.equal(analysis[0][0].name, 'Unpacked IIIx');
-      assert.equal(analysis[0][2].name, 'Unpacked bIIIx');
+      analysisShouldBe(['ii', 'V', 'IV', 'V', 'I'], [
+        ['Unpacked IIm', 'Subdominant', 'Subdominant', 'Dominant', 'Tonic']
+      ]);
 
-      symbols = jazz.symbolsFromMehegan(['ii', 'V', 'IV', 'V', 'I']);
-      analysis = jza.analyze(symbols);
-      assert.equal(analysis[0][0].name, 'Unpacked IIm');
-
-      symbols = jazz.symbolsFromMehegan(['ii', 'V']);
-      analysis = jza.analyze(symbols);
-      assert.equal(analysis.length, 3);
-
-      symbols = jazz.symbolsFromMehegan(['im', 'ivm', 'viim', 'IIIx', 'bIIIM']);
-      analysis = jza.analyze(symbols);
-      assert.equal(analysis[0][2].name, 'Unpacked IIIx');
+      analysisShouldBe(['ii', 'V'], [
+        ['Subdominant', 'Dominant'],
+        ['Unpacked IIm', 'Subdominant'],
+        ['Unpacked Vx', 'Dominant']
+      ]);
+      
+      analysisShouldBe(['im', 'ivm', 'viim', 'IIIx', 'bIIIM'], [
+        ['Tonic', 'Subdominant', 'Unpacked IIIx', 'Dominant', 'Tonic']
+      ]);
     });
 
     it('should handle elaborating ii-V-I', function () {
-      var jza = jazz.jza();
-      var symbols = jazz.symbolsFromMehegan(['ii', 'vm', 'Ix', 'IV']);
-      var analysis = jza.analyze(symbols);
+      analysisShouldBe(['ii', 'vm', 'Ix', 'IV'], [
+        ['Subdominant', 'ii / IVM', 'V / IVM', 'Subdominant']
+      ]);
 
-      assert.equal(analysis.length, 1);
-      assert.equal(analysis[0][1].name, 'ii / IVM');
-      assert.equal(analysis[0][2].name, 'V / IVM');
-
-      symbols = jazz.symbolsFromMehegan(['ii', 'vø', 'Ix', 'ivm']);
-      analysis = jza.analyze(symbols);
-      assert.equal(analysis.length, 1);
-      assert.equal(analysis[0][1].name, 'ii / IVm');
-      assert.equal(analysis[0][2].name, 'V / IVm');
+      analysisShouldBe(['ii', 'vø', 'Ix', 'ivm'], [
+        ['Subdominant', 'ii / IVm', 'V / IVm', 'Subdominant']
+      ]);
     });
 
     it('should handle elaborating V-I', function () {
-      var jza = jazz.jza();
-      var symbols = jazz.symbolsFromMehegan(['I', 'VIIx', 'iii']);
-      var analysis = jza.analyze(symbols);
-
-      assert.equal(analysis.length, 1);
-      assert.equal(analysis[0][1].name, 'V / IIIm');
+      analysisShouldBe(['I', 'VIIx', 'iii'], [
+        ['Tonic', 'V / IIIm', 'Tonic']
+      ]);
     });
 
     it('should not unpack elaborated minor chords', function () {
-      var jza = jazz.jza();
-      var symbols = jazz.symbolsFromMehegan(['#ivø', 'VIIx', 'iii', 'VIx']);
-      var analysis = jza.analyze(symbols);
-
-      assert.equal(analysis.length, 2);
-      assert.equal(analysis[0][2].name, 'Tonic');
-      assert.equal(analysis[1][2].name, 'Tonic');
+      analysisShouldBe(['#ivø', 'VIIx', 'iii', 'VIx'], [
+        ['ii / IIIm', 'V / IIIm', 'Tonic', 'Tonic'],
+        ['ii / IIIm', 'V / IIIm', 'Tonic', 'Subdominant']
+      ]);
     });
   });
 });
