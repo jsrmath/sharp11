@@ -1,9 +1,9 @@
-var jazz = require('../lib/jazz');
+var jazz = require('../lib/jza');
 
 var assert = require('assert');
 var _ = require('underscore');
 
-describe('Jazz', function () {
+describe('JzA', function () {
   describe('symbolFromChord', function () {
     it('should create a valid symbol', function () {
       var symbol = jazz.symbolFromChord('C', 'F7');
@@ -129,7 +129,7 @@ describe('Jazz', function () {
     });
   });
 
-  describe('jza', function () {
+  describe('General JzA', function () {
     it('should create a new state', function () {
       var jza = jazz.jza('empty');
       var s = jza.addState('state');
@@ -207,7 +207,7 @@ describe('Jazz', function () {
     });
   });
 
-  describe('default jza', function () {
+  describe('Default JzA', function () {
     var jza = jazz.jza();
 
     var analysisShouldBe = function (symbols, expected) {

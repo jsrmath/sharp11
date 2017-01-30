@@ -1,5 +1,5 @@
 var _ = require('underscore');
-var jazz = require('../lib/jazz');
+var jazz = require('../lib/jza');
 
 var jza = jazz.jza();
 
