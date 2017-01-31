@@ -30,7 +30,7 @@ var totalSongs = 0;
 var passedSongs = 0;
 var totalSections = 0;
 var passedSections = 0;
-var totalSectionsSize = 0;
+var sectionSizes = {};
 
 _.each(songs, function (song, i) {
   var sections = 0;
@@ -42,7 +42,10 @@ _.each(songs, function (song, i) {
 
   _.each(song, function (section) {
     if (jza.jza().validate(section)) sections++;
-    totalSectionsSize += section.length;
+    
+    // Update sectionSizes
+    sectionSizes[section.length] = sectionSizes[section.length] || 0;
+    sectionSizes[section.length]++;
   });
 
   passedSections += sections;
@@ -51,4 +54,4 @@ _.each(songs, function (song, i) {
 
 console.log('Songs: ' + passedSongs / totalSongs);
 console.log('Sections: ' + passedSections / totalSections);
-console.log('Average Section Size: ' + totalSectionsSize / totalSections);
+console.log('Section size distribution:\n' + JSON.stringify(sectionSizes));
