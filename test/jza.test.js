@@ -216,6 +216,8 @@ describe('JzA', function () {
         return _.pluck(result, 'name');
       }).join('\n');
 
+      if (expected.length) assert(jza.validate(jazz.symbolsFromMehegan(symbols)));
+
       assert.equal(analysis.length, expected.length, analysisString);
 
       expected = _.invoke(expected, 'toString');
