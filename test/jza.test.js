@@ -308,5 +308,17 @@ describe('JzA', function () {
         ['ii / IIIm', 'V / IIIm', 'Tonic', 'Subdominant']
       ]);
     });
+
+    it('should handle diminished chords', function () {
+      analysisShouldBe(['I', '#Io', 'ii'], [
+        ['Tonic', 'Tonic', 'Subdominant'],
+        ['Tonic', 'Subdominant', 'Subdominant'],
+        ['Tonic', 'V / IIm', 'Subdominant']
+      ]);
+
+      analysisShouldBe(['I', 'bIIIo', 'ii'], [
+        ['Tonic', 'Diminished approaching IIm', 'Subdominant'],
+      ]);
+    });
   });
 });
