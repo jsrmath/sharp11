@@ -15,7 +15,7 @@ var parsedSamples = _.map(samples, function (filename) {
 var songs = _.compact(_.map(parsedSamples, function (j) {
   try {
     return _.compact(_.map(j.sectionChordLists(), function (chordList) {
-      if (!chordList.length) return null;
+      if (chordList.length < 2) return null;
 
       return _.map(chordList, function (chord) {
         return jza.symbolFromChord(j.getMainKey(), chord);
