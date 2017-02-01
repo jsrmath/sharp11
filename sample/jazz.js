@@ -4,6 +4,16 @@ var fs = require('fs');
 var path = require('path');
 var _ = require('underscore');
 
+var samples = _.reject(fs.readdirSync(path.join(__dirname, '..', 'corpus')), function (filename) {
+  return filename[0] === '.';
+});
+
+var parseSamples = function () {
+  return _.map(samples, function (filename) {
+    return jazz.parseFile(path.join(__dirname, '..', 'corpus', filename));
+  });
+};
+
 var getSymbolsFromChordList = function (chordList, key) {
   return _.map(chordList, function (chord) {
     return jza.symbolFromChord(key, chord);
@@ -23,22 +33,12 @@ var validateSong = function (filename) {
   }
 };
 
-var runFullTest = function () {
-  var totalSongs = 0;
-  var passedSongs = 0;
+var runSectionTests = function () {
   var totalSections = 0;
   var passedSections = 0;
   var sectionSizes = {};
 
-  var samples = _.reject(fs.readdirSync(path.join(__dirname, '..', 'corpus')), function (filename) {
-    return filename[0] === '.';
-  });
-
-  var parsedSamples = _.map(samples, function (filename) {
-    return jazz.parseFile(path.join(__dirname, '..', 'corpus', filename));
-  });
-
-  var songs = _.compact(_.map(parsedSamples, function (j) {
+  var songs = _.compact(_.map(parseSamples(), function (j) {
     try {
       return _.compact(_.map(j.sectionChordLists(), function (chordList) {
         if (chordList.length < 2) return null;
@@ -53,9 +53,8 @@ var runFullTest = function () {
   _.each(songs, function (song, i) {
     var sections = 0;
 
-    console.log(samples[i]);
+    console.log(i + ' / ' + songs.length);
 
-    totalSongs += 1;
     totalSections += song.length;
 
     _.each(song, function (section) {
@@ -67,12 +66,29 @@ var runFullTest = function () {
     });
 
     passedSections += sections;
-    if (song.length === sections) passedSongs++;
   });
 
-  console.log('Songs: ' + passedSongs / totalSongs);
   console.log('Sections: ' + passedSections / totalSections);
   console.log('Section size distribution:\n' + JSON.stringify(sectionSizes));
 };
 
-runFullTest();
+var runFullTests = function () {
+  var songs = _.compact(_.map(parseSamples(), function (j) {
+    try {
+      return getSymbolsFromChordList(j.fullChordList(), j.getMainKey());
+    } catch (err) {
+      return null;
+    }
+  }));
+
+  var passedSongs = _.filter(songs, function (song, i) {
+    console.log(i + ' / ' + songs.length);
+
+    return jza.jza().validate(song);
+  });
+
+  console.log(passedSongs.length / songs.length);
+};
+
+//runSectionTests();
+runFullTests();
