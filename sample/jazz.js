@@ -4,54 +4,75 @@ var fs = require('fs');
 var path = require('path');
 var _ = require('underscore');
 
-var samples = _.reject(fs.readdirSync(path.join(__dirname, '..', 'corpus')), function (filename) {
-  return filename[0] === '.';
-});
+var getSymbolsFromChordList = function (chordList, key) {
+  return _.map(chordList, function (chord) {
+    return jza.symbolFromChord(key, chord);
+  });
+};
 
-var parsedSamples = _.map(samples, function (filename) {
-  return jazz.parseFile(path.join(__dirname, '..', 'corpus', filename));
-});
+var validateSong = function (filename) {
+  var j = jazz.parseFile(path.join(__dirname, '..', 'corpus', filename));
+  var symbols;
 
-var songs = _.compact(_.map(parsedSamples, function (j) {
   try {
-    return _.compact(_.map(j.sectionChordLists(), function (chordList) {
-      if (chordList.length < 2) return null;
-
-      return _.map(chordList, function (chord) {
-        return jza.symbolFromChord(j.getMainKey(), chord);
-      });
-    }));
+    symbols = getSymbolsFromChordList(j.fullChordList(), j.getMainKey());
+    console.log(symbols.toString());
+    return jza.jza().validate(symbols);
   } catch (err) {
-    return null;
+    return false;
   }
-}));
+};
 
-var totalSongs = 0;
-var passedSongs = 0;
-var totalSections = 0;
-var passedSections = 0;
-var sectionSizes = {};
+var runFullTest = function () {
+  var totalSongs = 0;
+  var passedSongs = 0;
+  var totalSections = 0;
+  var passedSections = 0;
+  var sectionSizes = {};
 
-_.each(songs, function (song, i) {
-  var sections = 0;
-
-  console.log(samples[i]);
-
-  totalSongs += 1;
-  totalSections += song.length;
-
-  _.each(song, function (section) {
-    if (jza.jza().validate(section)) sections++;
-    
-    // Update sectionSizes
-    sectionSizes[section.length] = sectionSizes[section.length] || 0;
-    sectionSizes[section.length]++;
+  var samples = _.reject(fs.readdirSync(path.join(__dirname, '..', 'corpus')), function (filename) {
+    return filename[0] === '.';
   });
 
-  passedSections += sections;
-  if (song.length === sections) passedSongs++;
-});
+  var parsedSamples = _.map(samples, function (filename) {
+    return jazz.parseFile(path.join(__dirname, '..', 'corpus', filename));
+  });
 
-console.log('Songs: ' + passedSongs / totalSongs);
-console.log('Sections: ' + passedSections / totalSections);
-console.log('Section size distribution:\n' + JSON.stringify(sectionSizes));
+  var songs = _.compact(_.map(parsedSamples, function (j) {
+    try {
+      return _.compact(_.map(j.sectionChordLists(), function (chordList) {
+        if (chordList.length < 2) return null;
+
+        return getSymbolsFromChordList(chordList, j.getMainKey());
+      }));
+    } catch (err) {
+      return null;
+    }
+  }));
+
+  _.each(songs, function (song, i) {
+    var sections = 0;
+
+    console.log(samples[i]);
+
+    totalSongs += 1;
+    totalSections += song.length;
+
+    _.each(song, function (section) {
+      if (jza.jza().validate(section)) sections++;
+      
+      // Update sectionSizes
+      sectionSizes[section.length] = sectionSizes[section.length] || 0;
+      sectionSizes[section.length]++;
+    });
+
+    passedSections += sections;
+    if (song.length === sections) passedSongs++;
+  });
+
+  console.log('Songs: ' + passedSongs / totalSongs);
+  console.log('Sections: ' + passedSections / totalSections);
+  console.log('Section size distribution:\n' + JSON.stringify(sectionSizes));
+};
+
+runFullTest();
