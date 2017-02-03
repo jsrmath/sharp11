@@ -322,5 +322,35 @@ describe('JzA', function () {
         ['Tonic', 'Diminished approaching IIm', 'Subdominant'],
       ]);
     });
+
+    it('should find a failure point iff there is one', function () {
+      var failurePoint;
+
+      failurePoint = jza.findFailurePoint(jazz.symbolsFromMehegan(['I', 'bIIø', 'IV']));
+      assert(failurePoint);
+      assert.equal(failurePoint.index, 1);
+      assert.equal(failurePoint.symbol.toString(), 'bIIø');
+      assert.equal(failurePoint.previousStates.length, 1);
+      assert.equal(failurePoint.previousStates[0].name, 'Tonic');
+      assert(!failurePoint.invalidEndState);
+
+      failurePoint = jza.findFailurePoint(jazz.symbolsFromMehegan(['I', 'bIIø']));
+      assert(failurePoint);
+      assert.equal(failurePoint.index, 1);
+      assert.equal(failurePoint.symbol.toString(), 'bIIø');
+      assert.equal(failurePoint.previousStates.length, 1);
+      assert.equal(failurePoint.previousStates[0].name, 'Tonic');
+      assert(!failurePoint.invalidEndState);
+
+      failurePoint = jza.findFailurePoint(jazz.symbolsFromMehegan(['I', '#ivø']));
+      assert(failurePoint);
+      assert.equal(failurePoint.index, 1);
+      assert.equal(failurePoint.symbol.toString(), '#IVø');
+      assert.equal(failurePoint.previousStates.length, 1);
+      assert(failurePoint.invalidEndState);
+
+      failurePoint = jza.findFailurePoint(jazz.symbolsFromMehegan(['ii', 'V', 'I']));
+      assert.equal(failurePoint, null);
+    });
   });
 });
