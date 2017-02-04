@@ -333,6 +333,13 @@ describe('JzA', function () {
       ]);
     });
 
+    it('should handle neighbor chords', function () {
+      analysisShouldBe(['V', 'I', 'IV', 'I', 'iii'], [
+        ['Dominant', 'IM with neighbor', 'Neighbor of IM', 'Tonic', 'Tonic'],
+        ['V / IM', 'IM with neighbor', 'Neighbor of IM', 'Tonic', 'Tonic']
+      ]);
+    });
+
     it('should find a failure point iff there is one', function () {
       var failurePoint;
 
@@ -340,7 +347,6 @@ describe('JzA', function () {
       assert(failurePoint);
       assert.equal(failurePoint.index, 1);
       assert.equal(failurePoint.symbol.toString(), 'bIIø');
-      assert.equal(failurePoint.previousStates.length, 1);
       assert.equal(failurePoint.previousStates[0].name, 'Tonic');
       assert(!failurePoint.invalidEndState);
 
@@ -348,7 +354,6 @@ describe('JzA', function () {
       assert(failurePoint);
       assert.equal(failurePoint.index, 1);
       assert.equal(failurePoint.symbol.toString(), 'bIIø');
-      assert.equal(failurePoint.previousStates.length, 1);
       assert.equal(failurePoint.previousStates[0].name, 'Tonic');
       assert(!failurePoint.invalidEndState);
 
