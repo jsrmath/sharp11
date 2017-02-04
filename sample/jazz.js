@@ -72,7 +72,7 @@ var runSectionTests = function () {
   console.log('Section size distribution:\n' + JSON.stringify(sectionSizes));
 };
 
-var runFullTests = function (withFailurePoints) {
+var runFullTests = function (failurePointSymbols, secondaryGroupingIndex) {
   var failurePoints = [];
   var songs = _.compact(_.map(parseSamples(), function (j, i) {
     try {
@@ -101,19 +101,36 @@ var runFullTests = function (withFailurePoints) {
 
   console.log(passedSongs.length / songs.length);
 
-  if (withFailurePoints) {
+  if (failurePointSymbols) {
     failurePoints = _.chain(failurePoints)
-      .countBy(function (p) {
-        return p.previousSymbol + ' ' + p.symbol + ' ' + p.nextSymbol;
+      .groupBy(function (p) {
+        return _.map(failurePointSymbols, function (offset) {
+          return p.symbols[p.index + offset];
+        }).join(' ');
       })
       .pairs()
+      .map(function (pair) {
+        if (typeof(secondaryGroupingIndex) === 'number') {
+          return [pair[0], pair[1].length, _.chain(pair[1])
+            .groupBy(function (point) {
+              return point.symbols[point.index + secondaryGroupingIndex] + '';
+            })
+            .mapObject(function (val) {
+              return val.length;
+            })
+            .value()];
+        }
+
+        return [pair[0], pair[1].length, _.pluck(pair[1], 'name')];
+      })
       .sortBy(function (p) {
         return -p[1];
       })
-      .value();
+      .value()
+      .slice(0, 10);
     console.log(failurePoints);
   }
 };
 
 // runSectionTests();
-runFullTests(true);
+runFullTests([-1, 0], -2);
