@@ -53,7 +53,7 @@ var runSectionTests = function () {
   _.each(songs, function (song, i) {
     var sections = 0;
 
-    console.log(i + ' / ' + songs.length);
+    console.log((i + 1) + ' / ' + songs.length);
 
     totalSections += song.length;
 
@@ -72,23 +72,48 @@ var runSectionTests = function () {
   console.log('Section size distribution:\n' + JSON.stringify(sectionSizes));
 };
 
-var runFullTests = function () {
-  var songs = _.compact(_.map(parseSamples(), function (j) {
+var runFullTests = function (withFailurePoints) {
+  var failurePoints = [];
+  var songs = _.compact(_.map(parseSamples(), function (j, i) {
     try {
-      return getSymbolsFromChordList(j.fullChordList(), j.getMainKey());
+      return {
+        name: samples[i],
+        symbols: getSymbolsFromChordList(j.fullChordList(), j.getMainKey())
+      };
     } catch (err) {
       return null;
     }
   }));
 
   var passedSongs = _.filter(songs, function (song, i) {
-    console.log(i + ' / ' + songs.length);
+    console.log(song.name);
 
-    return jza.jza().validate(song);
+    var failurePoint = jza.jza().findFailurePoint(song.symbols);
+
+    if (failurePoint) {
+      failurePoint.name = song.name;
+      failurePoints.push(failurePoint);
+      return false;
+    }
+
+    return true;
   });
 
   console.log(passedSongs.length / songs.length);
+
+  if (withFailurePoints) {
+    failurePoints = _.chain(failurePoints)
+      .countBy(function (p) {
+        return p.previousSymbol + ' ' + p.symbol + ' ' + p.nextSymbol;
+      })
+      .pairs()
+      .sortBy(function (p) {
+        return -p[1];
+      })
+      .value();
+    console.log(failurePoints);
+  }
 };
 
-//runSectionTests();
-runFullTests();
+// runSectionTests();
+runFullTests(true);
