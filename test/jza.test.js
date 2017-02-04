@@ -327,6 +327,12 @@ describe('JzA', function () {
       ]);
     });
 
+    it('should handle packed subtonic cadences', function () {
+      analysisShouldBe(['I', 'vi', 'IVm', 'I'], [
+        ['Tonic', 'Subdominant', 'Packed subtonic cadence', 'Tonic']
+      ]);
+    });
+
     it('should find a failure point iff there is one', function () {
       var failurePoint;
 
