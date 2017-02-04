@@ -288,7 +288,7 @@ describe('JzA', function () {
       ]);
     });
 
-    it('should handle elaborating ii-V-I', function () {
+    it('should handle tonicization', function () {
       analysisShouldBe(['ii', 'vm', 'Ix', 'IV'], [
         ['Subdominant', 'ii / IVM', 'V / IVM', 'Subdominant']
       ]);
@@ -298,9 +298,13 @@ describe('JzA', function () {
       ]);
     });
 
-    it('should handle elaborating V-I', function () {
+    it('should handle applied chords', function () {
       analysisShouldBe(['I', 'VIIx', 'iii'], [
         ['Tonic', 'V / IIIm', 'Tonic']
+      ]);
+
+      analysisShouldBe(['I', 'Vx', 'I'], [
+        ['Tonic', 'V / IM', 'Tonic']
       ]);
     });
 
