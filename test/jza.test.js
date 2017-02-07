@@ -38,8 +38,11 @@ describe('JzA', function () {
       assert.equal(jazz.symbolFromChord('C', 'Fm7b5').quality, 'ø');
       assert.equal(jazz.symbolFromChord('C', 'F1/2dim7').quality, 'ø');
 
+      assert.equal(jazz.symbolFromChord('C', 'Fsus').quality, 's');
+      assert.equal(jazz.symbolFromChord('C', 'Fsus7b9').quality, 's');
+
       assert.throws(function () {
-        jazz.symbolFromChord('C', 'Fsus4');
+        jazz.symbolFromChord('C', 'min(maj)7');
       });
     });
 
@@ -337,6 +340,13 @@ describe('JzA', function () {
       analysisShouldBe(['V', 'I', 'IV', 'I', 'iii'], [
         ['Dominant', 'IM with neighbor', 'Neighbor of IM', 'Tonic', 'Tonic'],
         ['V / IM', 'IM with neighbor', 'Neighbor of IM', 'Tonic', 'Tonic']
+      ]);
+    });
+
+    it('should handle sus chords', function () {
+      analysisShouldBe(['Vs', 'I'], [
+        ['Dominant', 'Tonic'],
+        ['V / IM', 'Tonic']
       ]);
     });
 

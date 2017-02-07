@@ -99,6 +99,7 @@ var runFullTests = function (failurePointSymbols, secondaryGroupingIndex) {
     return true;
   });
 
+  console.log(songs.length + ' total songs');
   console.log(passedSongs.length / songs.length);
 
   if (failurePointSymbols) {
