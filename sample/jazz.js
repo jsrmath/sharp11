@@ -15,49 +15,52 @@ var parseSamples = function () {
 };
 
 var getSymbolsFromChordList = function (chordList, key) {
-  return _.map(chordList, function (chord) {
-    return jza.symbolFromChord(key, chord);
-  });
+  try {
+    return _.map(chordList, function (chord) {
+      return jza.symbolFromChord(key, chord);
+    });
+  } catch (err) {
+    return null;
+  }
 };
 
 var validateSong = function (filename) {
   var j = jazz.parseFile(path.join(__dirname, '..', 'corpus', filename));
   var symbols;
 
-  try {
-    symbols = getSymbolsFromChordList(j.fullChordList(), j.getMainKey());
-    console.log(symbols.toString());
-    return jza.jza().validate(symbols);
-  } catch (err) {
-    return false;
-  }
+  symbols = getSymbolsFromChordList(j.fullChordList(), j.getMainKey());
+  console.log(symbols.toString());
+
+  if (!symbols) return false;
+  return jza.jza().validate(symbols);
 };
 
-var runSectionTests = function () {
+var runSectionTests = function (minSectionSize) {
   var totalSections = 0;
   var passedSections = 0;
   var sectionSizes = {};
 
-  var songs = _.compact(_.map(parseSamples(), function (j) {
-    try {
-      return _.compact(_.map(j.sectionChordLists(), function (chordList) {
-        if (chordList.length < 2) return null;
+  var songs = _.map(parseSamples(), function (j, i) {
+    var sections = _.compact(_.map(j.sectionChordLists(), function (chordList) {
+      if (chordList.length < (minSectionSize || 2)) return null;
 
-        return getSymbolsFromChordList(chordList, j.getMainKey());
-      }));
-    } catch (err) {
-      return null;
-    }
-  }));
+      return getSymbolsFromChordList(chordList, j.getMainKey());
+    }));
+
+    return {
+      name: samples[i],
+      sections: sections
+    };
+  });
 
   _.each(songs, function (song, i) {
     var sections = 0;
 
-    console.log((i + 1) + ' / ' + songs.length);
+    console.log(song.name);
 
-    totalSections += song.length;
+    totalSections += song.sections.length;
 
-    _.each(song, function (section) {
+    _.each(song.sections, function (section) {
       if (jza.jza().validate(section)) sections++;
       
       // Update sectionSizes
@@ -74,16 +77,17 @@ var runSectionTests = function () {
 
 var runFullTests = function (failurePointSymbols, secondaryGroupingIndex) {
   var failurePoints = [];
-  var songs = _.compact(_.map(parseSamples(), function (j, i) {
-    try {
+  var songs = _.chain(parseSamples())
+    .map(function (j, i) {
       return {
         name: samples[i],
         symbols: getSymbolsFromChordList(j.fullChordList(), j.getMainKey())
       };
-    } catch (err) {
-      return null;
-    }
-  }));
+    })
+    .filter(function (song) {
+      return song.symbols;
+    })
+    .value();
 
   var passedSongs = _.filter(songs, function (song, i) {
     console.log(song.name);
