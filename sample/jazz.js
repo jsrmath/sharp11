@@ -74,9 +74,11 @@ var runFullTests = function (failurePointSymbols, secondaryGroupingIndex) {
   var failurePoints = [];
   var songs = _.chain(parseSamples())
     .map(function (j, i) {
+      var symbols = getSymbolsFromChordList(j.fullChordList(), j.getMainKey());
+
       return {
         name: samples[i],
-        symbols: getSymbolsFromChordList(j.fullChordList(), j.getMainKey())
+        symbols: symbols.concat([symbols[0]]) // Wrap around for certain turnarounds
       };
     })
     .filter(function (song) {
