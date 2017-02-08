@@ -1,7 +1,9 @@
 !!!OTL: Bright Boy
 !!!COM: Bright, John
 !!!ODT: 1999
-*Section A
+**jazz
+*>[A,N1,A,N2,B,A2]
+*>A
 *M4/4
 *E-:
 1E-:maj7
@@ -47,7 +49,7 @@
 2F:min7
 2B-7
 ==
-*>A
+*>A2
 1E-:maj7
 =
 2E:min7
