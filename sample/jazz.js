@@ -15,13 +15,9 @@ var parseSamples = function () {
 };
 
 var getSymbolsFromChordList = function (chordList, key) {
-  try {
-    return _.map(chordList, function (chord) {
-      return jza.symbolFromChord(key, chord);
-    });
-  } catch (err) {
-    return null;
-  }
+  return _.map(chordList, function (chord) {
+    return jza.symbolFromChord(key, chord);
+  });
 };
 
 var validateSong = function (filename) {
@@ -31,7 +27,6 @@ var validateSong = function (filename) {
   symbols = getSymbolsFromChordList(j.fullChordList(), j.getMainKey());
   console.log(symbols.toString());
 
-  if (!symbols) return false;
   return jza.jza().validate(symbols);
 };
 
@@ -103,7 +98,6 @@ var runFullTests = function (failurePointSymbols, secondaryGroupingIndex) {
     return true;
   });
 
-  console.log(songs.length + ' total songs');
   console.log(passedSongs.length / songs.length);
 
   if (failurePointSymbols) {
