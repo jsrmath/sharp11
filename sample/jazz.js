@@ -15,9 +15,19 @@ var parseSamples = function () {
 };
 
 var getSymbolsFromChordList = function (chordList, key) {
-  return _.map(chordList, function (chord) {
+  var symbols = _.map(chordList, function (chord) {
     return jza.symbolFromChord(key, chord);
   });
+
+  // Turn a, a, b, b into a, b
+  var compressedSymbols = [_.first(symbols)];
+  _.each(_.rest(symbols), function (symbol) {
+    if (!symbol.eq(_.last(compressedSymbols))) {
+      compressedSymbols.push(symbol);
+    }
+  });
+
+  return compressedSymbols;
 };
 
 var validateSong = function (filename) {
