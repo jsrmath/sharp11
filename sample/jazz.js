@@ -74,7 +74,7 @@ var runTests = function (failurePointSymbols, secondaryGroupingIndex, minSection
     var song = getSymbolsFromChordList(j.fullChordListWithWrapAround(), j.getMainKey());
 
     // Object mapping section name to list of symbols for particular section
-    var sections = _.chain(j.sectionChordLists())
+    var sections = _.chain(j.sectionChordListsWithWrapAround())
       .omit(function (chordList) {
         return chordList.length < (minSectionSize || 2);
       })
