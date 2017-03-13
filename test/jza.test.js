@@ -296,8 +296,8 @@ describe('JzA', function () {
         ['Subdominant', 'ii / IVM', 'V / IVM', 'Subdominant']
       ]);
 
-      analysisShouldBe(['ii', 'vø', 'Ix', 'ivm'], [
-        ['Subdominant', 'ii / IVm', 'V / IVm', 'Subdominant']
+      analysisShouldBe(['ii', 'viiø', 'IIIx', 'vi'], [
+        ['Subdominant', 'ii / VIm', 'V / VIm', 'Subdominant']
       ]);
     });
 
@@ -332,7 +332,7 @@ describe('JzA', function () {
 
     it('should handle packed subtonic cadences', function () {
       analysisShouldBe(['I', 'vi', 'IVm', 'I'], [
-        ['Tonic', 'Subdominant', 'Packed subtonic cadence', 'Tonic']
+        ['Tonic', 'Subdominant', 'Dominant', 'Tonic']
       ]);
     });
 
