@@ -30,108 +30,98 @@ var validateSong = function (filename) {
   return jza.jza().validate(symbols);
 };
 
-var runSectionTests = function (minSectionSize) {
+var analyzeFailurePoints = function (failurePoints, failurePointSymbols, secondaryGroupingIndex) {
+  failurePoints = _.chain(failurePoints)
+    .groupBy(function (p) {
+      return _.map(failurePointSymbols, function (offset) {
+        return p.symbols[p.index + offset];
+      }).join(' ');
+    })
+    .pairs()
+    .map(function (pair) {
+      var secondaryGroupings = null;
+
+      if (typeof(secondaryGroupingIndex) === 'number') {
+        secondaryGroupings = _.chain(pair[1])
+          .groupBy(function (point) {
+            return point.symbols[point.index + secondaryGroupingIndex] + '';
+          })
+          .mapObject(function (val) {
+            return val.length;
+          })
+          .value();
+      }
+
+      return [pair[0], pair[1].length, _.pluck(pair[1], 'name'), secondaryGroupings];
+    })
+    .sortBy(function (p) {
+      return -p[1];
+    })
+    .value()
+    .slice(0, 10);
+  console.log(failurePoints);
+};
+
+var runTests = function (failurePointSymbols, secondaryGroupingIndex, minSectionSize) {
+  var totalPassedSongs = 0;
+  var totalPassedSections = 0;
+  var totalSongs = 0;
   var totalSections = 0;
-  var passedSections = 0;
-  var sectionSizes = {};
+  var failurePoints = [];
 
   var songs = _.map(parseSamples(), function (j, i) {
-    var sections = _.compact(_.map(j.sectionChordLists(), function (chordList) {
-      if (chordList.length < (minSectionSize || 2)) return null;
+    // Symbols for the entire song
+    var song = getSymbolsFromChordList(j.fullChordListWithWrapAround(), j.getMainKey());
 
-      return getSymbolsFromChordList(chordList, j.getMainKey());
-    }));
+    // Object mapping section name to list of symbols for particular section
+    var sections = _.chain(j.sectionChordLists())
+      .omit(function (chordList) {
+        return chordList.length < (minSectionSize || 2);
+      })
+      .mapObject(function (chordList) {
+        return getSymbolsFromChordList(chordList, j.getMainKey());
+      })
+      .value();
+
+    totalSongs += 1;
+    totalSections += _.keys(sections).length;
 
     return {
-      name: samples[i],
+      name: samples[i].replace('.jazz', ''),
+      song: song,
       sections: sections
     };
   });
 
-  _.each(songs, function (song, i) {
-    var sections = 0;
+  _.each(songs, function (song) {
+    var passedSong = jza.jza().validate(song.song);
+    
+    // For each section that fails, compute its failure points
+    var sectionFailurePoints = _.compact(_.map(song.sections, function (symbols, sectionName) {
+      var failurePoint = jza.jza().findFailurePoint(symbols);
 
-    console.log(song.name);
+      if (failurePoint) {
+        failurePoint.name = song.name + ' ' + sectionName;
+      }
 
-    totalSections += song.sections.length;
+      return failurePoint;
+    }));
 
-    _.each(song.sections, function (section) {
-      if (jza.jza().validate(section)) sections++;
-      
-      // Update sectionSizes
-      sectionSizes[section.length] = sectionSizes[section.length] || 0;
-      sectionSizes[section.length]++;
-    });
+    var numSections = _.keys(song.sections).length;
+    var passedSections = numSections - sectionFailurePoints.length;
 
-    passedSections += sections;
+    if (passedSong) totalPassedSongs += 1;
+    totalPassedSections += passedSections;
+
+    failurePoints = failurePoints.concat(sectionFailurePoints);
+
+    console.log(song.name + (passedSong ? ' √ ' : ' X ') + passedSections + ' / ' + numSections);
   });
 
-  console.log('Sections: ' + passedSections / totalSections);
-  console.log('Section size distribution:\n' + JSON.stringify(sectionSizes));
+  console.log('Sections: ' + totalPassedSections / totalSections);
+  console.log('Songs: ' + totalPassedSongs / totalSongs);
+
+  if (failurePointSymbols) analyzeFailurePoints(failurePoints, failurePointSymbols, secondaryGroupingIndex);
 };
 
-var runFullTests = function (failurePointSymbols, secondaryGroupingIndex) {
-  var failurePoints = [];
-  var songs = _.chain(parseSamples())
-    .map(function (j, i) {
-      var symbols = getSymbolsFromChordList(j.fullChordList(), j.getMainKey());
-
-      return {
-        name: samples[i],
-        symbols: symbols.concat([symbols[0]]) // Wrap around for certain turnarounds
-      };
-    })
-    .filter(function (song) {
-      return song.symbols;
-    })
-    .value();
-
-  var passedSongs = _.filter(songs, function (song, i) {
-    console.log(song.name);
-
-    var failurePoint = jza.jza().findFailurePoint(song.symbols);
-
-    if (failurePoint) {
-      failurePoint.name = song.name;
-      failurePoints.push(failurePoint);
-      return false;
-    }
-
-    return true;
-  });
-
-  console.log(passedSongs.length / songs.length);
-
-  if (failurePointSymbols) {
-    failurePoints = _.chain(failurePoints)
-      .groupBy(function (p) {
-        return _.map(failurePointSymbols, function (offset) {
-          return p.symbols[p.index + offset];
-        }).join(' ');
-      })
-      .pairs()
-      .map(function (pair) {
-        if (typeof(secondaryGroupingIndex) === 'number') {
-          return [pair[0], pair[1].length, _.chain(pair[1])
-            .groupBy(function (point) {
-              return point.symbols[point.index + secondaryGroupingIndex] + '';
-            })
-            .mapObject(function (val) {
-              return val.length;
-            })
-            .value()];
-        }
-
-        return [pair[0], pair[1].length, _.pluck(pair[1], 'name')];
-      })
-      .sortBy(function (p) {
-        return -p[1];
-      })
-      .value()
-      .slice(0, 10);
-    console.log(failurePoints);
-  }
-};
-
-// runSectionTests();
-runFullTests([-1, 0], -2);
+runTests([-1, 0, 1], -2);
