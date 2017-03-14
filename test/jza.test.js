@@ -266,7 +266,8 @@ describe('JzA', function () {
         ['Tonic', 'Tonic', 'Subdominant', 'Dominant', 'Tonic'],
         ['Dominant', 'Tonic', 'Subdominant', 'Dominant', 'Tonic'],
         ['Tonic', 'Subdominant', 'Subdominant', 'Dominant', 'Tonic'],
-        ['Tonic', 'V / IIm', 'Subdominant', 'Dominant', 'Tonic']
+        ['Tonic', 'V / IIm', 'Subdominant', 'Dominant', 'Tonic'],
+        ['ii / IIm', 'V / IIm', 'Subdominant', 'Dominant', 'Tonic']
       ]);
 
       analysisShouldBe(['iii', 'vi', 'ii', 'bIIm', 'I'], []);
@@ -393,7 +394,7 @@ describe('JzA', function () {
       assert(failurePoint);
       assert.equal(failurePoint.index, 1);
       assert.equal(failurePoint.symbol.toString(), '#IVø');
-      assert.equal(failurePoint.previousStates.length, 1);
+      assert.equal(failurePoint.previousStates.length, 3);
       assert(failurePoint.invalidEndState);
 
       failurePoint = jza.findFailurePoint(jazz.symbolsFromMehegan(['ii', 'V', 'I']));
