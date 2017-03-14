@@ -350,6 +350,12 @@ describe('JzA', function () {
       ]);
     });
 
+    it('should handle chromatic approaching chords', function () {
+      analysisShouldBe(['ii', 'IIIx', 'IV'], [
+        ['Subdominant', 'Chromatic approaching IVM', 'Subdominant']
+      ]);
+    });
+
     it('should find a failure point iff there is one', function () {
       var failurePoint;
 
