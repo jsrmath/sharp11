@@ -214,18 +214,20 @@ describe('JzA', function () {
     var jza = jazz.jza();
 
     var analysisShouldBe = function (symbols, expected) {
-      var analysis = jza.analyze(jazz.symbolsFromMehegan(symbols));
-      var analysisString = _.map(analysis, function (result) {
-        return _.pluck(result, 'name');
-      }).join('\n');
+      var analysis = _.chain(jza.analyze(jazz.symbolsFromMehegan(symbols)))
+        .map(function (result) {
+          return _.pluck(result, 'name').toString();
+        })
+        .uniq()
+        .value();
 
       if (expected.length) assert(jza.validate(jazz.symbolsFromMehegan(symbols)));
 
-      assert.equal(analysis.length, expected.length, analysisString);
+      assert.equal(analysis.length, expected.length, analysis.join('\n'));
 
       expected = _.invoke(expected, 'toString');
       _.each(analysis, function (result, i) {
-        assert(_.contains(expected, _.pluck(result, 'name').toString()), analysisString);
+        assert(_.contains(expected, result), analysis.join('\n'));
       });
     };
 
@@ -340,6 +342,17 @@ describe('JzA', function () {
       analysisShouldBe(['V', 'I', 'IV', 'I', 'iii'], [
         ['Dominant', 'IM with neighbor', 'Neighbor of IM', 'Tonic', 'Tonic'],
         ['V / IM', 'IM with neighbor', 'Neighbor of IM', 'Tonic', 'Tonic']
+      ]);
+    });
+
+    it('should handle diatonic passing chords', function () {
+      analysisShouldBe(['I', 'ii', 'iii', 'IV'], [
+        ['Tonic with passing chord', 'Passing chord', 'Tonic', 'Subdominant'],
+        ['Tonic', 'Subdominant with passing chord', 'Passing chord', 'Subdominant']
+      ]);
+
+      analysisShouldBe(['iii', 'ii', 'I'], [
+        ['Tonic with passing chord', 'Passing chord', 'Tonic']
       ]);
     });
 
