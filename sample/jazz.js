@@ -4,6 +4,8 @@ var fs = require('fs');
 var path = require('path');
 var _ = require('underscore');
 
+var jzaAutomaton = jza.jza();
+
 var samples = _.reject(fs.readdirSync(path.join(__dirname, '..', 'corpus')), function (filename) {
   return filename[0] === '.';
 });
@@ -37,7 +39,7 @@ var validateSong = function (filename) {
   symbols = getSymbolsFromChordList(j.fullChordList(), j.getMainKey());
   console.log(symbols.toString());
 
-  return jza.jza().validate(symbols);
+  return jzaAutomaton.validate(symbols);
 };
 
 var analyzeFailurePoints = function (failurePoints, failurePointSymbols, secondaryGroupingIndex) {
@@ -104,11 +106,11 @@ var runTests = function (failurePointSymbols, secondaryGroupingIndex, minSection
   });
 
   _.each(songs, function (song) {
-    var passedSong = jza.jza().validate(song.song);
+    var passedSong = jzaAutomaton.validate(song.song);
     
     // For each section that fails, compute its failure points
     var sectionFailurePoints = _.compact(_.map(song.sections, function (symbols, sectionName) {
-      var failurePoint = jza.jza().findFailurePoint(symbols);
+      var failurePoint = jzaAutomaton.findFailurePoint(symbols);
 
       if (failurePoint) {
         failurePoint.name = song.name + ' ' + sectionName;
