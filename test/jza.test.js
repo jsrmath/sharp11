@@ -195,9 +195,9 @@ describe('JzA', function () {
 
     it('should only end in an end state', function () {
       var jza = jazz.jza('empty');
-      var start = jza.addState('start');
-      var notEnd = jza.addState('not end');
-      var end = jza.addState('end', true);
+      var start = jza.addState('start', true, false);
+      var notEnd = jza.addState('not end', true, false);
+      var end = jza.addState('end', true, true);
       var analysis;
 
       jza.addTransition(jazz.symbolFromMehegan('I'), start, notEnd);
@@ -207,6 +207,25 @@ describe('JzA', function () {
 
       assert.equal(analysis.length, 1);
       assert.equal(analysis[0][0].name, 'end');
+    });
+
+    it('should only start in a start state', function () {
+      var jza = jazz.jza('empty');
+      var initial = jza.addState('initial', false, true);
+      var start = jza.addState('start', true, false);
+      var notStart = jza.addState('start', false, false);
+      var end = jza.addState('end', false, true);
+      var analysis;
+
+      jza.addTransition(jazz.symbolFromMehegan('I'), initial, start);
+      jza.addTransition(jazz.symbolFromMehegan('I'), initial, notStart);
+      jza.addTransition(jazz.symbolFromMehegan('IV'), start, end);
+      jza.addTransition(jazz.symbolFromMehegan('IV'), notStart, end);
+
+      analysis = jza.analyze(jazz.symbolsFromMehegan(['I', 'IV']));
+
+      assert.equal(analysis.length, 1);
+      assert.equal(analysis[0][0].name, 'start');
     });
   });
 
@@ -347,6 +366,8 @@ describe('JzA', function () {
         ['Dominant', 'IM with neighbor', 'Neighbor of IM', 'Tonic', 'Tonic'],
         ['V / IM', 'IM with neighbor', 'Neighbor of IM', 'Tonic', 'Tonic']
       ]);
+
+      analysisShouldBe(['IV', 'I'], []);
     });
 
     it('should handle diatonic passing chords', function () {
