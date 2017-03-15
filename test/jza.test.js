@@ -299,7 +299,7 @@ describe('JzA', function () {
         ['Unpacked IIIx', 'Dominant', 'Unpacked bIIIx', 'Tonic']
       ]);
 
-      analysisShouldBe(['ii', 'V', 'IV', 'V', 'I'], [
+      analysisShouldBe(['ii', 'V', 'IV', 'bVIIx', 'I'], [
         ['Unpacked IIm', 'Subdominant', 'Subdominant', 'Dominant', 'Tonic']
       ]);
 
@@ -330,7 +330,7 @@ describe('JzA', function () {
         ['Tonic', 'Subdominant', 'Dominant'] // TODO: I don't like that this is an option
       ]);
 
-      analysisShouldBe(['I', 'Vx', 'I'], [
+      analysisShouldBe(['IIIM', 'Vx', 'I'], [
         ['Tonic', 'V / IM', 'Tonic']
       ]);
     });
@@ -399,23 +399,15 @@ describe('JzA', function () {
 
       failurePoint = jza.findFailurePoint(jazz.symbolsFromMehegan(['I', 'bIIø', 'IV']));
       assert(failurePoint);
-      assert.equal(failurePoint.index, 1);
-      assert.equal(failurePoint.symbol.toString(), 'bIIø');
-      assert.equal(failurePoint.previousStates[0].name, 'Tonic');
+      assert.equal(failurePoint.index, 2);
+      assert.equal(failurePoint.symbol.toString(), 'IVM');
+      assert.equal(failurePoint.previousStates[0].name, 'Neighbor of IM');
       assert(!failurePoint.invalidEndState);
 
       failurePoint = jza.findFailurePoint(jazz.symbolsFromMehegan(['I', 'bIIø']));
       assert(failurePoint);
       assert.equal(failurePoint.index, 1);
       assert.equal(failurePoint.symbol.toString(), 'bIIø');
-      assert.equal(failurePoint.previousStates[0].name, 'Tonic');
-      assert(!failurePoint.invalidEndState);
-
-      failurePoint = jza.findFailurePoint(jazz.symbolsFromMehegan(['I', '#ivø']));
-      assert(failurePoint);
-      assert.equal(failurePoint.index, 1);
-      assert.equal(failurePoint.symbol.toString(), '#IVø');
-      assert.equal(failurePoint.previousStates.length, 3);
       assert(failurePoint.invalidEndState);
 
       failurePoint = jza.findFailurePoint(jazz.symbolsFromMehegan(['ii', 'V', 'I']));
