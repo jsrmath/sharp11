@@ -148,18 +148,13 @@ describe('JzA', function () {
 
       jza.addTransition(jazz.symbolFromMehegan('ii'), tonic, subdominant);
       tonic.addTransition(jazz.symbolFromMehegan('IV'), subdominant);
-      subdominant.addSource(jazz.symbolFromMehegan('vi'), tonic);
 
-      _.each(jazz.symbolsFromMehegan(['ii', 'IV', 'vi']), function (sym, i) {
+      _.each(jazz.symbolsFromMehegan(['ii', 'IV']), function (sym, i) {
         assert(tonic.transitions[i].symbol.eq(sym));
-        assert.equal(tonic.transitions[i].state.name, 'subdominant');
+        assert.equal(tonic.transitions[i].from.name, 'tonic');
+        assert.equal(tonic.transitions[i].to.name, 'subdominant');
         assert(tonic.hasTransition(sym, subdominant));
-        assert(!tonic.hasSource(sym, subdominant));
-
-        assert(subdominant.sources[i].symbol.eq(sym));
-        assert.equal(subdominant.sources[i].state.name, 'tonic');
         assert(!subdominant.hasTransition(sym, tonic));
-        assert(subdominant.hasSource(sym, tonic));
       });
     });
 
@@ -189,8 +184,7 @@ describe('JzA', function () {
       assert.equal(jza.getTransitions()[0].to.name, 'subdominant');
 
       assert.equal(jza.getTransitionsBySymbol(jazz.symbolFromMehegan('vi')).length, 2);
-      assert.equal(tonic.getTransitionStatesBySymbol(jazz.symbolFromMehegan('vi'))[0].name, 'subdominant');
-      assert.equal(subdominant.getSourceStatesBySymbol(jazz.symbolFromMehegan('vi'))[0].name, 'tonic');
+      assert.equal(tonic.getNextStatesBySymbol(jazz.symbolFromMehegan('vi'))[0].name, 'subdominant');
     });
 
     it('should only end in an end state', function () {
