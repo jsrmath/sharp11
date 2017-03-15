@@ -189,18 +189,20 @@ describe('JzA', function () {
 
     it('should only end in an end state', function () {
       var jza = jazz.jza('empty');
+      var initial = jza.addState('initial', false, true);
       var start = jza.addState('start', true, false);
+      var end = jza.addState('end', false, true);
       var notEnd = jza.addState('not end', true, false);
-      var end = jza.addState('end', true, true);
       var analysis;
 
-      jza.addTransition(jazz.symbolFromMehegan('I'), start, notEnd);
-      jza.addTransition(jazz.symbolFromMehegan('I'), start, end);
+      jza.addTransition(jazz.symbolFromMehegan('I'), initial, start);
+      jza.addTransition(jazz.symbolFromMehegan('IV'), start, end);
+      jza.addTransition(jazz.symbolFromMehegan('IV'), start, notEnd);
 
-      analysis = jza.analyze(jazz.symbolsFromMehegan(['I']));
+      analysis = jza.analyze(jazz.symbolsFromMehegan(['I', 'IV']));
 
       assert.equal(analysis.length, 1);
-      assert.equal(analysis[0][0].name, 'end');
+      assert.equal(analysis[0][1].name, 'end');
     });
 
     it('should only start in a start state', function () {
