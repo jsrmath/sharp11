@@ -271,6 +271,17 @@ describe('JzA', function () {
       analysisShouldBe(['iii', 'vi', 'ii', 'V', '#ivø'], []);
     });
 
+    it('should get pathways for a long list of symbols', function () {
+      var sequence = ['ii', 'V', 'I'];
+      var longSequence = [];
+
+      _.times(40, function () {
+        longSequence = longSequence.concat(sequence);
+      });
+
+      assert.equal(jza.getPathways(jazz.symbolsFromMehegan(longSequence)).length, 119);
+    });
+
     it('should validate a list of symbols', function () {      
       assert(jza.validate(jazz.symbolsFromMehegan(['iii', 'vi', 'ii', 'V', 'I'])));
       assert(!jza.validate(jazz.symbolsFromMehegan(['iii', 'vi', 'ii', 'V', '#ivø'])));
