@@ -3,6 +3,24 @@ var jazz = require('../lib/jza');
 var assert = require('assert');
 var _ = require('underscore');
 
+var analysisShouldBeWithJza = function (jza, symbols, expected) {
+  var analysis = _.chain(jza.analyze(jazz.symbolsFromMehegan(symbols)))
+    .map(function (result) {
+      return _.pluck(result, 'name').toString();
+    })
+    .uniq()
+    .value();
+
+  if (expected.length) assert(jza.validate(jazz.symbolsFromMehegan(symbols)));
+
+  assert.equal(analysis.length, expected.length, analysis.join('\n'));
+
+  expected = _.invoke(expected, 'toString');
+  _.each(analysis, function (result, i) {
+    assert(_.contains(expected, result), analysis.join('\n'));
+  });
+};
+
 describe('JzA', function () {
   describe('symbolFromChord', function () {
     it('should create a valid symbol', function () {
@@ -223,28 +241,66 @@ describe('JzA', function () {
       assert.equal(analysis.length, 1);
       assert.equal(analysis[0][0].name, 'start');
     });
+
+    describe('when training data', function () {
+      var jza = jazz.jza('empty');
+      var initial = jza.addState('initial', false, false);
+      var start1 = jza.addState('start1', true, false);
+      var start2 = jza.addState('start2', true, false);
+      var middle1 = jza.addState('middle1', false, false);
+      var middle2 = jza.addState('middle2', false, false);
+      var end1 = jza.addState('end1', false, true);
+      var end2 = jza.addState('end2', false, true);
+
+      var i_s1_I = jza.addTransition(jazz.symbolFromMehegan('I'), initial, start1);
+      var i_s2_I = jza.addTransition(jazz.symbolFromMehegan('I'), initial, start2);
+      var s1_m1_IV = jza.addTransition(jazz.symbolFromMehegan('IV'), start1, middle1);
+      var s1_m2_V = jza.addTransition(jazz.symbolFromMehegan('V'), start1, middle2);
+      var s2_m2_V = jza.addTransition(jazz.symbolFromMehegan('V'), start2, middle2);
+      var m1_e1_V = jza.addTransition(jazz.symbolFromMehegan('V'), middle1, end1);
+      var m1_e2_I = jza.addTransition(jazz.symbolFromMehegan('I'), middle1, end2);
+      var m2_e1_I = jza.addTransition(jazz.symbolFromMehegan('I'), middle2, end1);
+
+      analysisShouldBeWithJza(jza, ['I', 'IV', 'V'], [
+        ['start1', 'middle1', 'end1']
+      ]);
+
+      analysisShouldBeWithJza(jza, ['I', 'IV', 'I'], [
+        ['start1', 'middle1', 'end2']
+      ]);
+      
+      analysisShouldBeWithJza(jza, ['I', 'V', 'I'], [
+        ['start1', 'middle2', 'end1'],
+        ['start2', 'middle2', 'end1']
+      ]);
+
+      jza.train([
+        jazz.symbolsFromMehegan(['I', 'IV', 'V']), 
+        jazz.symbolsFromMehegan(['I', 'IV', 'I']), 
+        jazz.symbolsFromMehegan(['I', 'V', 'I'])
+      ]);
+
+      it('should produce proper counts', function () {
+        assert.equal(i_s1_I.count, 0); // We currently don't keep track of initial transitions
+        assert.equal(i_s2_I.count, 0); // We currently don't keep track of initial transitions
+        assert.equal(s1_m1_IV.count, 2);
+        assert.equal(s1_m2_V.count, 0.5);
+        assert.equal(s2_m2_V.count, 0.5);
+        assert.equal(m1_e1_V.count, 1);
+        assert.equal(m1_e2_I.count, 1);
+        assert.equal(m2_e1_I.count, 1);
+      });
+
+      it('should produce proper probabilities', function () {
+        assert.equal(s1_m1_IV.getProbability(), 0.8);
+        assert.equal(s1_m2_V.getProbability(), 0.2);
+      });
+    });
   });
 
   describe('Default JzA', function () {
     var jza = jazz.jza();
-
-    var analysisShouldBe = function (symbols, expected) {
-      var analysis = _.chain(jza.analyze(jazz.symbolsFromMehegan(symbols)))
-        .map(function (result) {
-          return _.pluck(result, 'name').toString();
-        })
-        .uniq()
-        .value();
-
-      if (expected.length) assert(jza.validate(jazz.symbolsFromMehegan(symbols)));
-
-      assert.equal(analysis.length, expected.length, analysis.join('\n'));
-
-      expected = _.invoke(expected, 'toString');
-      _.each(analysis, function (result, i) {
-        assert(_.contains(expected, result), analysis.join('\n'));
-      });
-    };
+    var analysisShouldBe = _.partial(analysisShouldBeWithJza, jza); // Locally scoped version of function with common jza
 
     it('should have primitive transitions for functional states', function () {
       var jza = jazz.jza();
