@@ -155,7 +155,9 @@ var trainJzA = function (minSectionSize) {
 
 var generateSequence = function (start, end) {
   var sequence = jzaAutomaton.generateSequenceFromStartAndEnd(jza.symbolFromMehegan(start), jza.symbolFromMehegan(end));
-  console.log(sequence.toString());
+  console.log(sequence.getSymbolStateStrings().join(' | '));
+  console.log(_.pluck(sequence.getChordsCollapsed(), 'name').toString());
+  console.log();
 };
 
 //runTests([-1, 0, 1], -2);
