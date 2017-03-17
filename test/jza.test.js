@@ -317,10 +317,9 @@ describe('JzA', function () {
     var analysisShouldBe = _.partial(analysisShouldBeWithJza, jza); // Locally scoped version of function with common jza
 
     it('should have primitive transitions for functional states', function () {
-      var jza = jazz.jza();
-      var tonic = jza.getStateByName('Tonic');
-      var subdominant = jza.getStateByName('Subdominant');
-      var dominant = jza.getStateByName('Dominant');
+      var tonic = jza.getStateByName('Tonic 1');
+      var subdominant = jza.getStateByName('Subdominant 2');
+      var dominant = jza.getStateByName('Dominant 5');
 
       assert(tonic.hasTransition(jazz.symbolFromMehegan('ii'), subdominant));
       assert(subdominant.hasTransition(jazz.symbolFromMehegan('ii'), subdominant));
@@ -332,10 +331,10 @@ describe('JzA', function () {
 
     it('should analyze a list of symbols', function () {
       analysisShouldBe(['iii', 'vi', 'ii', 'V', 'I'], [
-        ['Tonic', 'Tonic', 'Subdominant', 'Dominant', 'Tonic'],
-        ['Dominant', 'Tonic', 'Subdominant', 'Dominant', 'Tonic'],
-        ['Tonic', 'Subdominant', 'Subdominant', 'Dominant', 'Tonic'],
-        ['Tonic', 'Subdominant', 'Unpacked Vx', 'Dominant', 'Tonic']
+        ['Tonic 3', 'Tonic 6', 'Subdominant 2', 'Dominant 5', 'Tonic 1'],
+        ['Dominant 3', 'Tonic 6', 'Subdominant 2', 'Dominant 5', 'Tonic 1'],
+        ['Tonic 3', 'Subdominant 6', 'Subdominant 2', 'Dominant 5', 'Tonic 1'],
+        ['Tonic 3', 'Subdominant 6', 'Unpacked Vx', 'Dominant 5', 'Tonic 1']
       ]);
 
       analysisShouldBe(['iii', 'vi', 'ii', 'V', '#ivø'], []);
@@ -359,11 +358,11 @@ describe('JzA', function () {
 
     it('should handle tritone substitutions', function () {
       analysisShouldBe(['iii', 'bIIIx', 'ii', 'bIIx', 'I'], [
-        ['Tonic', 'Tonic', 'Subdominant', 'Dominant', 'Tonic'],
-        ['Dominant', 'Tonic', 'Subdominant', 'Dominant', 'Tonic'],
-        ['Tonic', 'Subdominant', 'Subdominant', 'Dominant', 'Tonic'],
-        ['Tonic', 'V / IIm', 'Subdominant', 'Dominant', 'Tonic'],
-        ['ii / IIm', 'V / IIm', 'Subdominant', 'Dominant', 'Tonic']
+        ['Tonic 3', 'Tonic b3', 'Subdominant 2', 'Dominant 5', 'Tonic 1'],
+        ['Dominant 3', 'Tonic b3', 'Subdominant 2', 'Dominant 5', 'Tonic 1'],
+        ['Tonic 3', 'Subdominant 6', 'Subdominant 2', 'Dominant 5', 'Tonic 1'],
+        ['Tonic 3', 'V / IIm', 'Subdominant 2', 'Dominant 5', 'Tonic 1'],
+        ['ii / IIm', 'V / IIm', 'Subdominant 2', 'Dominant 5', 'Tonic 1']
       ]);
 
       analysisShouldBe(['iii', 'vi', 'ii', 'bIIm', 'I'], []);
@@ -371,77 +370,77 @@ describe('JzA', function () {
 
     it('should handle unpacked chords', function () {
       analysisShouldBe(['viim', 'IIIx', 'bviim', 'bIIIx'], [
-        ['Unpacked IIIx', 'Tonic', 'Unpacked bIIIx', 'Tonic'],
-        ['Unpacked IIIx', 'Tonic', 'Unpacked bIIIx', 'Subdominant'],
-        ['Unpacked IIIx', 'Dominant', 'Unpacked bIIIx', 'Tonic']
+        ['Unpacked IIIx', 'Tonic 3', 'Unpacked bIIIx', 'Tonic b3'],
+        ['Unpacked IIIx', 'Tonic 3', 'Unpacked bIIIx', 'Subdominant 6'],
+        ['Unpacked IIIx', 'Dominant 3', 'Unpacked bIIIx', 'Tonic b3']
       ]);
 
       analysisShouldBe(['ii', 'V', 'IV', 'bVIIx', 'I'], [
-        ['Unpacked IIm', 'Subdominant', 'Subdominant', 'Dominant', 'Tonic']
+        ['Unpacked IIm', 'Subdominant 2', 'Subdominant 4', 'Dominant b7', 'Tonic 1']
       ]);
 
       analysisShouldBe(['ii', 'V'], [
-        ['Subdominant', 'Dominant'],
-        ['Unpacked IIm', 'Subdominant'],
-        ['Unpacked Vx', 'Dominant']
+        ['Subdominant 2', 'Dominant 5'],
+        ['Unpacked IIm', 'Subdominant 2'],
+        ['Unpacked Vx', 'Dominant 5']
       ]);
       
       analysisShouldBe(['im', 'ivm', 'viim', 'IIIx', 'bIIIM'], [
-        ['Tonic', 'Subdominant', 'Unpacked IIIx', 'Dominant', 'Tonic']
+        ['Tonic 1', 'Subdominant 4', 'Unpacked IIIx', 'Dominant 3', 'Tonic b3']
       ]);
     });
 
     it('should handle tonicization', function () {
       analysisShouldBe(['ii', 'vm', 'Ix', 'IV'], [
-        ['Subdominant', 'ii / IVM', 'V / IVM', 'Subdominant']
+        ['Subdominant 2', 'ii / IVM', 'V / IVM', 'Subdominant 4']
       ]);
 
       analysisShouldBe(['ii', 'viiø', 'IIIx', 'vi'], [
-        ['Subdominant', 'ii / VIm', 'V / VIm', 'Subdominant']
+        ['Subdominant 2', 'ii / VIm', 'V / VIm', 'Subdominant 6']
       ]);
     });
 
     it('should handle applied chords', function () {
       analysisShouldBe(['I', 'VIIx', 'iii'], [
-        ['Tonic', 'V / IIIm', 'Tonic'],
-        ['Tonic', 'Subdominant', 'Dominant'] // TODO: I don't like that this is an option
+        ['Tonic 1', 'V / IIIm', 'Tonic 3'],
+        ['Tonic 1', 'Subdominant 4', 'Dominant 3'] // TODO: I don't like that this is an option
       ]);
 
       analysisShouldBe(['IIIM', 'Vx', 'I'], [
-        ['Tonic', 'V / IM', 'Tonic']
+        ['Tonic 3', 'V / IM', 'Tonic 1']
       ]);
     });
 
     it('should not unpack elaborated minor chords', function () {
       analysisShouldBe(['#ivø', 'VIIx', 'iii', 'VIx'], [
-        ['ii / IIIm', 'V / IIIm', 'Tonic', 'Tonic'],
-        ['ii / IIIm', 'V / IIIm', 'Dominant', 'Tonic'],
-        ['ii / IIIm', 'V / IIIm', 'Tonic', 'Subdominant']
+        ['ii / IIIm', 'V / IIIm', 'Tonic 3', 'Tonic 6'],
+        ['ii / IIIm', 'V / IIIm', 'Dominant 3', 'Tonic 6'],
+        ['ii / IIIm', 'V / IIIm', 'Tonic 3', 'Subdominant 6']
       ]);
     });
 
     it('should handle diminished chords', function () {
       analysisShouldBe(['I', '#Io', 'ii'], [
-        ['Tonic', 'Tonic', 'Subdominant'],
-        ['Tonic', 'Subdominant', 'Subdominant'],
-        ['Tonic', 'V / IIm', 'Subdominant']
+        ['Tonic 1', 'Tonic 6', 'Subdominant 2'],
+        ['Tonic 1', 'Subdominant 6', 'Subdominant 2'],
+        ['Tonic 1', 'V / IIm', 'Subdominant 2']
       ]);
 
       analysisShouldBe(['I', 'bIIIo', 'ii'], [
-        ['Tonic', 'Diminished approaching IIm', 'Subdominant'],
+        ['Tonic 1', 'Diminished approaching IIm', 'Subdominant 2'],
       ]);
     });
 
     it('should handle packed subtonic cadences', function () {
       analysisShouldBe(['I', 'vi', 'IVm', 'I'], [
-        ['Tonic', 'Subdominant', 'Dominant', 'Tonic']
+        ['Tonic 1', 'Subdominant 6', 'Dominant 4', 'Tonic 1']
       ]);
     });
 
     it('should handle neighbor chords', function () {
       analysisShouldBe(['V', 'I', 'IV', 'I', 'iii'], [
-        ['Dominant', 'IM with neighbor', 'Neighbor of IM', 'Tonic', 'Tonic'],
-        ['V / IM', 'IM with neighbor', 'Neighbor of IM', 'Tonic', 'Tonic']
+        ['Dominant 5', 'IM with neighbor', 'Neighbor of IM', 'Tonic 1', 'Tonic 3'],
+        ['V / IM', 'IM with neighbor', 'Neighbor of IM', 'Tonic 1', 'Tonic 3']
       ]);
 
       analysisShouldBe(['IV', 'I'], []);
@@ -449,25 +448,25 @@ describe('JzA', function () {
 
     it('should handle diatonic passing chords', function () {
       analysisShouldBe(['I', 'ii', 'iii', 'IV'], [
-        ['Tonic with passing chord', 'Passing chord', 'Tonic', 'Subdominant'],
-        ['Tonic', 'Subdominant with passing chord', 'Passing chord', 'Subdominant']
+        ['Tonic with passing chord', 'Passing chord', 'Tonic 3', 'Subdominant 4'],
+        ['Tonic 1', 'Subdominant with passing chord', 'Passing chord', 'Subdominant 4']
       ]);
 
       analysisShouldBe(['iii', 'ii', 'I'], [
-        ['Tonic with passing chord', 'Passing chord', 'Tonic']
+        ['Tonic with passing chord', 'Passing chord', 'Tonic 1']
       ]);
     });
 
     it('should handle sus chords', function () {
       analysisShouldBe(['Vs', 'I'], [
-        ['Dominant', 'Tonic'],
-        ['V / IM', 'Tonic']
+        ['Dominant 5', 'Tonic 1'],
+        ['V / IM', 'Tonic 1']
       ]);
     });
 
     it('should handle chromatic approaching chords', function () {
       analysisShouldBe(['ii', 'IIIx', 'IV'], [
-        ['Subdominant', 'Chromatic approaching IVM', 'Subdominant']
+        ['Subdominant 2', 'Chromatic approaching IVM', 'Subdominant 4']
       ]);
     });
 
