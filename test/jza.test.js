@@ -150,6 +150,20 @@ describe('JzA', function () {
     });
   });
 
+  describe('Symbol.toChord', function () {
+    it('should convert a symbol to a chord', function () {
+      assert.equal(jazz.symbolFromMehegan('I').toChord('F').name, 'FM7');
+      assert.equal(jazz.symbolFromMehegan('I').toChord().name, 'CM7');
+
+      assert.equal(jazz.symbolFromMehegan('bIIM').toChord().name, 'DbM7');
+      assert.equal(jazz.symbolFromMehegan('IIIm').toChord().name, 'Em7');
+      assert.equal(jazz.symbolFromMehegan('IVx').toChord().name, 'F7');
+      assert.equal(jazz.symbolFromMehegan('#IVø').toChord().name, 'F#ø');
+      assert.equal(jazz.symbolFromMehegan('IVo').toChord().name, 'Fo7');
+      assert.equal(jazz.symbolFromMehegan('Vs').toChord().name, 'G7sus');
+    });
+  });
+
   describe('General JzA', function () {
     it('should create a new state', function () {
       var jza = jazz.jza('empty');
