@@ -136,4 +136,30 @@ var runTests = function (failurePointSymbols, secondaryGroupingIndex, minSection
   if (failurePointSymbols) analyzeFailurePoints(failurePoints, failurePointSymbols, secondaryGroupingIndex);
 };
 
-runTests([-1, 0, 1], -2);
+var trainJzA = function (minSectionSize) {
+  var sections = _.reduce(parseSamples(), function (sections, j) {
+    return sections.concat(_.chain(j.sectionChordListsWithWrapAround())
+      .omit(function (chordList) {
+        return chordList.length < (minSectionSize || 2);
+      })
+      .map(function (chordList) {
+        return getSymbolsFromChordList(chordList, j.getMainKey());
+      })
+      .value());
+  }, []);
+
+  console.log('Training model');
+  jzaAutomaton.train(sections);
+  console.log('Training complete');
+};
+
+var generateSequence = function (symbol, length) {
+  var sequence = jzaAutomaton.generateSequence(jza.symbolFromMehegan(symbol), length);
+  console.log(sequence.toString());
+};
+
+//runTests([-1, 0, 1], -2);
+trainJzA();
+_.times(20, function () {
+  generateSequence('I', 5);
+});
