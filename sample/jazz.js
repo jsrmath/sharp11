@@ -153,13 +153,13 @@ var trainJzA = function (minSectionSize) {
   console.log('Training complete');
 };
 
-var generateSequence = function (symbol, length) {
-  var sequence = jzaAutomaton.generateSequence(jza.symbolFromMehegan(symbol), length);
+var generateSequence = function (start, end) {
+  var sequence = jzaAutomaton.generateSequenceFromStartAndEnd(jza.symbolFromMehegan(start), jza.symbolFromMehegan(end));
   console.log(sequence.toString());
 };
 
 //runTests([-1, 0, 1], -2);
 trainJzA();
 _.times(20, function () {
-  generateSequence('I', 5);
+  generateSequence('I', 'I');
 });
