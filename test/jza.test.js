@@ -309,6 +309,28 @@ describe('JzA', function () {
         assert.equal(s1_m1_IV.getProbability(), 0.8);
         assert.equal(s1_m2_V.getProbability(), 0.2);
       });
+
+      it('should serialize and load data', function () {
+        json = jza.serialize();
+        jza = jazz.jza('empty');
+        jza.load(json);
+
+        analysisShouldBeWithJza(jza, ['I', 'IV', 'V'], [
+          ['start1', 'middle1', 'end1']
+        ]);
+
+        analysisShouldBeWithJza(jza, ['I', 'IV', 'I'], [
+          ['start1', 'middle1', 'end2']
+        ]);
+        
+        analysisShouldBeWithJza(jza, ['I', 'V', 'I'], [
+          ['start1', 'middle2', 'end1'],
+          ['start2', 'middle2', 'end1']
+        ]);
+
+        assert.equal(jza.getTransitionsBySymbol(jazz.symbolFromMehegan('IV'))[0].getProbability(), 0.8);
+        assert.equal(jza.getTransitionsBySymbol(jazz.symbolFromMehegan('V'))[0].getProbability(), 0.2);
+      });
     });
   });
 

@@ -4,7 +4,7 @@ var fs = require('fs');
 var path = require('path');
 var _ = require('underscore');
 
-var jzaAutomaton = jza.jza();
+// var jzaAutomaton = jza.jza();
 
 var samples = _.reject(fs.readdirSync(path.join(__dirname, '..', 'corpus')), function (filename) {
   return filename[0] === '.';
@@ -160,8 +160,9 @@ var generateSequence = function (start, end) {
   console.log();
 };
 
-//runTests([-1, 0, 1], -2);
-trainJzA();
+// runTests();
+// trainJzA();
+var jzaAutomaton = jza.import('sample/model.json');
 _.times(20, function () {
   generateSequence('I', 'I');
 });
