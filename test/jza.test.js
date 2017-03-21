@@ -310,6 +310,18 @@ describe('JzA', function () {
         assert.equal(s1_m2_V.getProbability(), 0.2);
       });
 
+      it('should produce probabilities of different states given a symbol', function () {
+        var states = jza.getStateProbabilitiesGivenSymbol(jazz.symbolFromMehegan('V'));
+        assert.equal(states.middle2, 0.5);
+        assert.equal(states.end1, 0.5);
+
+        // Currently, we don't add a count for initial transitions, which is why start1 and start2 are 0
+        // Maybe change this
+        states = jza.getStateProbabilitiesGivenSymbol(jazz.symbolFromMehegan('I'));
+        assert.equal(states.end1, 0.5);
+        assert.equal(states.end2, 0.5);
+      });
+
       it('should serialize and load data', function () {
         json = jza.serialize();
         jza = jazz.jza('empty');
