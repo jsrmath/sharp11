@@ -154,7 +154,7 @@ var trainJzA = function (minSectionSize) {
 };
 
 var generateSequence = function (start, end) {
-  var sequence = jzaAutomaton.generateSequenceFromStartAndEnd(jza.symbolFromMehegan(start), jza.symbolFromMehegan(end));
+  var sequence = jzaAutomaton.generateSequenceFromStartAndEnd(start, end);
   console.log(sequence.getSymbolStateStrings().join(' | '));
   console.log(_.pluck(sequence.getChordsCollapsed(), 'name').toString());
   console.log();

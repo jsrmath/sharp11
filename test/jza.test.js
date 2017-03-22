@@ -4,14 +4,14 @@ var assert = require('assert');
 var _ = require('underscore');
 
 var analysisShouldBeWithJza = function (jza, symbols, expected) {
-  var analysis = _.chain(jza.analyze(jazz.symbolsFromMehegan(symbols)))
+  var analysis = _.chain(jza.analyze(symbols))
     .map(function (result) {
       return _.pluck(result, 'name').toString();
     })
     .uniq()
     .value();
 
-  if (expected.length) assert(jza.validate(jazz.symbolsFromMehegan(symbols)));
+  if (expected.length) assert(jza.validate(symbols));
 
   assert.equal(analysis.length, expected.length, analysis.join('\n'));
 
@@ -112,11 +112,13 @@ describe('JzA', function () {
       assert(jazz.symbolFromMehegan('I').eq(jazz.symbolFromChord('C', 'C')));
       assert(jazz.symbolFromMehegan('bVx').eq(jazz.symbolFromMehegan('#IVx')));
       assert(jazz.symbolFromChord('C', 'Fm').eq(jazz.symbolFromChord('C', 'Fm7')));
+      assert(jazz.symbolFromMehegan('bVx').eq('#IVx'));
     });
 
     it('should return false when two symbols are not equivalent', function () {
       assert(!jazz.symbolFromMehegan('I').eq(jazz.symbolFromMehegan('Ix')));
       assert(!jazz.symbolFromMehegan('IVm').eq(jazz.symbolFromMehegan('Vm')));
+      assert(!jazz.symbolFromMehegan('IVm').eq('Vm'));
     });
   });
 
@@ -178,10 +180,10 @@ describe('JzA', function () {
       var tonic = jza.addState('tonic');
       var subdominant = jza.addState('subdominant');
 
-      jza.addTransition(jazz.symbolFromMehegan('ii'), tonic, subdominant);
-      tonic.addTransition(jazz.symbolFromMehegan('IV'), subdominant);
+      jza.addTransition('ii', tonic, subdominant);
+      tonic.addTransition('IV', subdominant);
 
-      _.each(jazz.symbolsFromMehegan(['ii', 'IV']), function (sym, i) {
+      _.each(['ii', 'IV'], function (sym, i) {
         assert(tonic.transitions[i].symbol.eq(sym));
         assert.equal(tonic.transitions[i].from.name, 'tonic');
         assert.equal(tonic.transitions[i].to.name, 'subdominant');
@@ -195,9 +197,9 @@ describe('JzA', function () {
       var state1 = jza.addState('state1');
       var state2 = jza.addState('state2');
 
-      state1.addTransition(jazz.symbolFromMehegan('#IVx'), state2);
+      state1.addTransition('#IVx', state2);
       assert.equal(state1.transitions.length, 1);
-      state1.addTransition(jazz.symbolFromMehegan('bVx'), state2);
+      state1.addTransition('bVx', state2);
       assert.equal(state1.transitions.length, 1);
     });
 
@@ -207,16 +209,16 @@ describe('JzA', function () {
       var subdominant = jza.addState('subdominant');
       var dominant = jza.addState('subdominant');
 
-      jza.addTransition(jazz.symbolFromMehegan('vi'), tonic, subdominant);
-      jza.addTransition(jazz.symbolFromMehegan('V'), subdominant, dominant);
-      jza.addTransition(jazz.symbolFromMehegan('vi'), dominant, tonic);
+      jza.addTransition('vi', tonic, subdominant);
+      jza.addTransition('V', subdominant, dominant);
+      jza.addTransition('vi', dominant, tonic);
 
       assert.equal(jza.getTransitions().length, 3);
       assert.equal(jza.getTransitions()[0].from.name, 'tonic');
       assert.equal(jza.getTransitions()[0].to.name, 'subdominant');
 
-      assert.equal(jza.getTransitionsBySymbol(jazz.symbolFromMehegan('vi')).length, 2);
-      assert.equal(tonic.getNextStatesBySymbol(jazz.symbolFromMehegan('vi'))[0].name, 'subdominant');
+      assert.equal(jza.getTransitionsBySymbol('vi').length, 2);
+      assert.equal(tonic.getNextStatesBySymbol('vi')[0].name, 'subdominant');
     });
 
     it('should only end in an end state', function () {
@@ -227,11 +229,11 @@ describe('JzA', function () {
       var notEnd = jza.addState('not end', true, false);
       var analysis;
 
-      jza.addTransition(jazz.symbolFromMehegan('I'), initial, start);
-      jza.addTransition(jazz.symbolFromMehegan('IV'), start, end);
-      jza.addTransition(jazz.symbolFromMehegan('IV'), start, notEnd);
+      jza.addTransition('I', initial, start);
+      jza.addTransition('IV', start, end);
+      jza.addTransition('IV', start, notEnd);
 
-      analysis = jza.analyze(jazz.symbolsFromMehegan(['I', 'IV']));
+      analysis = jza.analyze(['I', 'IV']);
 
       assert.equal(analysis.length, 1);
       assert.equal(analysis[0][1].name, 'end');
@@ -245,12 +247,12 @@ describe('JzA', function () {
       var end = jza.addState('end', false, true);
       var analysis;
 
-      jza.addTransition(jazz.symbolFromMehegan('I'), initial, start);
-      jza.addTransition(jazz.symbolFromMehegan('I'), initial, notStart);
-      jza.addTransition(jazz.symbolFromMehegan('IV'), start, end);
-      jza.addTransition(jazz.symbolFromMehegan('IV'), notStart, end);
+      jza.addTransition('I', initial, start);
+      jza.addTransition('I', initial, notStart);
+      jza.addTransition('IV', start, end);
+      jza.addTransition('IV', notStart, end);
 
-      analysis = jza.analyze(jazz.symbolsFromMehegan(['I', 'IV']));
+      analysis = jza.analyze(['I', 'IV']);
 
       assert.equal(analysis.length, 1);
       assert.equal(analysis[0][0].name, 'start');
@@ -266,14 +268,14 @@ describe('JzA', function () {
       var end1 = jza.addState('end1', false, true);
       var end2 = jza.addState('end2', false, true);
 
-      var i_s1_I = jza.addTransition(jazz.symbolFromMehegan('I'), initial, start1);
-      var i_s2_I = jza.addTransition(jazz.symbolFromMehegan('I'), initial, start2);
-      var s1_m1_IV = jza.addTransition(jazz.symbolFromMehegan('IV'), start1, middle1);
-      var s1_m2_V = jza.addTransition(jazz.symbolFromMehegan('V'), start1, middle2);
-      var s2_m2_V = jza.addTransition(jazz.symbolFromMehegan('V'), start2, middle2);
-      var m1_e1_V = jza.addTransition(jazz.symbolFromMehegan('V'), middle1, end1);
-      var m1_e2_I = jza.addTransition(jazz.symbolFromMehegan('I'), middle1, end2);
-      var m2_e1_I = jza.addTransition(jazz.symbolFromMehegan('I'), middle2, end1);
+      var i_s1_I = jza.addTransition('I', initial, start1);
+      var i_s2_I = jza.addTransition('I', initial, start2);
+      var s1_m1_IV = jza.addTransition('IV', start1, middle1);
+      var s1_m2_V = jza.addTransition('V', start1, middle2);
+      var s2_m2_V = jza.addTransition('V', start2, middle2);
+      var m1_e1_V = jza.addTransition('V', middle1, end1);
+      var m1_e2_I = jza.addTransition('I', middle1, end2);
+      var m2_e1_I = jza.addTransition('I', middle2, end1);
 
       analysisShouldBeWithJza(jza, ['I', 'IV', 'V'], [
         ['start1', 'middle1', 'end1']
@@ -289,9 +291,9 @@ describe('JzA', function () {
       ]);
 
       jza.train([
-        jazz.symbolsFromMehegan(['I', 'IV', 'V']), 
-        jazz.symbolsFromMehegan(['I', 'IV', 'I']), 
-        jazz.symbolsFromMehegan(['I', 'V', 'I'])
+        ['I', 'IV', 'V'],
+        ['I', 'IV', 'I'], 
+        ['I', 'V', 'I']
       ]);
 
       it('should produce proper counts', function () {
@@ -311,13 +313,13 @@ describe('JzA', function () {
       });
 
       it('should produce probabilities of different states given a symbol', function () {
-        var states = jza.getStateProbabilitiesGivenSymbol(jazz.symbolFromMehegan('V'));
+        var states = jza.getStateProbabilitiesGivenSymbol('V');
         assert.equal(states.middle2, 0.5);
         assert.equal(states.end1, 0.5);
 
         // Currently, we don't add a count for initial transitions, which is why start1 and start2 are 0
         // Maybe change this
-        states = jza.getStateProbabilitiesGivenSymbol(jazz.symbolFromMehegan('I'));
+        states = jza.getStateProbabilitiesGivenSymbol('I');
         assert.equal(states.end1, 0.5);
         assert.equal(states.end2, 0.5);
       });
@@ -340,8 +342,8 @@ describe('JzA', function () {
           ['start2', 'middle2', 'end1']
         ]);
 
-        assert.equal(jza.getTransitionsBySymbol(jazz.symbolFromMehegan('IV'))[0].getProbability(), 0.8);
-        assert.equal(jza.getTransitionsBySymbol(jazz.symbolFromMehegan('V'))[0].getProbability(), 0.2);
+        assert.equal(jza.getTransitionsBySymbol('IV')[0].getProbability(), 0.8);
+        assert.equal(jza.getTransitionsBySymbol('V')[0].getProbability(), 0.2);
       });
     });
   });
@@ -355,12 +357,12 @@ describe('JzA', function () {
       var subdominant = jza.getStateByName('Subdominant 2');
       var dominant = jza.getStateByName('Dominant 5');
 
-      assert(tonic.hasTransition(jazz.symbolFromMehegan('ii'), subdominant));
-      assert(subdominant.hasTransition(jazz.symbolFromMehegan('ii'), subdominant));
-      assert(subdominant.hasTransition(jazz.symbolFromMehegan('V'), dominant));
-      assert(dominant.hasTransition(jazz.symbolFromMehegan('V'), dominant));
-      assert(dominant.hasTransition(jazz.symbolFromMehegan('I'), tonic));
-      assert(tonic.hasTransition(jazz.symbolFromMehegan('I'), tonic));
+      assert(tonic.hasTransition('ii', subdominant));
+      assert(subdominant.hasTransition('ii', subdominant));
+      assert(subdominant.hasTransition('V', dominant));
+      assert(dominant.hasTransition('V', dominant));
+      assert(dominant.hasTransition('I', tonic));
+      assert(tonic.hasTransition('I', tonic));
     });
 
     it('should analyze a list of symbols', function () {
@@ -382,12 +384,12 @@ describe('JzA', function () {
         longSequence = longSequence.concat(sequence);
       });
 
-      assert.equal(jza.getPathways(jazz.symbolsFromMehegan(longSequence)).length, 119);
+      assert.equal(jza.getPathways(longSequence).length, 119);
     });
 
     it('should validate a list of symbols', function () {      
-      assert(jza.validate(jazz.symbolsFromMehegan(['iii', 'vi', 'ii', 'V', 'I'])));
-      assert(!jza.validate(jazz.symbolsFromMehegan(['iii', 'vi', 'ii', 'V', '#ivø'])));
+      assert(jza.validate(['iii', 'vi', 'ii', 'V', 'I']));
+      assert(!jza.validate(['iii', 'vi', 'ii', 'V', '#ivø']));
     });
 
     it('should handle tritone substitutions', function () {
@@ -403,17 +405,17 @@ describe('JzA', function () {
     });
 
     it('should handle unpacked chords', function () {
-      analysisShouldBe(['viim', 'IIIx', 'bviim', 'bIIIx'], [
+      analysisShouldBe(jazz.symbolsFromMehegan(['viim', 'IIIx', 'bviim', 'bIIIx']), [
         ['Unpacked IIIx', 'Tonic 3', 'Unpacked bIIIx', 'Tonic b3'],
         ['Unpacked IIIx', 'Tonic 3', 'Unpacked bIIIx', 'Subdominant 6'],
         ['Unpacked IIIx', 'Dominant 3', 'Unpacked bIIIx', 'Tonic b3']
       ]);
 
-      analysisShouldBe(['ii', 'V', 'IV', 'bVIIx', 'I'], [
+      analysisShouldBe(jazz.symbolsFromMehegan(['ii', 'V', 'IV', 'bVIIx', 'I']), [
         ['Unpacked IIm', 'Subdominant 2', 'Subdominant 4', 'Dominant b7', 'Tonic 1']
       ]);
 
-      analysisShouldBe(['ii', 'V'], [
+      analysisShouldBe(jazz.symbolsFromMehegan(['ii', 'V']), [
         ['Subdominant 2', 'Dominant 5'],
         ['Unpacked IIm', 'Subdominant 2'],
         ['Unpacked Vx', 'Dominant 5']
@@ -507,20 +509,20 @@ describe('JzA', function () {
     it('should find a failure point iff there is one', function () {
       var failurePoint;
 
-      failurePoint = jza.findFailurePoint(jazz.symbolsFromMehegan(['I', 'bIIø', 'IV']));
+      failurePoint = jza.findFailurePoint(['I', 'bIIø', 'IV']);
       assert(failurePoint);
       assert.equal(failurePoint.index, 2);
       assert.equal(failurePoint.symbol.toString(), 'IVM');
       assert.equal(failurePoint.previousStates[0].name, 'Neighbor of IM');
       assert(!failurePoint.invalidEndState);
 
-      failurePoint = jza.findFailurePoint(jazz.symbolsFromMehegan(['I', 'bIIø']));
+      failurePoint = jza.findFailurePoint(['I', 'bIIø']);
       assert(failurePoint);
       assert.equal(failurePoint.index, 1);
       assert.equal(failurePoint.symbol.toString(), 'bIIø');
       assert(failurePoint.invalidEndState);
 
-      failurePoint = jza.findFailurePoint(jazz.symbolsFromMehegan(['ii', 'V', 'I']));
+      failurePoint = jza.findFailurePoint(['ii', 'V', 'I']);
       assert.equal(failurePoint, null);
     });
   });
