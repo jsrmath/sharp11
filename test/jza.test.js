@@ -331,6 +331,21 @@ describe('JzA', function () {
         assert.equal(symbols.Vx, 1/3);
       });
 
+      it('should produce probabilities of different transitions given state regex', function () {
+        var symbols = jza.getTransitionProbabilitiesGivenStateRegex(/middle/);
+        assert.equal(symbols['IM: end1'], 1/3);
+        assert.equal(symbols['IM: end2'], 1/3);
+        assert.equal(symbols['Vx: end1'], 1/3);
+
+        symbols = jza.getTransitionProbabilitiesGivenStateRegex(/middle/, 'symbol');
+        assert.equal(symbols.IM, 2/3);
+        assert.equal(symbols.Vx, 1/3);
+
+        symbols = jza.getTransitionProbabilitiesGivenStateRegex(/middle/, 'state');
+        assert.equal(symbols.end1, 2/3);
+        assert.equal(symbols.end2, 1/3);
+      });
+
       it('should serialize and load data', function () {
         json = jza.serialize();
         jza = jazz.jza('empty');
