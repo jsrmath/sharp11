@@ -173,6 +173,7 @@ describe('JzA', function () {
       assert.equal(s.name, 'state');
       assert.equal(jza.getStatesByName('state').length, 1);
       assert.equal(jza.getStateByName('state').name, 'state');
+      assert.equal(jza.getStatesByRegex(/TAT/i)[0].name, 'state');
     });
 
     it('should create transitions', function () {
@@ -322,6 +323,12 @@ describe('JzA', function () {
         states = jza.getStateProbabilitiesGivenSymbol('I');
         assert.equal(states.end1, 0.5);
         assert.equal(states.end2, 0.5);
+      });
+
+      it('should produce probabilities of different symbols given state regex', function () {
+        var symbols = jza.getSymbolProbabilitiesGivenStateRegex(/middle/);
+        assert.equal(symbols.IVM, 2/3);
+        assert.equal(symbols.Vx, 1/3);
       });
 
       it('should serialize and load data', function () {
