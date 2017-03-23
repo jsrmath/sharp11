@@ -368,6 +368,43 @@ describe('JzA', function () {
         assert.equal(jza.getTransitionsBySymbol('V')[0].getProbability(), 0.2);
       });
     });
+
+    describe('when training data with many paths', function () {
+      var jza = jazz.jza('empty');
+      var initial = jza.addState('initial', false, false);
+      var start1 = jza.addState('start1', true, false);
+      var start2 = jza.addState('start2', true, false);
+      var middle1 = jza.addState('middle1', false, false);
+      var middle2 = jza.addState('middle2', false, false);
+      var end1 = jza.addState('end1', false, true);
+      var end2 = jza.addState('end2', false, true);
+
+      var i_s1 = jza.addTransition('I', initial, start1);
+      var i_s2 = jza.addTransition('I', initial, start2);
+      var s1_m1 = jza.addTransition('V', start1, middle1);
+      var s2_m2 = jza.addTransition('V', start2, middle2);
+      var m1_e1 = jza.addTransition('I', middle1, end1);
+      var m1_e2 = jza.addTransition('I', middle1, end2);
+      var m2_e1 = jza.addTransition('I', middle2, end1);
+
+      analysisShouldBeWithJza(jza, ['I', 'V', 'I'], [
+        ['start1', 'middle1', 'end1'],
+        ['start1', 'middle1', 'end2'],
+        ['start2', 'middle2', 'end1']
+      ]);
+
+      jza.train([['I', 'V', 'I']]);
+
+      it('should produce proper counts', function () {
+        assert.equal(i_s1.count, 0); // We currently don't keep track of initial transitions
+        assert.equal(i_s2.count, 0); // We currently don't keep track of initial transitions
+        assert.equal(s1_m1.count, 0.5);
+        assert.equal(s2_m2.count, 0.5);
+        assert.equal(m1_e1.count, 1/3);
+        assert.equal(m1_e2.count, 1/3);
+        assert.equal(m2_e1.count, 1/3);
+      });
+    });
   });
 
   describe('Default JzA', function () {
