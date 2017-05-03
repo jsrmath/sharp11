@@ -183,6 +183,41 @@ var mostCommonGeneratedSequences = function (start, end, count) {
   console.log(counts);
 };
 
+var findSongsWithSequence = function (sequence) {
+  return _.compact(_.map(parseSamples(), function (j, i) {
+    var song = getSymbolsFromChordList(j.fullChordListWithWrapAround(), j.getMainKey());
+    var songName = samples[i];
+    var matchesSequence = _.some(_.range(song.length - sequence.length + 1), function (songIndex) {
+      return _.all(sequence, function (symbol, sequenceIndex) {
+        return song[songIndex + sequenceIndex].eq(symbol);
+      });
+    });
+
+    return matchesSequence ? songName : null;
+  }));
+};
+
+var countInstancesOfSequence = function (sequence) {
+  var instances = 0;
+
+  _.each(parseSamples(), function (j, i) {
+    var song = getSymbolsFromChordList(j.fullChordListWithWrapAround(), j.getMainKey());
+    _.each(_.range(song.length - sequence.length + 1), function (songIndex) {
+      var matchesSequence = _.all(sequence, function (symbol, sequenceIndex) {
+        return song[songIndex + sequenceIndex].eq(symbol);
+      });
+
+      if (matchesSequence) instances += 1;
+    });
+  });
+
+  return instances;
+};
+
+var getNGramProbability = function (sequence) {
+  return countInstancesOfSequence(sequence) / countInstancesOfSequence(sequence.slice(0, 1));
+};
+
 // runTests();
 // trainJzA();
 var jzaAutomaton = jza.import('sample/model.json');
