@@ -160,6 +160,29 @@ var generateSequence = function (start, end) {
   console.log();
 };
 
+var mostCommonGeneratedSequences = function (start, end, count) {
+  var counts = _.chain(count)
+    .range()
+    .map(function () {
+      var sequence = jzaAutomaton.generateSequenceFromStartAndEnd(start, end);
+      return _.pluck(sequence.getChordsCollapsed(), 'name').toString();
+    })
+    .countBy()
+    .pick(function (count) {
+      return count > 1;
+    })
+    .pairs()
+    .sortBy(function (x) {
+      return -x[1];
+    })
+    .map(function (x) {
+      return x[0] + ': ' + x[1];
+    })
+    .value()
+    .join('\n');
+  console.log(counts);
+};
+
 // runTests();
 // trainJzA();
 var jzaAutomaton = jza.import('sample/model.json');
