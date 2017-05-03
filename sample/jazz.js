@@ -4,7 +4,7 @@ var fs = require('fs');
 var path = require('path');
 var _ = require('underscore');
 
-// var jzaAutomaton = jza.jza();
+var jzaAutomaton;
 
 var samples = _.reject(fs.readdirSync(path.join(__dirname, '..', 'corpus')), function (filename) {
   return filename[0] === '.';
@@ -218,9 +218,39 @@ var getNGramProbability = function (sequence) {
   return countInstancesOfSequence(sequence) / countInstancesOfSequence(sequence.slice(0, 1));
 };
 
-// runTests();
+//// Below are examples of how to interact with the automaton and the corpus
+//// Uncomment lines beginning with // to try them out
+
+//// Create a new automaton
+// jzaAutomaton = jza.jza();
+
+//// and train it
 // trainJzA();
-var jzaAutomaton = jza.import('sample/model.json');
-_.times(20, function () {
-  generateSequence('I', 'I');
-});
+
+//// or load a saved model
+// jzaAutomaton = jza.import('sample/model.json');
+
+//// Run validation tests (how many songs / sections can be understood by the model)
+// runTests();
+
+//// Get probabilities of a particular symbol being used to transition to different states
+//// (in other words, get probabilities of a particular symbol having different chord functions)
+// console.log(jzaAutomaton.getStateProbabilitiesGivenSymbol('VIx'));
+
+//// Get transition probabilities from particular states given a state name regex
+// console.log(jzaAutomaton.getTransitionProbabilitiesGivenStateRegex(/^Subdominant b6/));
+
+//// Generate sequences that start and end with particular symbols
+// _.times(20, function () {
+//   generateSequence('I', 'I');
+// });
+
+//// Find songs in the corpus that contain a given sequence
+// console.log(findSongsWithSequence(['bIIIM', 'bVIx', 'V']));
+
+//// Get probability of a particular ngram appearing in the corpus
+//// This example returns P(bVIX,V | bIIIM)
+// console.log(getNGramProbability(['bIIIM', 'bVIx', 'V']));
+
+//// Find the most commonly generated sequences (out of n=500) given a start and end symbol
+// mostCommonGeneratedSequences('I', 'I', 500);
