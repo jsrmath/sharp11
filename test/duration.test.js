@@ -23,6 +23,12 @@ describe('Duration', function () {
       assert.equal(d.value(), 0.5);
     });
 
+    it('should reject an invalid subunit', function () {
+      assert.throws(function () {
+        dur.subunit('bad');
+      });
+    });
+
     it('should create a note with multiple subunits', function () {
       var d = dur.subunit('eighth', 'sixteenth');
       assert.equal(d.beats, 0);
