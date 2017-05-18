@@ -104,4 +104,25 @@ describe('Duration', function () {
       assert.equal(d.subunits.toString(), 'triplet');
     });
   });
+
+  describe('#isDuration', function () {
+    it('should return true iff a given object is a duration', function () {
+      assert(dur.isDuration(dur.beats(4)));
+      assert(!dur.isDuration(4));
+    });
+  });
+
+  describe('#asDuration', function () {
+    it('should coerce argument(s) into a proper duration', function () {
+      var test = function (d, val) {
+        assert(dur.isDuration(d));
+        assert.equal(d.value(), val);
+      };
+
+      test(dur.asDuration(4), 4);
+      test(dur.asDuration('eighth'), 0.5);
+      test(dur.asDuration('eighth', 'sixteenth'), 0.75);
+      test(dur.asDuration(dur.beats(4)), 4);
+    });
+  });
 });
