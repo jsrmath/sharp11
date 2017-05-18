@@ -71,7 +71,7 @@ Returns true if a given interval ([Interval](../docs/README.md#interval) object 
 Returns a [TraversableScale](#traversable-scale-object) whose current note is the given note ([Note](note.md#note-object) object or string).  The given note must have an octave number.
 
 ## <a name="traversable-scale-object"></a> TraversableScale Object
-`TraversableScale` objects contain a scale and a current index and are created by calling [`.traverse()`](#scale-traverse) on a [Scale](#scale-object) object.  `TraversableScale`s can be thought of as a combination of a note and a scale and allow you to easily traverse the scale, as the name implies.  They are instrumental (pun intended) in Sharp11's [improvisation engine](improv.md).
+`TraversableScale` objects contain a scale and a current index and are created by calling [`.traverse()`](#scale-traverse) on a [Scale](#scale-object) object.  `TraversableScale`s can be thought of as a combination of a note and a scale and allow you to easily traverse the scale, as the name implies.  They are instrumental (pun intended) in Sharp11's [improvisation engine](improv.md).  The `TraversableScale` constructor is accessible directly as `.TraversableScale`, however new instances should be created by calling [`.traverse()`](#scale-traverse) on a [Scale](#scale-object) object instead.
 
 ### <a name="traversable-scale-scale"></a> scale `.scale`
 A [Scale](#scale-object) object representing the scale.
