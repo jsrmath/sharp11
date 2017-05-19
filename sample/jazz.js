@@ -1,4 +1,4 @@
-var jazz = require('../lib/jazz');
+var jazz = require('../lib/jazzparser');
 var jza = require('../lib/jza');
 var fs = require('fs');
 var path = require('path');
@@ -217,6 +217,9 @@ var countInstancesOfSequence = function (sequence) {
 var getNGramProbability = function (sequence) {
   return countInstancesOfSequence(sequence) / countInstancesOfSequence(sequence.slice(0, 1));
 };
+
+parseSamples();
+console.log(jazz.getDurations());
 
 //// Below are examples of how to interact with the automaton and the corpus
 //// Uncomment lines beginning with // to try them out
