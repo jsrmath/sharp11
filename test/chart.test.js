@@ -67,6 +67,7 @@ describe('Chart', function () {
       assert.equal(c.chart().length, 3);
       assert.equal(c.chart()[0].chord.name, 'C7');
       assert.equal(c.chart()[1].chord.name, 'Dm');
+      assert.equal(c.chart(['B'])[0].chord.name, 'Dm');
 
       c = chart.create(['A', 'B', 'A'], { A: [['C7', 4]], B: [] }, { foo: 1 });
       assert.equal(c.chart().length, 2);
@@ -81,6 +82,7 @@ describe('Chart', function () {
       var c = chart.create(['A', 'B'], { A: [['C7', 4]], B: [['Dm', 4]] }, { foo: 1 });
       assert.equal(c.chartWithWrapAround().length, 3);
       assert.equal(c.chartWithWrapAround()[2].chord.name, 'C7');
+      assert.equal(c.chartWithWrapAround(['B', 'A'])[2].chord.name, 'Dm');
 
       c = chart.createSingleton([]);
       assert.equal(c.chartWithWrapAround().length, 0);
@@ -93,17 +95,19 @@ describe('Chart', function () {
       assert.equal(c.chordList().length, 3);
       assert.equal(c.chordList()[0].name, 'C7');
       assert.equal(c.chordList()[1].name, 'Dm');
+      assert.equal(c.chordList(['B'])[0].name, 'Dm');
 
       c = chart.createSingleton([]);
       assert.equal(c.chordList().length, 0);
     });
   });
 
-  describe('#chartWithWrapAround', function () {
+  describe('#chordListWithWrapAround', function () {
     it('should return the full chord list with wrap around', function () {
       var c = chart.create(['A', 'B'], { A: [['C7', 4]], B: [['Dm', 4]] }, { foo: 1 });
       assert.equal(c.chordListWithWrapAround().length, 3);
       assert.equal(c.chordListWithWrapAround()[2].name, 'C7');
+      assert.equal(c.chordListWithWrapAround(['B', 'A'])[2].name, 'Dm');
 
       c = chart.createSingleton([]);
       assert.equal(c.chordListWithWrapAround().length, 0);
