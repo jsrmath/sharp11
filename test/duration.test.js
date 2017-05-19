@@ -105,6 +105,30 @@ describe('Duration', function () {
     });
   });
 
+  describe('#merge', function () {
+    it('should merge two durations', function () {
+      var d = dur.beats(2).addSubunit('eighth').merge(dur.beats(3).addSubunit('sixteenth'));
+      assert.equal(d.beats, 5);
+      assert.equal(d.subunits.toString(), 'eighth,sixteenth');
+      assert.equal(d.value(), 5.75);
+    });
+  });
+
+  describe('#clean', function () {
+    it('should combine redundant subunits', function () {
+      var d = dur.beats(2).addSubunit(
+        'eighth', 'eighth', 'eighth',
+        'sixteenth', 'sixteenth', 'sixteenth', 'sixteenth', 'sixteenth',
+        'triplet', 'triplet', 'triplet', 'triplet', 'triplet',
+        'longEighth', 'longEighth', 'longEighth',
+        'shortEighth'
+      );
+      assert.equal(d.clean().beats, 6);
+      assert.equal(d.clean().subunits.toString(), 'eighth,sixteenth,triplet,triplet,longEighth,longEighth');
+      assert.equal(d.value(), d.clean().value());
+    });
+  });
+
   describe('#isDuration', function () {
     it('should return true iff a given object is a duration', function () {
       assert(dur.isDuration(dur.beats(4)));
