@@ -10,33 +10,29 @@ var samples = _.reject(fs.readdirSync(path.join(__dirname, '..', 'corpus')), fun
   return filename[0] === '.';
 });
 
-var parseSamples = function () {
-  return _.map(samples, function (filename) {
-    return jazz.parseFile(path.join(__dirname, '..', 'corpus', filename));
-  });
+var parsedSamples;
+
+var getParsedSamples = function () {
+  if (!parsedSamples) {
+    parsedSamples = _.map(samples, function (filename) {
+      return jazz.parseFile(path.join(__dirname, '..', 'corpus', filename));
+    });
+  }
+
+  return parsedSamples;
 };
 
 var getSymbolsFromChordList = function (chordList, key) {
-  var symbols = _.map(chordList, function (chord) {
+  return _.map(chordList, function (chord) {
     return jza.symbolFromChord(key, chord);
   });
-
-  // Turn a, a, b, b into a, b
-  var compressedSymbols = [_.first(symbols)];
-  _.each(_.rest(symbols), function (symbol) {
-    if (!symbol.eq(_.last(compressedSymbols))) {
-      compressedSymbols.push(symbol);
-    }
-  });
-
-  return compressedSymbols;
 };
 
 var validateSong = function (filename) {
   var j = jazz.parseFile(path.join(__dirname, '..', 'corpus', filename));
   var symbols;
 
-  symbols = getSymbolsFromChordList(j.fullChordList(), j.getMainKey());
+  symbols = getSymbolsFromChordList(j.chordList(), j.key());
   console.log(symbols.toString());
 
   return jzaAutomaton.validate(symbols);
@@ -81,9 +77,9 @@ var runTests = function (failurePointSymbols, secondaryGroupingIndex, minSection
   var totalSections = 0;
   var failurePoints = [];
 
-  var songs = _.map(parseSamples(), function (j, i) {
+  var songs = _.map(getParsedSamples(), function (j) {
     // Symbols for the entire song
-    var song = getSymbolsFromChordList(j.fullChordListWithWrapAround(), j.getMainKey());
+    var song = getSymbolsFromChordList(j.chordListWithWrapAround(), j.key());
 
     // Object mapping section name to list of symbols for particular section
     var sections = _.chain(j.sectionChordListsWithWrapAround())
@@ -91,7 +87,7 @@ var runTests = function (failurePointSymbols, secondaryGroupingIndex, minSection
         return chordList.length < (minSectionSize || 2);
       })
       .mapObject(function (chordList) {
-        return getSymbolsFromChordList(chordList, j.getMainKey());
+        return getSymbolsFromChordList(chordList, j.key());
       })
       .value();
 
@@ -99,7 +95,7 @@ var runTests = function (failurePointSymbols, secondaryGroupingIndex, minSection
     totalSections += _.keys(sections).length;
 
     return {
-      name: samples[i].replace('.jazz', ''),
+      name: j.info.title,
       song: song,
       sections: sections
     };
@@ -137,13 +133,13 @@ var runTests = function (failurePointSymbols, secondaryGroupingIndex, minSection
 };
 
 var trainJzA = function (minSectionSize) {
-  var sections = _.reduce(parseSamples(), function (sections, j) {
+  var sections = _.reduce(getParsedSamples(), function (sections, j) {
     return sections.concat(_.chain(j.sectionChordListsWithWrapAround())
       .omit(function (chordList) {
         return chordList.length < (minSectionSize || 2);
       })
       .map(function (chordList) {
-        return getSymbolsFromChordList(chordList, j.getMainKey());
+        return getSymbolsFromChordList(chordList, j.key());
       })
       .value());
   }, []);
@@ -184,24 +180,23 @@ var mostCommonGeneratedSequences = function (start, end, count) {
 };
 
 var findSongsWithSequence = function (sequence) {
-  return _.compact(_.map(parseSamples(), function (j, i) {
-    var song = getSymbolsFromChordList(j.fullChordListWithWrapAround(), j.getMainKey());
-    var songName = samples[i];
+  return _.compact(_.map(getParsedSamples(), function (j) {
+    var song = getSymbolsFromChordList(j.chordListWithWrapAround(), j.key());
     var matchesSequence = _.some(_.range(song.length - sequence.length + 1), function (songIndex) {
       return _.all(sequence, function (symbol, sequenceIndex) {
         return song[songIndex + sequenceIndex].eq(symbol);
       });
     });
 
-    return matchesSequence ? songName : null;
+    return matchesSequence ? j.info.title : null;
   }));
 };
 
 var countInstancesOfSequence = function (sequence) {
   var instances = 0;
 
-  _.each(parseSamples(), function (j, i) {
-    var song = getSymbolsFromChordList(j.fullChordListWithWrapAround(), j.getMainKey());
+  _.each(getParsedSamples(), function (j) {
+    var song = getSymbolsFromChordList(j.chordListWithWrapAround(), j.key());
     _.each(_.range(song.length - sequence.length + 1), function (songIndex) {
       var matchesSequence = _.all(sequence, function (symbol, sequenceIndex) {
         return song[songIndex + sequenceIndex].eq(symbol);
@@ -217,9 +212,6 @@ var countInstancesOfSequence = function (sequence) {
 var getNGramProbability = function (sequence) {
   return countInstancesOfSequence(sequence) / countInstancesOfSequence(sequence.slice(0, 1));
 };
-
-parseSamples();
-console.log(jazz.getDurations());
 
 //// Below are examples of how to interact with the automaton and the corpus
 //// Uncomment lines beginning with // to try them out
