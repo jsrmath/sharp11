@@ -1,4 +1,7 @@
 var improv = require('../lib/improv');
+var note = require('../lib/note');
+var chord = require('../lib/chord');
+var duration = require('../lib/duration');
 var charts = require('../sample/charts');
 
 var assert = require('assert');
@@ -147,6 +150,25 @@ describe('Improv', function () {
 
       imp = improv.create({cadence: true, sections: ['A'], repeat: 2}).overChart(charts.myFunnyValentine);
       assert.equal(imp.data.length, 17);
+    });
+  });
+
+  describe('ImprovChart', function () {
+    describe('#notesAndDurations', function () {
+      it('should return a list of notes and durations', function () {
+        var imp = improv.create({rests: 0}).overChart(charts.myFunnyValentine);
+        assert(note.isNote(imp.notesAndDurations()[0].note));
+        assert(duration.isDuration(imp.notesAndDurations()[0].duration));
+      });
+    });
+
+    describe('#chordsAndDurations', function () {
+      it('should return a list of chords and durations', function () {
+        var imp = improv.create({rests: 0}).overChart(charts.takeTheATrain);
+        assert(chord.isChord(imp.chordsAndDurations()[0].chord));
+        assert(duration.isDuration(imp.chordsAndDurations()[0].duration));
+        assert.equal(imp.chordsAndDurations().length, 8);
+      });
     });
   });
 });
