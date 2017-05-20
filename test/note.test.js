@@ -307,14 +307,16 @@ describe('Note', function () {
 
   describe('#value', function () {
     it('should return the note value', function () {
-      assert.equal(note.create('Eb4').value(), 51);
+      assert.equal(note.create('C4').value(), 60);
+      assert.equal(note.create('Eb3').value(), 51);
       assert.equal(note.create('Eb').value(), null);
     });
   });
 
   describe('#fromValue', function () {
     it('should create a note given a note value', function () {
-      assert.equal(note.fromValue(52).fullName, 'E4');
+      assert.equal(note.fromValue(60).fullName, 'C4');
+      assert.equal(note.fromValue(52).fullName, 'E3');
     });
   });
 
