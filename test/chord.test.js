@@ -203,6 +203,7 @@ describe('Chord', function () {
       assert(testInverse('C13'));
       assert(testInverse('Cadd9'));
       assert(testInverse('Cadd11'));
+      assert(testInverse('C13#5#11'));
     });
   });
 
