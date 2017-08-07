@@ -22,7 +22,10 @@ describe('Chord', function () {
     });
 
     it('should handle chord symbol aliases', function () {
-      assert.equal(chord.create('Cmin').symbol, 'm');
+      assert.equal(chord.create('C').symbol, '');
+      assert.equal(chord.create('C').formattedSymbol, 'M');
+      assert.equal(chord.create('Cmin').symbol, 'min');
+      assert.equal(chord.create('Cmin').formattedSymbol, 'm');
       assert.equal(chord.create('Cmin').name, 'Cmin');
       assert.equal(chord.create('C∆7').toString(), 'C E G B');
       assert.equal(chord.create('Cmin').toString(), 'C Eb G');
@@ -113,6 +116,11 @@ describe('Chord', function () {
       assert.equal(c.chord[0].fullName, 'A5');
       assert.equal(c.chord[3].fullName, 'F6');
     });
+
+    it('should preserve original symbol', function () {
+      assert.equal(chord.create('Fmin').transpose('P5').symbol, 'min');
+      assert.equal(chord.create('Fmin/Eb').transpose('P5').name, 'Cmin/Bb');
+    });
   });
 
   describe('#transposeDown', function () {
@@ -135,6 +143,10 @@ describe('Chord', function () {
       assert.equal(c.root.name, 'B');
       assert.equal(c.toString(), 'B D# F#');
 
+    });
+
+    it('should preserve original symbol', function () {
+      assert.equal(chord.create('Cbmin').clean().symbol, 'min');
     });
   });
 

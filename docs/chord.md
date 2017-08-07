@@ -26,6 +26,9 @@ The chord name, given by the `chord` argument in [`chord.create()`](#module-crea
 A [Note](note.md#note-object) object representing the root of the chord.
 
 ### <a name="chord-symbol"></a> symbol `.symbol`
+A string containing the symbol of the chord (no root or bass).
+
+### <a name="chord-formatted-symbol"></a> formattedSymbol `.formattedSymbol`
 A string containing the symbol of the chord (no root or bass) with aliases replaced, e.g. '-' becomes 'm'.
 
 ### <a name="chord-bass"></a> bass `.bass`
