@@ -1,5 +1,6 @@
 var jazz = require('../lib/jazzparser');
 var jza = require('../lib/jza');
+var mehegan = require('../lib/mehegan');
 var fs = require('fs');
 var path = require('path');
 var _ = require('underscore');
@@ -24,7 +25,7 @@ var getParsedSamples = function () {
 
 var getSymbolsFromChordList = function (chordList, key) {
   return _.map(chordList, function (chord) {
-    return jza.symbolFromChord(key, chord);
+    return mehegan.fromChord(key, chord);
   });
 };
 
