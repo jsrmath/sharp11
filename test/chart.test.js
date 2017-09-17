@@ -114,6 +114,32 @@ describe('Chart', function () {
     });
   });
 
+  describe('#meheganList', function () {
+    it('should return the full Mehegan list', function () {
+      var c = chart.create(['A', 'B', 'A'], { A: [['C7', 4]], B: [['Dm', 4]] }, { foo: 1 });
+      assert.equal(c.meheganList()[0].toString(), 'Ix');
+      assert.equal(c.meheganList()[1].toString(), 'IIm');
+      assert.equal(c.meheganList(['B'])[0].toString(), 'IIm');
+
+      c = chart.create(['A', 'B', 'A'], { A: [['C7', 4]], B: [['Dm', 4]] }, { key: 'F' });
+      assert.equal(c.meheganList()[0].toString(), 'Vx');
+      assert.equal(c.meheganList()[1].toString(), 'VIm');
+      assert.equal(c.meheganList(['B'])[0].toString(), 'VIm');
+    });
+  });
+
+  describe('#meheganListWithWrapAround', function () {
+    it('should return the full Mehegan list with wrap around', function () {
+      var c = chart.create(['A', 'B'], { A: [['C7', 4]], B: [['Dm', 4]] }, { foo: 1 });
+      assert.equal(c.meheganListWithWrapAround()[2].toString(), 'Ix');
+      assert.equal(c.meheganListWithWrapAround(['B', 'A'])[2].toString(), 'IIm');
+
+      c = chart.create(['A', 'B'], { A: [['C7', 4]], B: [['Dm', 4]] }, { key: 'F' });
+      assert.equal(c.meheganListWithWrapAround()[2].toString(), 'Vx');
+      assert.equal(c.meheganListWithWrapAround(['B', 'A'])[2].toString(), 'VIm');
+    });
+  });
+
   describe('#sectionChordLists', function () {
     it('should return chord lists for each section', function () {
       var c = chart.create(['A', 'B', 'A'], { A: [['C7', 4]], B: [['Dm', 4]] }, { foo: 1 });
@@ -125,17 +151,27 @@ describe('Chart', function () {
     });
   });
 
-  describe('#sectionChordListsWithWrapAround', function () {
-    it('should return chord lists for each section with wrap around', function () {
+  describe('#sectionMeheganLists', function () {
+    it('should return Mehegan lists for each section', function () {
       var c = chart.create(['A', 'B', 'A'], { A: [['C7', 4]], B: [['Dm', 4]] }, { foo: 1 });
-      assert.equal(c.sectionChordListsWithWrapAround().A[1].name, 'Dm');
-      assert.equal(c.sectionChordListsWithWrapAround().B[1].name, 'C7');
+      assert.equal(c.sectionMeheganLists().A[0].toString(), 'Ix');
+      assert.equal(c.sectionMeheganLists().B[0].toString(), 'IIm');
 
-      c = chart.createSingleton([['C7', 4], ['D7', 4]]);
-      assert.equal(c.sectionChordListsWithWrapAround().A[2].name, 'C7');
+      c = chart.create(['A', 'B', 'A'], { A: [['C7', 4]], B: [['Dm', 4]] }, { key: 'F' });
+      assert.equal(c.sectionMeheganLists().A[0].toString(), 'Vx');
+      assert.equal(c.sectionMeheganLists().B[0].toString(), 'VIm');
+    });
+  });
 
-      c = chart.createSingleton([]);
-      assert.equal(c.sectionChordListsWithWrapAround().A.length, 0);
+  describe('#sectionChordListsWithWrapAround', function () {
+    it('should return Mehegan lists for each section with wrap around', function () {
+      var c = chart.create(['A', 'B', 'A'], { A: [['C7', 4]], B: [['Dm', 4]] }, { foo: 1 });
+      assert.equal(c.sectionMeheganListsWithWrapAround().A[1].toString(), 'IIm');
+      assert.equal(c.sectionMeheganListsWithWrapAround().B[1].toString(), 'Ix');
+
+      c = chart.create(['A', 'B', 'A'], { A: [['C7', 4]], B: [['Dm', 4]] }, { key: 'F' });
+      assert.equal(c.sectionMeheganListsWithWrapAround().A[1].toString(), 'VIm');
+      assert.equal(c.sectionMeheganListsWithWrapAround().B[1].toString(), 'Vx');
     });
   });
 });

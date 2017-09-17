@@ -23,19 +23,11 @@ var getParsedSamples = function () {
   return parsedSamples;
 };
 
-var getSymbolsFromChordList = function (chordList, key) {
-  return _.map(chordList, function (chord) {
-    return mehegan.fromChord(key, chord);
-  });
-};
-
 var validateSong = function (filename) {
   var j = jazz.parseFile(path.join(__dirname, '..', 'corpus', filename));
-  var symbols;
+  var symbols = j.getMeheganList();
 
-  symbols = getSymbolsFromChordList(j.chordList(), j.key());
   console.log(symbols.toString());
-
   return jzaAutomaton.validate(symbols);
 };
 
@@ -80,17 +72,12 @@ var runTests = function (failurePointSymbols, secondaryGroupingIndex, minSection
 
   var songs = _.map(getParsedSamples(), function (j) {
     // Symbols for the entire song
-    var song = getSymbolsFromChordList(j.chordListWithWrapAround(), j.key());
+    var song = j.meheganListWithWrapAround();
 
     // Object mapping section name to list of symbols for particular section
-    var sections = _.chain(j.sectionChordListsWithWrapAround())
-      .omit(function (chordList) {
-        return chordList.length < (minSectionSize || 2);
-      })
-      .mapObject(function (chordList) {
-        return getSymbolsFromChordList(chordList, j.key());
-      })
-      .value();
+    var sections = _.omit(j.sectionMeheganListsWithWrapAround(), function (meheganList) {
+      return meheganList.length < (minSectionSize || 2);
+    });
 
     totalSongs += 1;
     totalSections += _.keys(sections).length;
@@ -135,14 +122,9 @@ var runTests = function (failurePointSymbols, secondaryGroupingIndex, minSection
 
 var trainJzA = function (minSectionSize) {
   var sections = _.reduce(getParsedSamples(), function (sections, j) {
-    return sections.concat(_.chain(j.sectionChordListsWithWrapAround())
-      .omit(function (chordList) {
-        return chordList.length < (minSectionSize || 2);
-      })
-      .map(function (chordList) {
-        return getSymbolsFromChordList(chordList, j.key());
-      })
-      .value());
+    return sections.concat(_.omit(j.sectionMeheganListsWithWrapAround(), function (meheganList) {
+      return meheganList.length < (minSectionSize || 2);
+    }));
   }, []);
 
   console.log('Training model');
@@ -182,7 +164,7 @@ var mostCommonGeneratedSequences = function (start, end, count) {
 
 var findSongsWithSequence = function (sequence) {
   return _.compact(_.map(getParsedSamples(), function (j) {
-    var song = getSymbolsFromChordList(j.chordListWithWrapAround(), j.key());
+    var song = j.meheganListWithWrapAround();
     var matchesSequence = _.some(_.range(song.length - sequence.length + 1), function (songIndex) {
       return _.all(sequence, function (symbol, sequenceIndex) {
         return song[songIndex + sequenceIndex].eq(symbol);
@@ -197,7 +179,7 @@ var countInstancesOfSequence = function (sequence) {
   var instances = 0;
 
   _.each(getParsedSamples(), function (j) {
-    var song = getSymbolsFromChordList(j.chordListWithWrapAround(), j.key());
+    var song = j.meheganListWithWrapAround();
     _.each(_.range(song.length - sequence.length + 1), function (songIndex) {
       var matchesSequence = _.all(sequence, function (symbol, sequenceIndex) {
         return song[songIndex + sequenceIndex].eq(symbol);
