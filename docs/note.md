@@ -84,7 +84,7 @@ Returns true if the note is lower than a given note ([Note](#note-object) object
 ### <a name="note-higher-than"></a> higherThan `.higherThan(note)`
 Returns true if the note is higher than a given note ([Note](#note-object) object or string).  If both notes have octave numbers, those octave numbers are used.  Otherwise, it is assumed both notes have the same octave number.
 
-### <a name="note-equals"></a> equals `.equals(note)`
+### <a name="note-equals"></a> equals `.eq(note)` or `.equals(note)`
 Returns true if the note has the same letter and accidental as a given note ([Note](#note-object) object or string).  If both notes have octave numbers, those octave numbers are used.  Otherwise, it is assumed both notes have the same octave number.
 
 ### <a name="note-get-half-steps"></a> getHalfSteps `.getHalfSteps(note)`

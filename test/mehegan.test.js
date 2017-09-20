@@ -105,8 +105,9 @@ describe('Mehegan', function () {
     });
   });
 
-  describe('#eq', function () {
+  describe('#equals', function () {
     it('should return true when two Mehegan symbols are equivalent', function () {
+      assert(mehegan.fromString('I').equals(mehegan.fromChord('C', 'C')));
       assert(mehegan.fromString('I').eq(mehegan.fromChord('C', 'C')));
       assert(mehegan.fromString('bVx').eq(mehegan.fromString('#IVx')));
       assert(mehegan.fromChord('C', 'Fm').eq(mehegan.fromChord('C', 'Fm7')));

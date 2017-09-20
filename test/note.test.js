@@ -214,6 +214,7 @@ describe('Note', function () {
   describe('#equals', function () {
     it('should return true if note is equal to given note', function () {
       assert(note.create('D').equals('D'));
+      assert(note.create('D').eq('D'));
       assert(note.create('Ebb').equals('Ebb'));
       assert(!note.create('D').equals('Ebb'));
       assert(!note.create('C#').equals('Db'));
