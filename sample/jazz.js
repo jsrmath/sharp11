@@ -1,6 +1,7 @@
 var jazz = require('../lib/jazzparser');
 var jza = require('../lib/jza');
 var mehegan = require('../lib/mehegan');
+var corpus = require('../lib/corpus');
 var fs = require('fs');
 var path = require('path');
 var _ = require('underscore');
@@ -11,16 +12,16 @@ var samples = _.reject(fs.readdirSync(path.join(__dirname, '..', 'corpus')), fun
   return filename[0] === '.';
 });
 
-var parsedSamples;
+var iRbCorpus;
 
-var getParsedSamples = function () {
-  if (!parsedSamples) {
-    parsedSamples = _.map(samples, function (filename) {
+var getCorpus = function () {
+  if (!iRbCorpus) {
+    iRbCorpus = corpus.create(_.map(samples, function (filename) {
       return jazz.parseFile(path.join(__dirname, '..', 'corpus', filename));
-    });
+    }));
   }
 
-  return parsedSamples;
+  return iRbCorpus;
 };
 
 var validateSong = function (filename) {
@@ -70,7 +71,7 @@ var runTests = function (failurePointSymbols, secondaryGroupingIndex, minSection
   var totalSections = 0;
   var failurePoints = [];
 
-  var songs = _.map(getParsedSamples(), function (j) {
+  var songs = _.map(getCorpus().charts, function (j) {
     // Symbols for the entire song
     var song = j.meheganListWithWrapAround();
 
@@ -121,7 +122,7 @@ var runTests = function (failurePointSymbols, secondaryGroupingIndex, minSection
 };
 
 var trainJzA = function (minSectionSize) {
-  var sections = _.reduce(getParsedSamples(), function (sections, j) {
+  var sections = _.reduce(getCorpus().charts, function (sections, j) {
     return sections.concat(_.omit(j.sectionMeheganListsWithWrapAround(), function (meheganList) {
       return meheganList.length < (minSectionSize || 2);
     }));
@@ -162,40 +163,6 @@ var mostCommonGeneratedSequences = function (start, end, count) {
   console.log(counts);
 };
 
-var findSongsWithSequence = function (sequence) {
-  return _.compact(_.map(getParsedSamples(), function (j) {
-    var song = j.meheganListWithWrapAround();
-    var matchesSequence = _.some(_.range(song.length - sequence.length + 1), function (songIndex) {
-      return _.all(sequence, function (symbol, sequenceIndex) {
-        return song[songIndex + sequenceIndex].eq(symbol);
-      });
-    });
-
-    return matchesSequence ? j.info.title : null;
-  }));
-};
-
-var countInstancesOfSequence = function (sequence) {
-  var instances = 0;
-
-  _.each(getParsedSamples(), function (j) {
-    var song = j.meheganListWithWrapAround();
-    _.each(_.range(song.length - sequence.length + 1), function (songIndex) {
-      var matchesSequence = _.all(sequence, function (symbol, sequenceIndex) {
-        return song[songIndex + sequenceIndex].eq(symbol);
-      });
-
-      if (matchesSequence) instances += 1;
-    });
-  });
-
-  return instances;
-};
-
-var getNGramProbability = function (sequence) {
-  return countInstancesOfSequence(sequence) / countInstancesOfSequence(sequence.slice(0, 1));
-};
-
 //// Below are examples of how to interact with the automaton and the corpus
 //// Uncomment lines beginning with // to try them out
 
@@ -224,11 +191,11 @@ var getNGramProbability = function (sequence) {
 // });
 
 //// Find songs in the corpus that contain a given sequence
-// console.log(findSongsWithSequence(['bIIIM', 'bVIx', 'V']));
+// console.log(getCorpus().findSongTitlesWithSequence(['bIIIM', 'bVIx', 'V']));
 
 //// Get probability of a particular ngram appearing in the corpus
 //// This example returns P(bVIX,V | bIIIM)
-// console.log(getNGramProbability(['bIIIM', 'bVIx', 'V']));
+// console.log(getCorpus().getNGramProbability(['bIIIM', 'bVIx', 'V']));
 
 //// Find the most commonly generated sequences (out of n=500) given a start and end symbol
 // mostCommonGeneratedSequences('I', 'I', 500);
