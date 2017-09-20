@@ -189,4 +189,22 @@ describe('Mehegan', function () {
       assert.equal(mehegan.fromString('Vs').toChord().name, 'G7sus');
     });
   });
+
+  describe('#toStylized', function () {
+    it('should convert a Mehegan symbol to a stylized string', function () {
+      assert.equal(mehegan.fromString('IM').toStylized(), 'I');
+      assert.equal(mehegan.fromString('IIm').toStylized(), 'ii');
+      assert.equal(mehegan.fromString('IIIm').toStylized(), 'iii');
+      assert.equal(mehegan.fromString('IVM').toStylized(), 'IV');
+      assert.equal(mehegan.fromString('Vx').toStylized(), 'V');
+      assert.equal(mehegan.fromString('VIm').toStylized(), 'vi');
+      assert.equal(mehegan.fromString('VIIø').toStylized(), 'vii');
+
+      assert.equal(mehegan.fromString('Im').toStylized(), 'im');
+      assert.equal(mehegan.fromString('Ix').toStylized(), 'Ix');
+      assert.equal(mehegan.fromString('Io').toStylized(), 'io');
+      assert.equal(mehegan.fromString('Iø').toStylized(), 'iø');
+      assert.equal(mehegan.fromString('Is').toStylized(), 'Is');
+    });
+  });
 });
