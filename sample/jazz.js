@@ -8,21 +8,7 @@ var _ = require('underscore');
 
 var jzaAutomaton;
 
-var samples = _.reject(fs.readdirSync(path.join(__dirname, '..', 'corpus')), function (filename) {
-  return filename[0] === '.';
-});
-
-var iRbCorpus;
-
-var getCorpus = function () {
-  if (!iRbCorpus) {
-    iRbCorpus = corpus.create(_.map(samples, function (filename) {
-      return jazz.parseFile(path.join(__dirname, '..', 'corpus', filename));
-    }));
-  }
-
-  return iRbCorpus;
-};
+var iRbCorpus = corpus.import(path.join(__dirname, '..', 'corpus.json'));
 
 var validateSong = function (filename) {
   var j = jazz.parseFile(path.join(__dirname, '..', 'corpus', filename));
@@ -71,7 +57,7 @@ var runTests = function (failurePointSymbols, secondaryGroupingIndex, minSection
   var totalSections = 0;
   var failurePoints = [];
 
-  var songs = _.map(getCorpus().charts, function (j) {
+  var songs = _.map(iRbCorpus.charts, function (j) {
     // Symbols for the entire song
     var song = j.meheganListWithWrapAround();
 
@@ -122,7 +108,7 @@ var runTests = function (failurePointSymbols, secondaryGroupingIndex, minSection
 };
 
 var trainJzA = function (minSectionSize) {
-  var sections = _.reduce(getCorpus().charts, function (sections, j) {
+  var sections = _.reduce(iRbCorpus.charts, function (sections, j) {
     return sections.concat(_.omit(j.sectionMeheganListsWithWrapAround(), function (meheganList) {
       return meheganList.length < (minSectionSize || 2);
     }));
@@ -191,11 +177,11 @@ var mostCommonGeneratedSequences = function (start, end, count) {
 // });
 
 //// Find songs in the corpus that contain a given sequence
-// console.log(getCorpus().findSongTitlesWithSequence(['bIIIM', 'bVIx', 'V']));
+// console.log(iRbCorpus.findSongTitlesWithSequence(['bIIIM', 'bVIx', 'V']));
 
 //// Get probability of a particular ngram appearing in the corpus
 //// This example returns P(bVIX,V | bIIIM)
-// console.log(getCorpus().getNGramProbability(['bIIIM', 'bVIx', 'V']));
+// console.log(iRbCorpus.getNGramProbability(['bIIIM', 'bVIx', 'V']));
 
 //// Find the most commonly generated sequences (out of n=500) given a start and end symbol
 // mostCommonGeneratedSequences('I', 'I', 500);
