@@ -205,8 +205,7 @@ describe('JzA', function () {
 
       it('should serialize and load data', function () {
         json = jza.serialize();
-        jza = jazz.jza('empty');
-        jza.load(json);
+        jazz.load(json);
 
         analysisShouldBeWithJza(jza, ['I', 'IV', 'V'], [
           ['start1', 'middle1', 'end1']
