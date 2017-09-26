@@ -174,4 +174,37 @@ describe('Chart', function () {
       assert.equal(c.sectionMeheganListsWithWrapAround().B[1].toString(), 'Vx');
     });
   });
+
+  describe('#serialize', function () {
+    it('should serialize a chart', function () {
+      var c = chart.create(['A', 'B', 'A'], { A: [['C7', 4]], B: [['Dm', 4]] }, { foo: 1 });
+      var serialized = c.serialize();
+
+      assert.equal(serialized.sections.toString(), c.sections.toString());
+      assert.equal(serialized.content.A[0].chord, c.content.A[0].chord.name);
+      assert.equal(serialized.content.A[0].duration.beats, c.content.A[0].duration.beats);
+      assert.equal(serialized.content.B[0].chord, c.content.B[0].chord.name);
+      assert.equal(serialized.content.B[0].duration.beats, c.content.B[0].duration.beats);
+      assert.equal(serialized.info.toString(), c.info.toString());
+    });
+  });
+
+  describe('#load', function () {
+    it('should load a chart', function () {
+      var serialized = {
+        sections: ['A', 'B', 'A'],
+        content: { A: [{chord: 'C7', duration: {beats: 4, subunits: []}}], B: [{chord: 'Dm', duration: {beats: 4, subunits: []}}] },
+        info: { foo: 1 }
+      };
+      var c = chart.load(serialized);
+
+      assert(c instanceof chart.Chart);
+      assert.equal(serialized.sections.toString(), c.sections.toString());
+      assert.equal(serialized.content.A[0].chord, c.content.A[0].chord.name);
+      assert.equal(serialized.content.A[0].duration.beats, c.content.A[0].duration.beats);
+      assert.equal(serialized.content.B[0].chord, c.content.B[0].chord.name);
+      assert.equal(serialized.content.B[0].duration.beats, c.content.B[0].duration.beats);
+      assert.equal(serialized.info.toString(), c.info.toString());
+    });
+  });
 });
