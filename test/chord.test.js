@@ -69,6 +69,7 @@ describe('Chord', function () {
       assert.equal(chord.create('Cm7b5').toString(), 'C Eb Gb Bb');
       assert.equal(chord.create('C7b9').toString(), 'C E G Bb Db');
       assert.equal(chord.create('C7#9').toString(), 'C E G Bb D#');
+      assert.equal(chord.create('C7b9#9').toString(), 'C E G Bb Db D#');
       assert.equal(chord.create('C7#11').toString(), 'C E G Bb F#');
       assert.equal(chord.create('C13#11').toString(), 'C E G Bb D F# A');
     });
@@ -219,6 +220,7 @@ describe('Chord', function () {
       assert(testInverse('Cadd9'));
       assert(testInverse('Cadd11'));
       assert(testInverse('C13#5#11'));
+      assert(testInverse('C7b9#9'));
     });
   });
 
