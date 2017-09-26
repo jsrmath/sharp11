@@ -60,6 +60,9 @@ describe('Chord', function () {
       assert.equal(chord.create('Cno5').toString(), 'C E');
       assert.equal(chord.create('C7no3').toString(), 'C G Bb');
       assert.equal(chord.create('C7no5').toString(), 'C E Bb');
+      assert.equal(chord.create('C13no9').toString(), 'C E G Bb F A');
+      assert.equal(chord.create('C13no11').toString(), 'C E G Bb D A');
+      assert.equal(chord.create('C13no9no11').toString(), 'C E G Bb A');
     });
 
     it('should handle chords with alterations', function () {
