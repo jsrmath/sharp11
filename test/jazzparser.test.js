@@ -123,7 +123,7 @@ describe('Jazz Parser', function () {
     assert.equal(chart.info.composer, 'Rodgers, Richard');
     assert.equal(chart.info.date, '1937');
 
-    assert.equal(chart.info.key.toString(), 'Eb');
+    assert.equal(chart.info.key, 'Eb');
     assert.equal(chart.info.minor, false);
     assert.equal(chart.info.time.toString(), '4,4');
   });
