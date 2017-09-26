@@ -89,6 +89,18 @@ describe('Chord', function () {
       assert.equal(chord.create('C11add13').toString(), 'C E G Bb D F A');
     });
 
+    it('should handle parentheticals', function () {
+      assert.equal(chord.create('Cmin(maj)7').toString(), 'C Eb G B');
+      assert.equal(chord.create('C7(13)').toString(), 'C E G Bb A');
+      assert.equal(chord.create('C7(#5, #9)').toString(), 'C E G# Bb D#');
+      assert.equal(chord.create('C7(#9, 13)').toString(), 'C E G Bb D# A');
+      assert.equal(chord.create('C7(9)(13)').toString(), 'C E G Bb D A');
+      assert.equal(chord.create('Cm7(11)').toString(), 'C Eb G Bb F');
+      assert.equal(chord.create('Cm(11)').toString(), 'C Eb G Bb F');
+      assert.equal(chord.create('C(13)').toString(), 'C E G Bb A');
+      assert.equal(chord.create('Cmin(maj)7(13)').toString(), 'C Eb G B A');
+    });
+
     it('should handle slash chords', function () {
       var c = chord.create('C7/E');
       assert.equal(c.symbol, '7');
