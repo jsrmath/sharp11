@@ -6,4 +6,5 @@ Sharp11 is divided into the following modules, which can be accessed through `re
 * [chord](chord.md)
 * [scale](scale.md)
 * [interval](interval.md)
+* [duration](duration.md)
 * [midi](midi.md)
