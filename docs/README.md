@@ -9,4 +9,5 @@ Sharp11 is divided into the following modules, which can be accessed through `re
 * [duration](duration.md)
 * [mehegan](mehegan.md)
 * [chart](chart.md)
+* [corpus](corpus.md)
 * [midi](midi.md)
