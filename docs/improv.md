@@ -1,11 +1,11 @@
 # Sharp11 Improv Module
 `require('sharp11').improv`
 
-Contains an [Improv](#improv-object) object, which can be created with [`improv.create()`](#module-create), and an [ImprovChart](#improv-chart-object) object, which can be created by invoking the [`overChart()`](#improv-over-chart) method of an [Improv](#improv-object) object.
+Contains an [ImprovChart](#improv-chart-object) object, which can be created with [`improv.overChart()`](#module-over-chart)
 
 ## <a name="module"></a> Exported Functions
-### <a name="module-create"></a> create `.create(settings)`
-Returns an [Improv](#improv-object) object given an optional settings object.  The settings object can contain any of the following properties:
+### <a name="module-over-chart"></a> overChart `.overChart(chart, settings)`
+Improvises over a [Chart](chart.md#chart-object) object given an optional settings object and returns an [ImprovChart](#improv-chart-object) object.  The settings object can contain any of the following properties:
 * `dissonance` - A number (0 to 1) or a numerical range.  A higher value means the improv engine is more likely to select a less common / more dissonant scale according to [scale precedence](scale.md#module-precedence).  Default value is `0.5`.
 * `changeDir` - A number (0 to 1) or a numerical range.  A higher value means the improv engine is more likely to change directions while traversing up or down a scale.  The probability of changing direction is equal to the value of `changeDir`.  Default value is `0.25`.
 * `jumpiness` - A number (0 to 1) or a numerical range.  A higher value means the improv engine is more likely to jump to a random note in the current scale.  The probability of jumping is equal to the value of `jumpiness`.  Default value is `0.25`.
@@ -23,17 +23,14 @@ Note: Some settings can take a numerical range instead of a number.  A numerical
 ### <a name="module-isImprovChart"></a> isImprovChart `.isImprovChart(object)`
 Returns true if a given object is an [ImprovChart](#improv-chart-object).
 
-## <a name="improv-object"></a> Improv Object
-`Improv` objects are used to create improvisations.
-
-### <a name="improv-over-chart"></a> overChart `.overChart(chart)`
-Improvises over a [Chart](chart.md#chart-object) object returning an [ImprovChart](#improv-chart-object) object.
-
 ## <a name="improv-chart-object"></a> ImprovChart Object
 An `ImprovChart` represents an improvisation over a [Chart](chart.md#chart-object).
 
 ### <a name="improv-chart-chart"></a> chart `.chart`
 The [Chart](chart.md#chart-object) object being improvised over.
+
+### <a name="improv-chart-settings"></a> settings `.settings`
+An object containing all the settings used for this improvisation.
 
 ### <a name="improv-chart-data"></a> data `.data`
 An array of objects representing the notes that have been improvised for a given chord change.  Each object contains the following properties:

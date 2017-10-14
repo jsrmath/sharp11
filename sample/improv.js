@@ -2,11 +2,11 @@ var charts = require('./charts');
 var improv = require('../lib/improv');
 var _ = require('underscore');
 
-var imp = improv.create({sections: ['A']}).overChart(charts.myFunnyValentine);
-var imp2 = improv.create({repeat: 2}).overChart(charts.takeTheATrain);
-var imp3 = improv.create().overChart(charts.goodbyePorkPieHat);
-var imp4 = improv.create({useSixteenths: false, onlyEighthRests: true}).overChart(charts.giantSteps);
-var imp5 = improv.create({dissonance: 0, cadence: false}).overChart(charts.myFunnyValentine);
+var imp = improv.overChart(charts.myFunnyValentine, {sections: ['A']});
+var imp2 = improv.overChart(charts.takeTheATrain, {repeat: 2});
+var imp3 = improv.overChart(charts.goodbyePorkPieHat);
+var imp4 = improv.overChart(charts.giantSteps, {useSixteenths: false, onlyEighthRests: true});
+var imp5 = improv.overChart(charts.myFunnyValentine, {dissonance: 0, cadence: false});
 
 _.each([imp, imp2, imp3, imp4, imp5], function (imp) {
   console.log(imp.toString() + '\n');
