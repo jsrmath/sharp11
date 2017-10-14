@@ -1,7 +1,7 @@
 {
   "name": "sharp11",
-  "version": "1.1.4",
-  "description": "Music theorization and improvisation engine",
+  "version": "2.0.1",
+  "description": "Music theory multitool with a jazz focus",
   "main": "index.js",
   "scripts": {
     "test": "mocha"
@@ -16,8 +16,7 @@
     "notes",
     "chords",
     "scales",
-    "jazz",
-    "improv"
+    "jazz"
   ],
   "author": "Julian Rosenblum",
   "license": "BSD-2-Clause",
@@ -32,8 +31,7 @@
     "capitalize": "^1.0.0",
     "jsonfile": "^2.4.0",
     "mod-loop": "0.0.2",
-    "random-js": "^1.0.4",
-    "string": "^3.3.3",
+    "random-js": "^1.0.8",
     "underscore": "^1.8.3"
   }
 }
