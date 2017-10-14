@@ -41,7 +41,7 @@ The (optional) octave number of the scale, i.e., an integer between 0 and 9, or 
 An array of [Note](note.md#note-object) objects representing the notes in the scale, e.g., `[C, D, E, F, G, A, B]`
 
 ### <a name="scale-intervals"></a> intervals `.intervals`
-An array of [Interval](../docs/README.md#interval) objects representing the intervals in the scale, including the root.
+An array of [Interval](interval.md#interval-object) objects representing the intervals in the scale, including the root.
 
 ### <a name="scale-descending"></a> descending `.descending()`
 Returns an array of [Note](note.md#note-object) objects representing the notes in the scale descending, starting with the root.  `.descending()` takes into account the abnormal nature of the [melodic minor](http://www3.northern.edu/wieland/theory/scales/mi_mel.htm).
@@ -65,13 +65,13 @@ Returns true if the given note is in the scale, following the rules of [`note.co
 Returns the scale in a given octave number.
 
 ### <a name="scale-has-interval"></a> hasInterval `.hasInterval(interval)`
-Returns true if a given interval ([Interval](../docs/README.md#interval) object or string) is in the scale.
+Returns true if a given interval ([Interval](interval.md#interval-object) object or string) is in the scale.
 
 ### <a name="scale-traverse"></a> traverse `.traverse(note)`
 Returns a [TraversableScale](#traversable-scale-object) whose current note is the given note ([Note](note.md#note-object) object or string).  The given note must have an octave number.
 
 ## <a name="traversable-scale-object"></a> TraversableScale Object
-`TraversableScale` objects contain a scale and a current index and are created by calling [`.traverse()`](#scale-traverse) on a [Scale](#scale-object) object.  `TraversableScale`s can be thought of as a combination of a note and a scale and allow you to easily traverse the scale, as the name implies.  They are instrumental (pun intended) in Sharp11's [improvisation engine](improv.md).
+`TraversableScale` objects contain a scale and a current index and are created by calling [`.traverse()`](#scale-traverse) on a [Scale](#scale-object) object.  `TraversableScale`s can be thought of as a combination of a note and a scale and allow you to easily traverse the scale, as the name implies.  They are instrumental (pun intended) in Sharp11's [improvisation engine](improv.md).  The `TraversableScale` constructor is accessible directly as `.TraversableScale`, however new instances should be created by calling [`.traverse()`](#scale-traverse) on a [Scale](#scale-object) object instead.
 
 ### <a name="traversable-scale-scale"></a> scale `.scale`
 A [Scale](#scale-object) object representing the scale.

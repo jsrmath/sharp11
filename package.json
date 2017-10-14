@@ -30,8 +30,10 @@
   },
   "dependencies": {
     "capitalize": "^1.0.0",
+    "jsonfile": "^2.4.0",
     "mod-loop": "0.0.2",
     "random-js": "^1.0.4",
+    "string": "^3.3.3",
     "underscore": "^1.8.3"
   }
 }

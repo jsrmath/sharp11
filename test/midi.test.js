@@ -1,4 +1,5 @@
 var midi = require('../lib/midi');
+var duration = require('../lib/duration');
 
 var assert = require('assert');
 
@@ -14,10 +15,6 @@ describe('Midi Engine', function () {
   });
 
   describe('#noteLength', function () {
-    assert.equal(midi.noteLength({beats: 4}), 384);
-    assert.equal(midi.noteLength({beats: 1, type: 'eighth'}), 144);
-    assert.equal(midi.noteLength({beats: 1, type: ['eighth', 'sixteenth']}), 168);
-    assert.equal(midi.noteLength({type: ['eighth', 'sixteenth']}), 72);
-    assert.equal(midi.noteLength({type: 'longEighth'}, {swingRatio: 2}), 64);
+    assert.equal(midi.noteLength(duration.beats(1).addSubunit('eighth', 'sixteenth')), 168);
   });
 });

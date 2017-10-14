@@ -1,7 +1,7 @@
 # Sharp11 Chord Module
 `require('sharp11').chord`
 
-Contains a [Chord](#chord-object) object, which can be created with [`chord.create()`](#module-create), and a [ChordChart](#chord-chart-object) object, which can be created with [`chord.createChart()`](#module-create-chart).  Methods of these objects do not mutate them, they return a new objects.
+Contains a [Chord](#chord-object) object, which can be created with [`chord.create()`](#module-create).  Methods of the [Chord](#chord-object) object do not mutate it, they return a new object.
 
 ## <a name="module"></a> Exported Functions
 ### <a name="module-create"></a> create `.create(chord, octave)`
@@ -12,9 +12,6 @@ Returns a [Chord](#chord-object) object given an argument list of [Note](note.md
 
 ### <a name="module-identify-array"></a> identifyArray `.identifyArray([notes])`
 Invokes `.identify()` with the contents of `[notes]` as its arguments.
-
-### <a name="module-create-chart"></a> createChart `.createChart(chart)`
-Returns a [ChordChart](#chord-chart-object) object given an array of `[note, numBeats]` arrays where `note` is a [Note](note.md#note-object) object or string and `numBeats` is an integer representing the number of beats the chord is sustained for.
 
 ### <a name="module-is-chord"></a> isChord `.isChord(obj)`
 Returns true if an object is a [Chord](#chord-object).
@@ -29,6 +26,9 @@ The chord name, given by the `chord` argument in [`chord.create()`](#module-crea
 A [Note](note.md#note-object) object representing the root of the chord.
 
 ### <a name="chord-symbol"></a> symbol `.symbol`
+A string containing the symbol of the chord (no root or bass).
+
+### <a name="chord-formatted-symbol"></a> formattedSymbol `.formattedSymbol`
 A string containing the symbol of the chord (no root or bass) with aliases replaced, e.g. '-' becomes 'm'.
 
 ### <a name="chord-bass"></a> bass `.bass`
@@ -63,12 +63,3 @@ Returns true if the given note is in the chord, following the rules of [`note.co
 
 ### <a name="chord-in-octave"></a> inOctave `.inOctave(octave)`
 Assigns the chord the given octave number.
-
-## <a name="chord-chart-object"></a> ChordChart Object
-A `ChordChart` object consists of a list of chords and associated durations, measured in number of beats.  `ChordChart`s can be used to represent chord progressions and songs.  They are used by the [Improv](improv.md) engine to generate jazz improvisations.
-
-### <a name="chord-chart-chart"></a> chart `.chart`
-An array of objects representing chords.  Each object has a `chord` property containing the [Chord](#chord-object) object and a `duration` property that is a [note duration](../docs/README.md#note-duration).
-
-### <a name="chord-chart-midi"></a> midi `.midi(settings)`
-Returns a [Midi](midi.md#midi-object) object for the chord progression with given [`settings`](midi.md#midi-settings).
