@@ -8,7 +8,7 @@ Contains a [Chord](#chord-object) object, which can be created with [`chord.crea
 Returns a [Chord](#chord-object) object given a string and an optional octave number.  The `chord` argument should contain the root of the chord, an optional symbol (defaults to major triad), and an optional bass note given in slash notation.  Sharp11 supports a wide variety of chord symbols, so anything you'd find in a jazz fake book should be valid here.
 
 ### <a name="module-identify"></a> identify `.identify(notes...)`
-Returns a [Chord](#chord-object) object given an argument list of [Note](note.md#note-object) objects or strings, ignoring octave numbers.  Inversions are supported, so `chord.identify('B', 'C', 'Eb', 'G')` returns a CmM7/B.
+Returns the chord name as a string given an argument list of [Note](note.md#note-object) objects or strings, ignoring octave numbers.  Inversions are supported, so `chord.identify('B', 'C', 'Eb', 'G')` returns "CmM7/B".
 
 ### <a name="module-identify-array"></a> identifyArray `.identifyArray([notes])`
 Invokes `.identify()` with the contents of `[notes]` as its arguments.
