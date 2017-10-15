@@ -166,6 +166,28 @@ describe('Chord', function () {
     });
   });
 
+  describe('#getPossibleChordNames', function () {
+    it('should find chord names', function () {
+      assert.deepEqual(chord.getPossibleChordNames('C', 'E', 'G'), ['C', 'Em/C', 'Gsus4/C']);
+      assert.deepEqual(chord.getPossibleChordNames('F#', 'A#', 'D#'), ['D#m/F#', 'F#6', 'A#sus4/F#']);
+    });
+
+    it('should return reasonable names first', function () {
+      assert.equal(chord.getPossibleChordNames('C', 'E', 'G')[0], 'C');
+    });
+
+    it('should only return unique matches', function () {
+      assert.equal(chord.getPossibleChordNames('C', 'C', 'E', 'G')[0], 'C');
+      assert.notEqual(chord.getPossibleChordNames('C', 'C', 'E', 'G')[1], 'C');
+    });
+  });
+
+  describe('#getPossibleChordNamesFromArray', function () {
+    it('should find chord names given an array', function () {
+      assert.deepEqual(chord.getPossibleChordNamesFromArray(['C', 'E', 'G']), ['C', 'Em/C', 'Gsus4/C']);
+    });
+  });
+
   describe('#identify', function () {
     it('should identify a chord', function () {
       assert.equal(chord.identify('C', 'E', 'G'), 'C');

@@ -13,6 +13,12 @@ Returns the chord name as a string given an argument list of [Note](note.md#note
 ### <a name="module-identify-array"></a> identifyArray `.identifyArray([notes])`
 Invokes `.identify()` with the contents of `[notes]` as its arguments.
 
+### <a name="module-get-possible-chord-names"></a> getPossibleChordNames `.getPossibleChordNames(notes...)`
+Returns a list of chord names given an argument list of [Note](note.md#note-object) objects or strings, ignoring octave numbers. Similar to `.identify(notes...)`, but returns all possible matches. Matches are sorted by how "reasonable" they are, with reasonable ones coming first in the list.
+
+### <a name="module-get-possible-chord-names-from-array"></a> getPossibleChordNamesFromArray `.getPossibleChordNamesFromArray([notes])`
+Invokes `.getPossibleChordNames()` with the contents of `[notes]` as its arguments.
+
 ### <a name="module-is-chord"></a> isChord `.isChord(obj)`
 Returns true if an object is a [Chord](#chord-object).
 
