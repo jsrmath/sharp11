@@ -261,6 +261,7 @@ describe('Chord', function () {
   describe('#identifyArray', function () {
     it('should identify a chord given an array', function () {
       assert.equal(chord.identifyArray(['C', 'E', 'G']), 'C');
+      assert.equal(chord.identifyArray([], undefined));
     });
   });
 
